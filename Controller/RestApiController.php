@@ -66,13 +66,24 @@ class RestApiController
     /**
      * Delete an entity
      *
+     * @param $id
      * @return array
+     * @throws EntityNotFoundException
      */
     public function deleteAction($id)
     {
         $entity = $this->getEntityOrThrowException($id);
 
         $this->handler->delete($entity);
+
+        return [];
+    }
+
+    public function batch_deleteAction(Request $request)
+    {
+        $ids = $request->get('id');
+
+        $this->handler->batchDelete($ids);
 
         return [];
     }

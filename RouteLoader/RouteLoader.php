@@ -48,13 +48,15 @@ class RouteLoader extends Loader
             $update->setMethods(['PATCH']);
             $delete = new Route($apiConfig->getUrl(Configuration::ROUTE_DELETE), ['_controller' => $apiConfig->getControllerAction('delete')]);
             $delete->setMethods(['DELETE']);
+            $deleteBulk = new Route($apiConfig->getUrl(Configuration::ROUTE_BATCH_DELETE), ['_controller' => $apiConfig->getControllerAction('batch_delete')]);
+            $deleteBulk->setMethods(['DELETE']);
 
-
-            $routes->add($apiConfig->getRouteName('index'), $index);
-            $routes->add($apiConfig->getRouteName('show'), $show);
-            $routes->add($apiConfig->getRouteName('create'), $create);
-            $routes->add($apiConfig->getRouteName('update'), $update);
-            $routes->add($apiConfig->getRouteName('delete'), $delete);
+            $routes->add($apiConfig->getRouteName(Configuration::ROUTE_INDEX), $index);
+            $routes->add($apiConfig->getRouteName(Configuration::ROUTE_SHOW), $show);
+            $routes->add($apiConfig->getRouteName(Configuration::ROUTE_CREATE), $create);
+            $routes->add($apiConfig->getRouteName(Configuration::ROUTE_UPDATE), $update);
+            $routes->add($apiConfig->getRouteName(Configuration::ROUTE_DELETE), $delete);
+            $routes->add($apiConfig->getRouteName(Configuration::ROUTE_BATCH_DELETE), $deleteBulk);
         }
 
         $this->loaded = true;

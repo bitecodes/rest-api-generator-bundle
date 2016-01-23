@@ -51,4 +51,14 @@ class FormHandler
 
         return true;
     }
+
+    public function batchDelete($ids)
+    {
+        foreach ($ids as $id) {
+            $entity = $this->om->find($id);
+            $this->om->remove($entity);
+        }
+
+        $this->om->flush();
+    }
 }

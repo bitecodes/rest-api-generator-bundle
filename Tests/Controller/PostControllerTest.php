@@ -99,4 +99,22 @@ class PostControllerTest extends TestCase
             ->seeStatusCode(200)
             ->seeNotInDatabase(Post::class, ['id' => $post->getId()]);
     }
+
+    /** @test */
+    public function it_batch_deletes_posts()
+    {
+        $this->factory->times(5)->create(Post::class);
+
+        $url = $this->generateUrl('fludio.api_admin.batch_delete.post');
+
+        $this
+            ->delete($url, ['id' => [1, 2, 3]])
+            ->seeJsonResponse()
+            ->seeStatusCode(200)
+            ->seeNotInDatabase(Post::class, ['id' => 1])
+            ->seeNotInDatabase(Post::class, ['id' => 2])
+            ->seeNotInDatabase(Post::class, ['id' => 3])
+            ->seeInDatabase(Post::class, ['id' => 4])
+            ->seeInDatabase(Post::class, ['id' => 5]);
+    }
 }

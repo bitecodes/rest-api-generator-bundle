@@ -75,4 +75,20 @@ class BaseHandler
     {
         return $this->formHandler->delete($entity);
     }
+
+    /**
+     * @param $ids
+     * @return bool
+     */
+    public function batchDelete($ids)
+    {
+        foreach ($ids as $id) {
+            $entity = $this->get($id);
+            if ($entity) {
+                $this->delete($entity);
+            }
+        }
+
+        return true;
+    }
 }

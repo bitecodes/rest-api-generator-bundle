@@ -11,6 +11,7 @@ class Configuration
     const ROUTE_CREATE = 'create';
     const ROUTE_UPDATE = 'update';
     const ROUTE_DELETE = 'delete';
+    const ROUTE_BATCH_DELETE = 'batch_delete';
 
     private $entity;
     /**
@@ -46,6 +47,7 @@ class Configuration
         switch ($route) {
             case self::ROUTE_INDEX:
             case self::ROUTE_CREATE:
+            case self::ROUTE_BATCH_DELETE:
                 $url = $this->getCollectionUrl();
                 break;
             case self::ROUTE_SHOW:
