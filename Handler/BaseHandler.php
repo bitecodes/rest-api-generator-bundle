@@ -49,6 +49,15 @@ class BaseHandler
     }
 
     /**
+     * @param $criteria
+     * @return array
+     */
+    public function getBy($criteria)
+    {
+        return $this->repository->findBy($criteria);
+    }
+
+    /**
      * @param $params
      * @return mixed
      */
@@ -65,6 +74,23 @@ class BaseHandler
     public function update($entity, $params, $method)
     {
         return $this->formHandler->processForm($entity, $params, $method);
+    }
+
+    /**
+     * @param $entities
+     * @param $params
+     * @param $method
+     * @return bool
+     */
+    public function batchUpdate($entities, $params, $method)
+    {
+        unset($params['id']);
+
+        foreach ($entities as $entity) {
+            $this->update($entity, $params, $method);
+        }
+
+        return true;
     }
 
     /**

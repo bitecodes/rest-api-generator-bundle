@@ -64,6 +64,22 @@ class RestApiController
     }
 
     /**
+     * Update an entity.
+     *
+     * @param Request $request the request object
+     * @return array
+     * @throws EntityNotFoundException
+     */
+    public function batch_updateAction(Request $request)
+    {
+        $entities = $this->getEntitiesOrThrowException($request->get('id'));
+
+        $this->handler->batchUpdate($entities, $request->request->all(), $request->getMethod());
+
+        return $entities;
+    }
+
+    /**
      * Delete an entity
      *
      * @param $id
@@ -81,9 +97,7 @@ class RestApiController
 
     public function batch_deleteAction(Request $request)
     {
-        $ids = $request->get('id');
-
-        $this->handler->batchDelete($ids);
+        $this->handler->batchDelete($request->get('id'));
 
         return [];
     }
@@ -100,5 +114,21 @@ class RestApiController
         }
 
         return $entity;
+    }
+
+    /**
+     * @param $ids
+     * @return array
+     * @throws EntityNotFoundException
+     */
+    protected function getEntitiesOrThrowException($ids)
+    {
+        $entites = $this->handler->getBy(['id' => $ids]);
+
+        if (count($ids) != count($entites)) {
+            throw new EntityNotFoundException;
+        }
+
+        return $entites;
     }
 }

@@ -123,6 +123,29 @@ class PostControllerTest extends TestCase
     }
 
     /** @test */
+    public function it_batch_updates_posts()
+    {
+        $posts = $this->factory->times(5)->create(Post::class);
+
+        $url = $this->generateUrl('fludio.api_admin.batch_update.post');
+
+        $data = [
+            'id' => [1, 2, 3],
+            'content' => 'some_content',
+        ];
+
+        $this
+            ->patch($url, $data)
+            ->seeJsonResponse()
+            ->seeStatusCode(200)
+            ->seeInDatabase(Post::class, ['id' => 1, 'content' => 'some_content'])
+            ->seeInDatabase(Post::class, ['id' => 2, 'content' => 'some_content'])
+            ->seeInDatabase(Post::class, ['id' => 3, 'content' => 'some_content'])
+            ->seeInDatabase(Post::class, ['id' => 4, 'content' => $posts[3]->getContent()])
+            ->seeInDatabase(Post::class, ['id' => 5, 'content' => $posts[4]->getContent()]);
+    }
+
+    /** @test */
     public function it_deletes_posts()
     {
         $post = $this->factory->create(Post::class);
