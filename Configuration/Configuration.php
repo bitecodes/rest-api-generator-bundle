@@ -2,6 +2,8 @@
 
 namespace Fludio\ApiAdminBundle\Configuration;
 
+use Doctrine\Common\Inflector\Inflector;
+
 class Configuration
 {
     const ROUTE_INDEX = 'index';
@@ -27,7 +29,7 @@ class Configuration
      *
      * @return mixed
      */
-    public function getEntity()
+    public function getEntityNamespace()
     {
         return $this->entity;
     }
@@ -59,6 +61,16 @@ class Configuration
         return $url;
     }
 
+    /**
+     * Return the base url for this entity
+     *
+     * @return string
+     */
+    public function getResourceBaseUrl()
+    {
+        return $this->getCollectionUrl();
+    }
+
     public function getResourceName()
     {
         return $this->convention->getResourceName($this->entity);
@@ -70,7 +82,7 @@ class Configuration
      * @param $action
      * @return string
      */
-    public function getControllerActionName($action)
+    public function getControllerAction($action)
     {
         return $this->getControllerServiceName() . ':' . $action . 'Action';
     }
@@ -134,7 +146,8 @@ class Configuration
      */
     protected function getCollectionUrl()
     {
-        return '/' . strtolower($this->convention->getResourceName($this->entity));
+        $resourceName = $this->convention->getResourceName($this->entity);
+        return '/' . Inflector::pluralize(strtolower($resourceName));
     }
 
     /**

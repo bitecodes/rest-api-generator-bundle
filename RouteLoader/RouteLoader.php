@@ -38,15 +38,15 @@ class RouteLoader extends Loader
         foreach ($this->entites as $entity) {
             $apiConfig = new Configuration($entity, $this->convention);
 
-            $index = new Route($apiConfig->getUrl(Configuration::ROUTE_INDEX), ['_controller' => $apiConfig->getControllerActionName('index')]);
+            $index = new Route($apiConfig->getUrl(Configuration::ROUTE_INDEX), ['_controller' => $apiConfig->getControllerAction('index')]);
             $index->setMethods(['GET']);
-            $show = new Route($apiConfig->getUrl(Configuration::ROUTE_SHOW), ['_controller' => $apiConfig->getControllerActionName('show')]);
+            $show = new Route($apiConfig->getUrl(Configuration::ROUTE_SHOW), ['_controller' => $apiConfig->getControllerAction('show')]);
             $show->setMethods(['GET']);
-            $create = new Route($apiConfig->getUrl(Configuration::ROUTE_CREATE), ['_controller' => $apiConfig->getControllerActionName('create')]);
+            $create = new Route($apiConfig->getUrl(Configuration::ROUTE_CREATE), ['_controller' => $apiConfig->getControllerAction('create')]);
             $create->setMethods(['POST']);
-            $update = new Route($apiConfig->getUrl(Configuration::ROUTE_UPDATE), ['_controller' => $apiConfig->getControllerActionName('update')]);
+            $update = new Route($apiConfig->getUrl(Configuration::ROUTE_UPDATE), ['_controller' => $apiConfig->getControllerAction('update')]);
             $update->setMethods(['PATCH']);
-            $delete = new Route($apiConfig->getUrl(Configuration::ROUTE_DELETE), ['_controller' => $apiConfig->getControllerActionName('delete')]);
+            $delete = new Route($apiConfig->getUrl(Configuration::ROUTE_DELETE), ['_controller' => $apiConfig->getControllerAction('delete')]);
             $delete->setMethods(['DELETE']);
 
 

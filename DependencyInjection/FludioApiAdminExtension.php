@@ -66,7 +66,7 @@ class FludioApiAdminExtension extends Extension
     {
         // Repo
         $repo = new Definition(EntityRepository::class);
-        $repo->addArgument($apiConfig->getEntity());
+        $repo->addArgument($apiConfig->getEntityNamespace());
         $repo->setFactory([new Reference('doctrine.orm.entity_manager'), 'getRepository']);
         $container->setDefinition($apiConfig->getRepositoryServiceName(), $repo);
 
@@ -81,7 +81,7 @@ class FludioApiAdminExtension extends Extension
         $entityHandler = new Definition(BaseHandler::class);
         $entityHandler->addArgument(new Reference($apiConfig->getRepositoryServiceName()));
         $entityHandler->addArgument(new Reference($apiConfig->getFormHandlerServiceName()));
-        $entityHandler->addArgument($apiConfig->getEntity());
+        $entityHandler->addArgument($apiConfig->getEntityNamespace());
         $container->setDefinition($apiConfig->getEntityHandlerServiceName(), $entityHandler);
 
         // Controller

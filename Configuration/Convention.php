@@ -2,6 +2,7 @@
 
 namespace Fludio\ApiAdminBundle\Configuration;
 
+use Doctrine\Common\Inflector\Inflector;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Convention
@@ -36,7 +37,7 @@ class Convention
     {
         $refl = new \ReflectionClass($entity);
 
-        return ConventionHelper::snakeCase($refl->getShortName());
+        return Inflector::tableize($refl->getShortName());
     }
 
     /**
