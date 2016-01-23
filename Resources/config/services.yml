@@ -1,0 +1,28 @@
+services:
+    fludio_api_admin.serialization_listener:
+        class: Fludio\ApiAdminBundle\Listener\SerializationListener
+        arguments:
+            - '@jms_serializer'
+        tags:
+            - { name: kernel.event_listener, event: kernel.view }
+            - { name: kernel.event_listener, event: kernel.controller }
+
+    ### Post ###
+    # PostType
+    fludio_api_admin.form.post_type:
+        class: Fludio\ApiAdminBundle\Form\PostType
+        tags:
+            - { name: form.type, alias: post_form }
+
+    fludio_api_admin.form.comment_type:
+        class: Fludio\ApiAdminBundle\Form\CommentType
+        tags:
+            - { name: form.type, alias: comment_form }
+
+    app.routing_loader:
+        class: Fludio\ApiAdminBundle\RouteLoader\RouteLoader
+        arguments:
+            - %api_admin.entites%
+            - '@fludio.api_admin.convention'
+        tags:
+            - { name: routing.loader }
