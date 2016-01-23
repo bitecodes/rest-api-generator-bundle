@@ -18,7 +18,6 @@ class SerializationListener
 
     public function __construct(Serializer $serializer)
     {
-
         $this->serializer = $serializer;
     }
 
