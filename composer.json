@@ -1,0 +1,12 @@
+{
+    "name": "fludio/api-admin-bundle",
+    "require": {
+        "doctrine/inflector": "^1.1"
+    },
+    "authors": [
+        {
+            "name": "Thomas Uhlmann",
+            "email": "tho.uhlmann@gmail.com"
+        }
+    ]
+}
