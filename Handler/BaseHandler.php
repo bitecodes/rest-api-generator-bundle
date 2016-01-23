@@ -62,9 +62,9 @@ class BaseHandler
      * @param $params
      * @return mixed
      */
-    public function update($entity, $params)
+    public function update($entity, $params, $method)
     {
-        return $this->formHandler->processForm($entity, $params, 'PATCH');
+        return $this->formHandler->processForm($entity, $params, $method);
     }
 
     /**

@@ -60,7 +60,7 @@ class RestApiController
     public function updateAction(Request $request, $id)
     {
         $entity = $this->getEntityOrThrowException($id);
-        return $this->handler->update($entity, $request->request->all());
+        return $this->handler->update($entity, $request->request->all(), $request->getMethod());
     }
 
     /**

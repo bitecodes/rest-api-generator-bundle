@@ -45,7 +45,7 @@ class RouteLoader extends Loader
             $create = new Route($apiConfig->getUrl(Configuration::ROUTE_CREATE), ['_controller' => $apiConfig->getControllerAction('create')]);
             $create->setMethods(['POST']);
             $update = new Route($apiConfig->getUrl(Configuration::ROUTE_UPDATE), ['_controller' => $apiConfig->getControllerAction('update')]);
-            $update->setMethods(['PATCH']);
+            $update->setMethods(['PATCH', 'PUT']);
             $delete = new Route($apiConfig->getUrl(Configuration::ROUTE_DELETE), ['_controller' => $apiConfig->getControllerAction('delete')]);
             $delete->setMethods(['DELETE']);
             $deleteBulk = new Route($apiConfig->getUrl(Configuration::ROUTE_BATCH_DELETE), ['_controller' => $apiConfig->getControllerAction('batch_delete')]);

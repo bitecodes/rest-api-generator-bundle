@@ -65,7 +65,7 @@ class PostControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_edits_posts()
+    public function it_updates_posts_with_put()
     {
         $post = $this->factory->create(Post::class);
 
@@ -73,6 +73,43 @@ class PostControllerTest extends TestCase
 
         $data = [
             'title' => $post->getTitle(),
+            'content' => 'some_content',
+        ];
+
+        $this
+            ->put($url, $data)
+            ->seeJsonResponse()
+            ->seeStatusCode(200)
+            ->seeJsonContains(['title' => $post->getTitle()])
+            ->seeJsonContains(['content' => 'some_content'])
+            ->seeInDatabase(Post::class, $data);
+    }
+
+    /** @test */
+    public function it_will_not_update_if_put_does_not_provide_all_data()
+    {
+        $post = $this->factory->create(Post::class);
+
+        $url = $this->generateUrl('fludio.api_admin.update.post', ['id' => $post->getId()]);
+
+        $data = [
+            'content' => 'some_content',
+        ];
+
+        $this
+            ->put($url, $data)
+            ->seeStatusCode(500)
+            ->seeInDatabase(Post::class, ['title' => $post->getTitle(), 'content' => $post->getContent()]);
+    }
+
+    /** @test */
+    public function it_updates_posts_with_patch()
+    {
+        $post = $this->factory->create(Post::class);
+
+        $url = $this->generateUrl('fludio.api_admin.update.post', ['id' => $post->getId()]);
+
+        $data = [
             'content' => 'some_content',
         ];
 
