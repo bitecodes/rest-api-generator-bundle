@@ -37,7 +37,6 @@ class SerializationListener
                 'Content-Type' => 'application/json'
             ]);
 
-
             $event->setResponse($response);
             $event->stopPropagation();
         }
