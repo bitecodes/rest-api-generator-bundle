@@ -13,6 +13,8 @@ use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
 {
+    protected $configFile;
+
     public function registerBundles()
     {
         $bundles = [
@@ -28,6 +30,14 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(__DIR__ . '/config.yml');
+        $loader->load(__DIR__ . '/config/' . $this->configFile);
+    }
+
+    /**
+     * @param mixed $configFile
+     */
+    public function setConfigFile($configFile)
+    {
+        $this->configFile = $configFile;
     }
 }

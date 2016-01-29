@@ -1,10 +1,13 @@
+imports:
+    - { resource: services.yml }
+
 framework:
     secret: "DirtySecret"
     test: ~
     form: ~
     csrf_protection: ~
     router:
-        resource: "%kernel.root_dir%/routing.yml"
+        resource: "%kernel.root_dir%/config/routing.yml"
     session:
         # handler_id set to null will use default session handler from php.ini
         handler_id:  ~
@@ -27,14 +30,3 @@ doctrine:
                 dir: %kernel.root_dir%/../TestEntity
                 prefix: Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity
                 is_bundle: false
-
-fludio_rest_api_generator:
-    entities:
-        Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post:
-#            resource_name: posts
-
-services:
-    fludio_rest_api_generator.form.posts_type:
-        class: Fludio\RestApiGeneratorBundle\Tests\Dummy\Form\PostType
-        tags:
-            - { name: form.type, alias: post_form }

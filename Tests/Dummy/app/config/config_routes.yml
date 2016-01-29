@@ -1,0 +1,8 @@
+imports:
+    - { resource: base_config.yml }
+
+fludio_rest_api_generator:
+    entities:
+        Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post:
+            only: ['index', 'show', 'create', 'delete']
+            except: ['delete']

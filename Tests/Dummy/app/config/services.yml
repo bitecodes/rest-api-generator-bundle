@@ -1,0 +1,5 @@
+services:
+    fludio_rest_api_generator.form.posts_type:
+        class: Fludio\RestApiGeneratorBundle\Tests\Dummy\Form\PostType
+        tags:
+            - { name: form.type, alias: post_form }
