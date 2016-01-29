@@ -68,6 +68,7 @@ This will result in the following endpoints:
 - [ ] Pagination
 - [ ] Search filter
 - [x] Add security options
+- [ ] Better error messages
 - [ ] Nested Resources
 - [ ] Configure returned Response
 - [ ] Configuration Options
@@ -77,7 +78,7 @@ This will result in the following endpoints:
   - [ ] Configure bundle prefix
 - [ ] NelmioApiDocBundle integration
   - [x] Basic integreation
-  - [ ] Show security setting
+  - [x] Show security setting
   - [ ] Better description
   - [ ] Add Filter Params
   - [ ] Add Pagination 
@@ -86,4 +87,6 @@ This will result in the following endpoints:
 - [ ] Provide endpoint for batch create (?)
 - [ ] XML-Support
 - [ ] Documentation
+  - [ ] Route selection
+  - [ ] Resource name
   - [ ] Security section
