@@ -1,13 +1,13 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Configuration;
+namespace Fludio\RestApiGeneratorBundle\Tests\Resource;
 
 use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
 use Fludio\RestApiGeneratorBundle\Resource\Resource;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+class ResourceTest extends \PHPUnit_Framework_TestCase
 {
     protected $bundlePrefix = 'fludio.rest_api_generator';
     /**
