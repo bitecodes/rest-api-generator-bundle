@@ -2,7 +2,6 @@
 
 namespace Fludio\RestApiGeneratorBundle\Tests\DependencyInjection;
 
-use Doctrine\ORM\Tools\SchemaTool;
 use Fludio\RestApiGeneratorBundle\Resource\Resource;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
@@ -18,7 +17,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->kernel = new AppKernel('test', true);
+        $this->kernel = new AppKernel('testConfiguration', true);
+        $this->kernel->setConfigFile('config_simple.yml');
         $this->kernel->boot();
     }
 

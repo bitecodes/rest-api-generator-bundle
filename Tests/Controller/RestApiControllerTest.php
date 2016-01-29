@@ -5,16 +5,15 @@ namespace Fludio\RestApiGeneratorBundle\Tests\Controller;
 use Doctrine\ORM\Tools\SchemaTool;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
-use Fludio\TestBundle\Test\DatabaseTransactions;
 use Fludio\TestBundle\Test\TestCase;
 
 class RestApiControllerTest extends TestCase
 {
-//    use DatabaseTransactions;
-
     protected static function createKernel(array $options = array())
     {
-        return new AppKernel('test', true);
+        $kernel = new AppKernel('testRestApiController', false);
+        $kernel->setConfigFile('config_simple.yml');
+        return $kernel;
     }
 
     public function setUp()
@@ -24,8 +23,6 @@ class RestApiControllerTest extends TestCase
         $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
 
         $this->client->getContainer()->get('router');
-
-        $meta = $em->getClassMetadata(Post::class);
 
         $schemaTool = new SchemaTool($em);
         $schemaTool->createSchema($em->getMetadataFactory()->getAllMetadata());
