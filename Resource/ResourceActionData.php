@@ -20,6 +20,10 @@ class ResourceActionData
      * @var Resource
      */
     protected $resource;
+    /**
+     * @var array
+     */
+    protected $secured;
 
     /**
      * @param array $options
@@ -29,6 +33,7 @@ class ResourceActionData
     {
         $this->availableActions = ResourceOptions::getAvailableActions($options);
         $this->resource = $resource;
+        $this->secured = ResourceOptions::getActionSecurity($options);
     }
 
     /**
@@ -118,5 +123,16 @@ class ResourceActionData
     public function getRouteName($action)
     {
         return $this->resource->getBundlePrefix() . '.' . $action . '.' . $this->resource->getName();
+    }
+
+    /**
+     * Return the security roles for the given action
+     *
+     * @param $action
+     * @return mixed
+     */
+    public function getSecurityForAction($action)
+    {
+        return $this->secured[$action];
     }
 }

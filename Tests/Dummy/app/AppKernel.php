@@ -8,6 +8,7 @@ use Fludio\FactrineBundle\FludioFactrineBundle;
 use Fludio\RestApiGeneratorBundle\FludioRestApiGeneratorBundle;
 use JMS\SerializerBundle\JMSSerializerBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
@@ -19,6 +20,7 @@ class AppKernel extends Kernel
     {
         $bundles = [
             new FrameworkBundle(),
+            new SecurityBundle(),
             new DoctrineBundle(),
             new JMSSerializerBundle(),
             new FludioFactrineBundle(),

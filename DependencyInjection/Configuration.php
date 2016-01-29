@@ -2,6 +2,7 @@
 
 namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 
+use Fludio\RestApiGeneratorBundle\Resource\ResourceOptions;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\ScalarNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -33,6 +34,7 @@ class Configuration implements ConfigurationInterface
                             ->append($this->getOnlyNode())
                             ->append($this->getExceptNode())
                             ->append($this->getResourceNameNode())
+                            ->append($this->getSecureNode())
                         ->end()
                     ->end()
                 ->end()
@@ -68,5 +70,71 @@ class Configuration implements ConfigurationInterface
     private function getResourceNameNode()
     {
         return new ScalarNodeDefinition('resource_name');
+    }
+
+    private function getSecureNode()
+    {
+        $node = new ArrayNodeDefinition('secure');
+
+        $routesNode = new ArrayNodeDefinition('routes');
+
+        $routesNode
+            ->children()
+                ->arrayNode('index')
+                    ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('show')
+                    ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('create')
+                    ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('update')
+                    ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('batch_update')
+                    ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('delete')
+                    ->prototype('scalar')->end()
+                ->end()
+                ->arrayNode('batch_delete')
+                    ->prototype('scalar')->end()
+                ->end()
+            ->end();
+
+        $node
+            ->children()
+                ->arrayNode('default')
+                    ->prototype('scalar')->end()
+                ->end()
+                ->append($routesNode)
+            ->end();
+
+        $routesNode
+            ->beforeNormalization()
+                ->always(function($val) {
+                    foreach(ResourceOptions::$allActions as $action) {
+                        if(!isset($val[$action])) {
+                            $val[$action] = ['MY', 'EMPTY', 'ARRAY'];
+                        }
+                    }
+
+                    return $val;
+                })
+            ->end()
+            ->validate()
+                ->always(function($val) {
+                    foreach(ResourceOptions::$allActions as $action) {
+                        if (!empty($val[$action]) && $val[$action] == ['MY', 'EMPTY', 'ARRAY']) {
+                            unset($val[$action]);
+                        }
+                    }
+
+                    return $val;
+                })
+            ->end();
+
+        return $node;
     }
 }

@@ -26,6 +26,8 @@ class RestApiController extends Controller
      */
     public function indexAction()
     {
+        $this->checkForAccess();
+
         return $this->getHandler()->all();
     }
 
@@ -39,6 +41,8 @@ class RestApiController extends Controller
      */
     public function showAction($id)
     {
+        $this->checkForAccess();
+
         return $this->getEntityOrThrowException($id);
     }
 
@@ -53,6 +57,8 @@ class RestApiController extends Controller
      */
     public function createAction(Request $request)
     {
+        $this->checkForAccess();
+
         return $this->getHandler()->post($request->request->all());
     }
 
@@ -69,6 +75,8 @@ class RestApiController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
+        $this->checkForAccess();
+
         $entity = $this->getEntityOrThrowException($id);
         return $this->getHandler()->update($entity, $request->request->all(), $request->getMethod());
     }
@@ -85,6 +93,8 @@ class RestApiController extends Controller
      */
     public function batch_updateAction(Request $request)
     {
+        $this->checkForAccess();
+
         $entities = $this->getEntitiesOrThrowException($request->get('id'));
 
         $this->getHandler()->batchUpdate($entities, $request->request->all(), $request->getMethod());
@@ -104,6 +114,8 @@ class RestApiController extends Controller
      */
     public function deleteAction($id)
     {
+        $this->checkForAccess();
+
         $entity = $this->getEntityOrThrowException($id);
 
         $this->getHandler()->delete($entity);
@@ -122,6 +134,8 @@ class RestApiController extends Controller
      */
     public function batch_deleteAction(Request $request)
     {
+        $this->checkForAccess();
+
         $this->getHandler()->batchDelete($request->get('id'));
 
         return [];
@@ -171,5 +185,14 @@ class RestApiController extends Controller
     public function setHandler($handler)
     {
         $this->handler = $handler;
+    }
+
+    private function checkForAccess()
+    {
+        $roles = $this->get('request_stack')->getCurrentRequest()->get('_roles');
+
+        if ($roles) {
+            $this->denyAccessUnlessGranted($roles);
+        }
     }
 }

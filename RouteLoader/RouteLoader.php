@@ -68,6 +68,7 @@ class RouteLoader extends Loader
             $route
                 ->setDefault('_controller', $apiConfig->getActions()->getControllerAction($routeIdentifier))
                 ->setDefault('_entity', $apiConfig->getEntityNamespace())
+                ->setDefault('_roles', $apiConfig->getActions()->getSecurityForAction($routeIdentifier))
                 ->setMethods($this->routes[$routeIdentifier]);
 
             $routes->add($apiConfig->getActions()->getRouteName($routeIdentifier), $route);

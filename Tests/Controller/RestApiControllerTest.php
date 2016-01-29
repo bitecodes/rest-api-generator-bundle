@@ -22,8 +22,6 @@ class RestApiControllerTest extends TestCase
 
         $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
 
-        $this->client->getContainer()->get('router');
-
         $schemaTool = new SchemaTool($em);
         $schemaTool->createSchema($em->getMetadataFactory()->getAllMetadata());
     }

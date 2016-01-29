@@ -1,0 +1,13 @@
+imports:
+    - { resource: security.yml }
+    - { resource: base_config.yml }
+
+fludio_rest_api_generator:
+    entities:
+        Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post:
+            secure:
+                default:    ['ROLE_USER']
+                routes:
+                    index:  []
+                    update: ['ROLE_ADMIN']
+                    delete: ['ROLE_ADMIN']

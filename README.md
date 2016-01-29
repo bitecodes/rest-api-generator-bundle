@@ -67,7 +67,7 @@ This will result in the following endpoints:
 - [x] Add Coveralls
 - [ ] Pagination
 - [ ] Search filter
-- [ ] Add security options
+- [x] Add security options
 - [ ] Nested Resources
 - [ ] Configure returned Response
 - [ ] Configuration Options
@@ -85,3 +85,5 @@ This will result in the following endpoints:
 - [ ] Add hooks/ events (?)
 - [ ] Provide endpoint for batch create (?)
 - [ ] XML-Support
+- [ ] Documentation
+  - [ ] Security section

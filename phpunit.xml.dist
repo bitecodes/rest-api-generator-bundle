@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="./Tests/bootstrap.php">
+<phpunit bootstrap="./Tests/bootstrap.php" stderr="">
     <testsuites>
         <testsuite name="Rest Api Bundle">
             <directory suffix="Test.php">./Tests</directory>

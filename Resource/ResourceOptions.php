@@ -7,6 +7,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ResourceOptions
 {
+    public static $allActions = [
+        ResourceActionData::ACTION_INDEX,
+        ResourceActionData::ACTION_SHOW,
+        ResourceActionData::ACTION_CREATE,
+        ResourceActionData::ACTION_UPDATE,
+        ResourceActionData::ACTION_BATCH_UPDATE,
+        ResourceActionData::ACTION_DELETE,
+        ResourceActionData::ACTION_BATCH_DELETE
+    ];
+
     /**
      * @param $entity
      * @param $options
@@ -18,7 +28,10 @@ class ResourceOptions
         $resolver->setDefaults([
             'only' => [],
             'except' => [],
-            'resource_name' => self::getDefaultResourceName($entity)
+            'resource_name' => self::getDefaultResourceName($entity),
+            'secure' => [
+                'default' => []
+            ],
         ]);
 
         return $resolver->resolve($options);
@@ -30,17 +43,7 @@ class ResourceOptions
      */
     public static function getAvailableActions($options)
     {
-        $all = [
-            ResourceActionData::ACTION_INDEX,
-            ResourceActionData::ACTION_SHOW,
-            ResourceActionData::ACTION_CREATE,
-            ResourceActionData::ACTION_UPDATE,
-            ResourceActionData::ACTION_BATCH_UPDATE,
-            ResourceActionData::ACTION_DELETE,
-            ResourceActionData::ACTION_BATCH_DELETE
-        ];
-
-        $base = !empty($options['only']) ? $options['only'] : $all;
+        $base = !empty($options['only']) ? $options['only'] : self::$allActions;
 
         return array_diff($base, $options['except']);
     }
@@ -57,5 +60,25 @@ class ResourceOptions
         $underscored = Inflector::tableize($pluralized);
 
         return $underscored;
+    }
+
+    public static function getActionSecurity($options)
+    {
+        $secure = $options['secure'];
+
+        $defaultSecurity = isset($secure['default']) ? $secure['default'] : [];
+
+        $security = array_reduce(self::$allActions, function ($acc, $action) use ($defaultSecurity) {
+            $acc[$action] = $defaultSecurity;
+            return $acc;
+        }, []);
+
+        if (isset($secure['routes'])) {
+            foreach ($secure['routes'] as $action => $roles) {
+                $security[$action] = $roles;
+            }
+        }
+
+        return $security;
     }
 }
