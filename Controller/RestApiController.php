@@ -4,32 +4,36 @@ namespace Fludio\ApiAdminBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
 use Fludio\ApiAdminBundle\Handler\BaseHandler;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Fludio\ApiAdminBundle\Annotation\GenerateApiDoc;
 
-class RestApiController
+class RestApiController extends Controller
 {
     /**
      * @var BaseHandler
      */
     private $handler;
 
-    public function __construct($handler)
-    {
-        $this->handler = $handler;
-    }
-
     /**
      * List all entities.
+     *
+     * @ApiDoc()
+     * @GenerateApiDoc()
      *
      * @return array
      */
     public function indexAction()
     {
-        return $this->handler->all();
+        return $this->getHandler()->all();
     }
 
     /**
      * Get an entity by id.
+     *
+     * @ApiDoc()
+     * @GenerateApiDoc()
      *
      * @return array
      */
@@ -41,16 +45,22 @@ class RestApiController
     /**
      * Create a new entity.
      *
+     * @ApiDoc()
+     * @GenerateApiDoc()
+     *
      * @param Request $request the request object
      * @return array
      */
     public function createAction(Request $request)
     {
-        return $this->handler->post($request->request->all());
+        return $this->getHandler()->post($request->request->all());
     }
 
     /**
      * Update an entity.
+     *
+     * @ApiDoc()
+     * @GenerateApiDoc()
      *
      * @param Request $request the request object
      * @param $id
@@ -60,11 +70,14 @@ class RestApiController
     public function updateAction(Request $request, $id)
     {
         $entity = $this->getEntityOrThrowException($id);
-        return $this->handler->update($entity, $request->request->all(), $request->getMethod());
+        return $this->getHandler()->update($entity, $request->request->all(), $request->getMethod());
     }
 
     /**
      * Update an entity.
+     *
+     * @ApiDoc()
+     * @GenerateApiDoc()
      *
      * @param Request $request the request object
      * @return array
@@ -74,13 +87,16 @@ class RestApiController
     {
         $entities = $this->getEntitiesOrThrowException($request->get('id'));
 
-        $this->handler->batchUpdate($entities, $request->request->all(), $request->getMethod());
+        $this->getHandler()->batchUpdate($entities, $request->request->all(), $request->getMethod());
 
         return $entities;
     }
 
     /**
      * Delete an entity
+     *
+     * @ApiDoc()
+     * @GenerateApiDoc()
      *
      * @param $id
      * @return array
@@ -90,14 +106,23 @@ class RestApiController
     {
         $entity = $this->getEntityOrThrowException($id);
 
-        $this->handler->delete($entity);
+        $this->getHandler()->delete($entity);
 
         return [];
     }
 
+    /**
+     * Batch delete entites
+     *
+     * @ApiDoc()
+     * @GenerateApiDoc()
+     *
+     * @param Request $request
+     * @return array
+     */
     public function batch_deleteAction(Request $request)
     {
-        $this->handler->batchDelete($request->get('id'));
+        $this->getHandler()->batchDelete($request->get('id'));
 
         return [];
     }
@@ -109,7 +134,7 @@ class RestApiController
      */
     protected function getEntityOrThrowException($id)
     {
-        if (null === $entity = $this->handler->get($id)) {
+        if (null === $entity = $this->getHandler()->get($id)) {
             throw new EntityNotFoundException;
         }
 
@@ -123,12 +148,28 @@ class RestApiController
      */
     protected function getEntitiesOrThrowException($ids)
     {
-        $entites = $this->handler->getBy(['id' => $ids]);
+        $entites = $this->getHandler()->getBy(['id' => $ids]);
 
         if (count($ids) != count($entites)) {
             throw new EntityNotFoundException;
         }
 
         return $entites;
+    }
+
+    /**
+     * @return BaseHandler
+     */
+    protected function getHandler()
+    {
+        return $this->handler;
+    }
+
+    /**
+     * @param BaseHandler $handler
+     */
+    public function setHandler($handler)
+    {
+        $this->handler = $handler;
     }
 }

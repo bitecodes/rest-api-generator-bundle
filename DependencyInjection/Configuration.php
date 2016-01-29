@@ -2,6 +2,8 @@
 
 namespace Fludio\ApiAdminBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\ScalarNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -26,10 +28,45 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('entities')
-                    ->prototype('scalar')->end()
+                    ->prototype('array')
+                        ->children()
+                            ->append($this->getOnlyNode())
+                            ->append($this->getExceptNode())
+                            ->append($this->getResourceNameNode())
+                        ->end()
+                    ->end()
                 ->end()
             ->end();
 
         return $treeBuilder;
+    }
+
+    /**
+     * @return ArrayNodeDefinition
+     */
+    private function getOnlyNode()
+    {
+        $node = new ArrayNodeDefinition('only');
+
+        $node->prototype('scalar')->end();
+
+        return $node;
+    }
+
+    /**
+     * @return ArrayNodeDefinition
+     */
+    private function getExceptNode()
+    {
+        $node = new ArrayNodeDefinition('except');
+
+        $node->prototype('scalar')->end();
+
+        return $node;
+    }
+
+    private function getResourceNameNode()
+    {
+        return new ScalarNodeDefinition('resource_name');
     }
 }

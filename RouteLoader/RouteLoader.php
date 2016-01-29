@@ -2,8 +2,10 @@
 
 namespace Fludio\ApiAdminBundle\RouteLoader;
 
-use Fludio\ApiAdminBundle\Configuration\Configuration;
-use Fludio\ApiAdminBundle\Configuration\Convention;
+use Fludio\ApiAdminBundle\Resource\ResourceActionData;
+use Fludio\ApiAdminBundle\Resource\ResourceManager;
+use Fludio\ApiAdminBundle\Resource\Resource;
+use Fludio\ApiAdminBundle\Resource\Convention;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
@@ -11,29 +13,24 @@ use Symfony\Component\Routing\RouteCollection;
 class RouteLoader extends Loader
 {
     private $routes = [
-        Configuration::ROUTE_INDEX => ['GET'],
-        Configuration::ROUTE_SHOW => ['GET'],
-        Configuration::ROUTE_CREATE => ['POST'],
-        Configuration::ROUTE_UPDATE => ['PUT', 'PATCH'],
-        Configuration::ROUTE_BATCH_UPDATE => ['PUT', 'PATCH'],
-        Configuration::ROUTE_DELETE => ['DELETE'],
-        Configuration::ROUTE_BATCH_DELETE => ['DELETE'],
+        ResourceActionData::ACTION_INDEX => ['GET'],
+        ResourceActionData::ACTION_SHOW => ['GET'],
+        ResourceActionData::ACTION_CREATE => ['POST'],
+        ResourceActionData::ACTION_UPDATE => ['PUT', 'PATCH'],
+        ResourceActionData::ACTION_BATCH_UPDATE => ['PUT', 'PATCH'],
+        ResourceActionData::ACTION_DELETE => ['DELETE'],
+        ResourceActionData::ACTION_BATCH_DELETE => ['DELETE'],
     ];
 
     private $loaded;
     /**
      * @var array
      */
-    private $entites;
-    /**
-     * @var Convention
-     */
-    private $convention;
+    private $manager;
 
-    public function __construct(array $entites, Convention $convention)
+    public function __construct(ResourceManager $manager)
     {
-        $this->entites = $entites;
-        $this->convention = $convention;
+        $this->manager = $manager;
     }
 
     public function load($resource, $type = null)
@@ -44,10 +41,8 @@ class RouteLoader extends Loader
 
         $routes = new RouteCollection();
 
-        foreach ($this->entites as $entity) {
-            $apiConfig = new Configuration($entity, $this->convention);
-
-            $this->addRoute($apiConfig, $routes);
+        foreach ($this->manager->getConfigurations() as $entity => $entityEndpointConfiguration) {
+            $this->addRoute($entityEndpointConfiguration, $routes);
         }
 
         $this->loaded = true;
@@ -62,18 +57,20 @@ class RouteLoader extends Loader
     }
 
     /**
-     * @param $apiConfig
+     * @param Resource $apiConfig
      * @param $routes
+     * @throws \Exception
      */
-    private function addRoute($apiConfig, $routes)
+    private function addRoute(Resource $apiConfig, $routes)
     {
-        foreach ($this->routes as $routeIdentifier => $methods) {
-            $route = new Route($apiConfig->getUrl($routeIdentifier));
+        foreach ($apiConfig->getActions()->getAvailableActions() as $routeIdentifier) {
+            $route = new Route($apiConfig->getActions()->getUrl($routeIdentifier));
             $route
-                ->setDefaults(['_controller' => $apiConfig->getControllerAction($routeIdentifier)])
-                ->setMethods($methods);
+                ->setDefault('_controller', $apiConfig->getActions()->getControllerAction($routeIdentifier))
+                ->setDefault('_entity', $apiConfig->getEntityNamespace())
+                ->setMethods($this->routes[$routeIdentifier]);
 
-            $routes->add($apiConfig->getRouteName($routeIdentifier), $route);
+            $routes->add($apiConfig->getActions()->getRouteName($routeIdentifier), $route);
         }
     }
 
