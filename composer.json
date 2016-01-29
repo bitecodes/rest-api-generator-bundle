@@ -1,5 +1,5 @@
 {
-  "name": "fludio/api-admin-bundle",
+  "name": "fludio/rest-api-generator-bundle",
   "authors": [
     {
       "name": "Thomas Uhlmann",
@@ -25,10 +25,10 @@
   },
   "autoload": {
     "psr-0": {
-      "Fludio\\ApiAdminBundle\\": ""
+      "Fludio\\RestApiGeneratorBundle\\": ""
     }
   },
-  "target-dir": "Fludio/ApiAdminBundle",
+  "target-dir": "Fludio/RestApiGeneratorBundle",
   "repositories": [
     {
       "type": "vcs",

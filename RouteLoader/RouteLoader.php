@@ -1,11 +1,11 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\RouteLoader;
+namespace Fludio\RestApiGeneratorBundle\RouteLoader;
 
-use Fludio\ApiAdminBundle\Resource\ResourceActionData;
-use Fludio\ApiAdminBundle\Resource\ResourceManager;
-use Fludio\ApiAdminBundle\Resource\Resource;
-use Fludio\ApiAdminBundle\Resource\Convention;
+use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
+use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
+use Fludio\RestApiGeneratorBundle\Resource\Resource;
+use Fludio\RestApiGeneratorBundle\Resource\Convention;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;

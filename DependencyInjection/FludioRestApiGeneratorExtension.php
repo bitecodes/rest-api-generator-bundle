@@ -1,11 +1,11 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\DependencyInjection;
+namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 
 use Doctrine\Common\Inflector\Inflector;
-use Fludio\ApiAdminBundle\Resource\ResourceManager;
-use Fludio\ApiAdminBundle\Resource\Resource;
-use Fludio\ApiAdminBundle\Resource\Convention;
+use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
+use Fludio\RestApiGeneratorBundle\Resource\Resource;
+use Fludio\RestApiGeneratorBundle\Resource\Convention;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * @link http://symfony.com/doc/current/cookbook/bundles/extension.html
  */
-class FludioApiAdminExtension extends Extension
+class FludioRestApiGeneratorExtension extends Extension
 {
     /**
      * {@inheritdoc}
@@ -30,7 +30,7 @@ class FludioApiAdminExtension extends Extension
         $endpointConfig = $config['entities'];
 
         $endpointManager = new Definition(ResourceManager::class);
-        $container->setDefinition('fludio.api_admin.endpoint_manager', $endpointManager);
+        $container->setDefinition('fludio.rest_api_generator.endpoint_manager', $endpointManager);
 
         foreach ($endpointConfig as $entity => $options) {
             $definition = $this->newEntityEndpointConfigurationDefinition($container, $entity, $options);
@@ -53,7 +53,7 @@ class FludioApiAdminExtension extends Extension
         $definition->setArguments([$entity, $options]);
         $definition->setPublic(false);
         $refl = new \ReflectionClass($entity);
-        $container->setDefinition('fludio.api_admin.' . Inflector::tableize($refl->getShortName()), $definition);
+        $container->setDefinition('fludio.rest_api_generator.' . Inflector::tableize($refl->getShortName()), $definition);
         return $definition;
     }
 }

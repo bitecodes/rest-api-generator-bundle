@@ -1,10 +1,10 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Tests\Controller;
+namespace Fludio\RestApiGeneratorBundle\Tests\Controller;
 
 use Doctrine\ORM\Tools\SchemaTool;
-use Fludio\ApiAdminBundle\Tests\Dummy\app\AppKernel;
-use Fludio\ApiAdminBundle\Tests\Dummy\TestEntity\Post;
+use Fludio\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
+use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Fludio\TestBundle\Test\DatabaseTransactions;
 use Fludio\TestBundle\Test\TestCase;
 
@@ -36,7 +36,7 @@ class RestApiControllerTest extends TestCase
     {
         $this->factory->times(2)->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.api_admin.index.my_post');
+        $url = $this->generateUrl('fludio.rest_api_generator.index.posts');
 
         $this
             ->get($url, ['HTTP_Accept' => 'application/json'])
@@ -50,7 +50,7 @@ class RestApiControllerTest extends TestCase
     {
         $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.api_admin.show.my_post', ['id' => $post->getId()]);
+        $url = $this->generateUrl('fludio.rest_api_generator.show.posts', ['id' => $post->getId()]);
 
         $this
             ->get($url)
@@ -73,7 +73,7 @@ class RestApiControllerTest extends TestCase
     /** @test */
     public function it_creates_a_new_post()
     {
-        $url = $this->generateUrl('fludio.api_admin.create.my_post');
+        $url = $this->generateUrl('fludio.rest_api_generator.create.posts');
 
         $data = $this->factory->values(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
@@ -90,7 +90,7 @@ class RestApiControllerTest extends TestCase
     {
         $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.api_admin.update.my_post', ['id' => $post->getId()]);
+        $url = $this->generateUrl('fludio.rest_api_generator.update.posts', ['id' => $post->getId()]);
 
         $data = [
             'title' => $post->getTitle(),
@@ -114,7 +114,7 @@ class RestApiControllerTest extends TestCase
     {
         $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.api_admin.update.my_post', ['id' => $post->getId()]);
+        $url = $this->generateUrl('fludio.rest_api_generator.update.posts', ['id' => $post->getId()]);
 
         $data = [
             'content' => 'some_content',
@@ -131,7 +131,7 @@ class RestApiControllerTest extends TestCase
     {
         $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.api_admin.update.my_post', ['id' => $post->getId()]);
+        $url = $this->generateUrl('fludio.rest_api_generator.update.posts', ['id' => $post->getId()]);
 
         $data = [
             'content' => 'some_content',
@@ -151,7 +151,7 @@ class RestApiControllerTest extends TestCase
     {
         $posts = $this->factory->times(5)->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.api_admin.batch_update.my_post');
+        $url = $this->generateUrl('fludio.rest_api_generator.batch_update.posts');
 
         $data = [
             'id' => [1, 2, 3],
@@ -174,7 +174,7 @@ class RestApiControllerTest extends TestCase
     {
         $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.api_admin.delete.my_post', ['id' => $post->getId()]);
+        $url = $this->generateUrl('fludio.rest_api_generator.delete.posts', ['id' => $post->getId()]);
 
         $this
             ->seeInDatabase(Post::class, ['id' => $post->getId()])
@@ -189,7 +189,7 @@ class RestApiControllerTest extends TestCase
     {
         $this->factory->times(5)->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.api_admin.batch_delete.my_post');
+        $url = $this->generateUrl('fludio.rest_api_generator.batch_delete.posts');
 
         $this
             ->delete($url, ['id' => [1, 2, 3]])

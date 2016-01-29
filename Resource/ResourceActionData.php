@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Resource;
+namespace Fludio\RestApiGeneratorBundle\Resource;
 
 class ResourceActionData
 {

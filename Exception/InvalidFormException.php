@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Exception;
+namespace Fludio\RestApiGeneratorBundle\Exception;
 
 use Symfony\Component\Form\Form;
 

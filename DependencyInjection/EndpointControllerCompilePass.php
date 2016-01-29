@@ -1,13 +1,13 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\DependencyInjection;
+namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 
 use Doctrine\ORM\EntityRepository;
-use Fludio\ApiAdminBundle\Resource\ResourceManager;
-use Fludio\ApiAdminBundle\Resource\Resource;
-use Fludio\ApiAdminBundle\Controller\RestApiController;
-use Fludio\ApiAdminBundle\Handler\BaseHandler;
-use Fludio\ApiAdminBundle\Handler\FormHandler;
+use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
+use Fludio\RestApiGeneratorBundle\Resource\Resource;
+use Fludio\RestApiGeneratorBundle\Controller\RestApiController;
+use Fludio\RestApiGeneratorBundle\Handler\BaseHandler;
+use Fludio\RestApiGeneratorBundle\Handler\FormHandler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -18,7 +18,7 @@ class EndpointControllerCompilePass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         /** @var ResourceManager $manager */
-        $manager = $container->get('fludio.api_admin.endpoint_manager');
+        $manager = $container->get('fludio.rest_api_generator.endpoint_manager');
 
         foreach ($manager->getConfigurations() as $entity => $config) {
             $this->setupEntity($config, $container);
@@ -46,7 +46,7 @@ class EndpointControllerCompilePass implements CompilerPassInterface
         $formHandler = new Definition(FormHandler::class);
         $formHandler->addArgument(new Reference('doctrine.orm.entity_manager'));
         $formHandler->addArgument(new Reference('form.factory'));
-        $formHandler->addArgument(new Reference('fludio_api_admin.form.' . $entityConfig->getName() . '_type'));
+        $formHandler->addArgument(new Reference('fludio_rest_api_generator.form.' . $entityConfig->getName() . '_type'));
         $container->setDefinition($formHandlerServiceName, $formHandler);
 
         // Handler

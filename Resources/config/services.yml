@@ -1,28 +1,28 @@
 services:
-    fludio_api_admin.serialization_listener:
-        class: Fludio\ApiAdminBundle\Listener\SerializationListener
+    fludio_rest_api_generator.serialization_listener:
+        class: Fludio\RestApiGeneratorBundle\Listener\SerializationListener
         arguments:
             - '@jms_serializer'
         tags:
             - { name: kernel.event_listener, event: kernel.view }
             - { name: kernel.event_listener, event: kernel.controller }
 
-    fludio_api_admin.json_content_listener:
-        class: Fludio\ApiAdminBundle\Listener\JsonContentListener
+    fludio_rest_api_generator.json_content_listener:
+        class: Fludio\RestApiGeneratorBundle\Listener\JsonContentListener
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: -100 }
 
     app.routing_loader:
-        class: Fludio\ApiAdminBundle\RouteLoader\RouteLoader
+        class: Fludio\RestApiGeneratorBundle\RouteLoader\RouteLoader
         arguments:
-            - '@fludio.api_admin.endpoint_manager'
+            - '@fludio.rest_api_generator.endpoint_manager'
         tags:
             - { name: routing.loader }
 
-    fludio_api_admin.annotation.generate_api_doc_handler:
-        class: Fludio\ApiAdminBundle\Annotation\GenerateApiDocHandler
+    fludio_rest_api_generator.annotation.generate_api_doc_handler:
+        class: Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler
         arguments:
-            - '@fludio.api_admin.endpoint_manager'
+            - '@fludio.rest_api_generator.endpoint_manager'
             - '@service_container'
         tags:
             - { name: nelmio_api_doc.extractor.handler }

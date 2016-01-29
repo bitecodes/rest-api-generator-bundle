@@ -1,8 +1,8 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Listener;
+namespace Fludio\RestApiGeneratorBundle\Listener;
 
-use Fludio\ApiAdminBundle\Controller\RestApiController;
+use Fludio\RestApiGeneratorBundle\Controller\RestApiController;
 use JMS\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;

@@ -1,13 +1,13 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Controller;
+namespace Fludio\RestApiGeneratorBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
-use Fludio\ApiAdminBundle\Handler\BaseHandler;
+use Fludio\RestApiGeneratorBundle\Handler\BaseHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Fludio\ApiAdminBundle\Annotation\GenerateApiDoc;
+use Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDoc;
 
 class RestApiController extends Controller
 {

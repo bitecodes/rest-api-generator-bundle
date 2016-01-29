@@ -1,8 +1,8 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Tests\Dummy\Form;
+namespace Fludio\RestApiGeneratorBundle\Tests\Dummy\Form;
 
-use Fludio\ApiAdminBundle\Tests\Dummy\TestEntity\Post;
+use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

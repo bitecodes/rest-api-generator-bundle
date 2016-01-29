@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\DependencyInjection;
+namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\ScalarNodeDefinition;
@@ -20,7 +20,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('fludio_api_admin');
+        $rootNode = $treeBuilder->root('fludio_rest_api_generator');
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

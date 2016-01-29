@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Handler;
+namespace Fludio\RestApiGeneratorBundle\Handler;
 
 use Doctrine\ORM\EntityRepository;
 

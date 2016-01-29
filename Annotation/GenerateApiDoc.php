@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Annotation;
+namespace Fludio\RestApiGeneratorBundle\Annotation;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 

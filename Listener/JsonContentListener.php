@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Listener;
+namespace Fludio\RestApiGeneratorBundle\Listener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 

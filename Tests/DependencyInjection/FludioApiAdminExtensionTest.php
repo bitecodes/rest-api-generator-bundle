@@ -1,11 +1,11 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Tests\DependencyInjection;
+namespace Fludio\RestApiGeneratorBundle\Tests\DependencyInjection;
 
-use Fludio\ApiAdminBundle\Resource\ResourceManager;
-use Fludio\ApiAdminBundle\Resource\Resource;
-use Fludio\ApiAdminBundle\DependencyInjection\FludioApiAdminExtension;
-use Fludio\ApiAdminBundle\Tests\Dummy\TestEntity\Post;
+use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
+use Fludio\RestApiGeneratorBundle\Resource\Resource;
+use Fludio\RestApiGeneratorBundle\DependencyInjection\FludioRestApiGeneratorExtension;
+use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 
 class FludioApiAdminExtensionTest extends AbstractExtensionTestCase
@@ -13,7 +13,7 @@ class FludioApiAdminExtensionTest extends AbstractExtensionTestCase
     protected function getContainerExtensions()
     {
         return [
-            new FludioApiAdminExtension()
+            new FludioRestApiGeneratorExtension()
         ];
     }
 
@@ -22,7 +22,7 @@ class FludioApiAdminExtensionTest extends AbstractExtensionTestCase
     {
         $this->load($this->getConfig());
 
-        $this->assertContainerBuilderHasService('fludio.api_admin.endpoint_manager', ResourceManager::class);
+        $this->assertContainerBuilderHasService('fludio.rest_api_generator.endpoint_manager', ResourceManager::class);
     }
 
     /** @test */
@@ -30,7 +30,7 @@ class FludioApiAdminExtensionTest extends AbstractExtensionTestCase
     {
         $this->load($this->getConfig());
 
-        $this->assertContainerBuilderHasService('fludio.api_admin.post', Resource::class);
+        $this->assertContainerBuilderHasService('fludio.rest_api_generator.post', Resource::class);
     }
 
     protected function getConfig()

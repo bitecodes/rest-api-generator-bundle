@@ -1,11 +1,11 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Annotation;
+namespace Fludio\RestApiGeneratorBundle\Annotation;
 
-use Fludio\ApiAdminBundle\Handler\FormHandler;
-use Fludio\ApiAdminBundle\Resource\ResourceActionData;
-use Fludio\ApiAdminBundle\Resource\ResourceManager;
-use Fludio\ApiAdminBundle\Resource\Resource;
+use Fludio\RestApiGeneratorBundle\Handler\FormHandler;
+use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
+use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
+use Fludio\RestApiGeneratorBundle\Resource\Resource;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Nelmio\ApiDocBundle\Extractor\HandlerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;

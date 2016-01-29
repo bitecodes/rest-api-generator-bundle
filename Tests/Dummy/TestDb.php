@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Tests\Dummy;
+namespace Fludio\RestApiGeneratorBundle\Tests\Dummy;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;

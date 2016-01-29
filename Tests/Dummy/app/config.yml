@@ -25,16 +25,16 @@ doctrine:
                 mapping: true
                 type: annotation
                 dir: %kernel.root_dir%/../TestEntity
-                prefix: Fludio\ApiAdminBundle\Tests\Dummy\TestEntity
+                prefix: Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity
                 is_bundle: false
 
-fludio_api_admin:
+fludio_rest_api_generator:
     entities:
-        Fludio\ApiAdminBundle\Tests\Dummy\TestEntity\Post:
-            resource_name: my_post
+        Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post:
+#            resource_name: posts
 
 services:
-    fludio_api_admin.form.my_post_type:
-        class: Fludio\ApiAdminBundle\Tests\Dummy\Form\PostType
+    fludio_rest_api_generator.form.posts_type:
+        class: Fludio\RestApiGeneratorBundle\Tests\Dummy\Form\PostType
         tags:
             - { name: form.type, alias: post_form }

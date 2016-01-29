@@ -1,11 +1,11 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Handler;
+namespace Fludio\RestApiGeneratorBundle\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormTypeInterface;
-use Fludio\ApiAdminBundle\Exception\InvalidFormException;
+use Fludio\RestApiGeneratorBundle\Exception\InvalidFormException;
 
 class FormHandler
 {

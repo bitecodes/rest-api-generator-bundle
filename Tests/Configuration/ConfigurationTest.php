@@ -1,15 +1,15 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Tests\Configuration;
+namespace Fludio\RestApiGeneratorBundle\Tests\Configuration;
 
-use Fludio\ApiAdminBundle\Resource\ResourceManager;
-use Fludio\ApiAdminBundle\Resource\Resource;
-use Fludio\ApiAdminBundle\Resource\ResourceActionData;
-use Fludio\ApiAdminBundle\Tests\Dummy\TestEntity\Post;
+use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
+use Fludio\RestApiGeneratorBundle\Resource\Resource;
+use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
+use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
-    protected $bundlePrefix = 'fludio.api_admin';
+    protected $bundlePrefix = 'fludio.rest_api_generator';
     /**
      * @var Resource
      */

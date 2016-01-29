@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Resource;
+namespace Fludio\RestApiGeneratorBundle\Resource;
 
 class ResourceManager
 {
@@ -56,6 +56,6 @@ class ResourceManager
      */
     public function getBundlePrefix()
     {
-        return 'fludio.api_admin';
+        return 'fludio.rest_api_generator';
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Fludio\ApiAdminBundle\Tests\Dummy\app;
+namespace Fludio\RestApiGeneratorBundle\Tests\Dummy\app;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
-use Fludio\ApiAdminBundle\FludioApiAdminBundle;
 use Fludio\FactrineBundle\FludioFactrineBundle;
+use Fludio\RestApiGeneratorBundle\FludioRestApiGeneratorBundle;
 use JMS\SerializerBundle\JMSSerializerBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -20,7 +20,7 @@ class AppKernel extends Kernel
             new DoctrineBundle(),
             new JMSSerializerBundle(),
             new FludioFactrineBundle(),
-            new FludioApiAdminBundle()
+            new FludioRestApiGeneratorBundle()
         ];
 
         return $bundles;

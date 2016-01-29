@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Resource;
+namespace Fludio\RestApiGeneratorBundle\Resource;
 
 use Doctrine\Common\Inflector\Inflector;
 use Symfony\Component\OptionsResolver\OptionsResolver;

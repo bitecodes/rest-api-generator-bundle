@@ -1,13 +1,13 @@
 <?php
 
-namespace Fludio\ApiAdminBundle;
+namespace Fludio\RestApiGeneratorBundle;
 
-use Fludio\ApiAdminBundle\DependencyInjection\EndpointControllerCompilePass;
-use Fludio\ApiAdminBundle\DependencyInjection\EndpointManagerCompilePass;
+use Fludio\RestApiGeneratorBundle\DependencyInjection\EndpointControllerCompilePass;
+use Fludio\RestApiGeneratorBundle\DependencyInjection\EndpointManagerCompilePass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class FludioApiAdminBundle extends Bundle
+class FludioRestApiGeneratorBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {

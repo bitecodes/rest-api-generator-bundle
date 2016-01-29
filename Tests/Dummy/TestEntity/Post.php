@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Tests\Dummy\TestEntity;
+namespace Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity;
 
 use Doctrine\ORM\Mapping as ORM;
 
