@@ -68,6 +68,7 @@ This will result in the following endpoints:
 - [ ] Pagination
 - [ ] Search filter
 - [x] Add security options
+- [ ] Access entites by something else than the id
 - [ ] Better error messages
 - [ ] Nested Resources
 - [ ] Configure returned Response
@@ -79,7 +80,7 @@ This will result in the following endpoints:
 - [ ] NelmioApiDocBundle integration
   - [x] Basic integreation
   - [x] Show security setting
-  - [ ] Better description
+  - [x] Better description
   - [ ] Add Filter Params
   - [ ] Add Pagination 
 - [ ] Add bundle specific EntityNotFoundException

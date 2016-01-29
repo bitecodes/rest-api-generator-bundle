@@ -2,6 +2,8 @@
 
 namespace Fludio\RestApiGeneratorBundle\Resource;
 
+use Symfony\Component\Routing\Route;
+
 class ResourceActionData
 {
     const ACTION_INDEX = 'index';
@@ -134,5 +136,42 @@ class ResourceActionData
     public function getSecurityForAction($action)
     {
         return $this->secured[$action];
+    }
+
+    public function getActionFromRoute(Route $route)
+    {
+        switch ($route->getPath()) {
+            case $this->getCollectionUrl():
+                switch ($route->getMethods()) {
+                    case ['GET']:
+                        $action = self::ACTION_INDEX;
+                        break;
+                    case ['POST']:
+                        $action = self::ACTION_CREATE;
+                        break;
+                    case ['PUT', 'PATCH']:
+                        $action = self::ACTION_BATCH_UPDATE;
+                        break;
+                    case ['DELETE']:
+                        $action = self::ACTION_BATCH_DELETE;
+                        break;
+                }
+                break;
+            case $this->getElementUrl():
+                switch ($route->getMethods()) {
+                    case ['GET']:
+                        $action = self::ACTION_SHOW;
+                        break;
+                    case ['PUT', 'PATCH']:
+                        $action = self::ACTION_UPDATE;
+                        break;
+                    case ['DELETE']:
+                        $action = self::ACTION_DELETE;
+                        break;
+                }
+                break;
+        }
+
+        return $action;
     }
 }
