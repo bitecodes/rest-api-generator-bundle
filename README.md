@@ -63,8 +63,8 @@ This will result in the following endpoints:
 - [x] Provide basic endpoints
 - [x] Provide endpoint for batch update
 - [x] Provide endpoint for batch delete
-- [ ] Add Travis-CI
-- [ ] Add Coveralls
+- [x] Add Travis-CI
+- [x] Add Coveralls
 - [ ] Pagination
 - [ ] Search filter
 - [ ] Add security options
