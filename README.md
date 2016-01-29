@@ -18,7 +18,7 @@ public function registerBundles()
 {
     $bundles = [
         // ...
-        new Fludio\RestApiGeneratorBundle\FludioApiAdminBundle(),
+        new Fludio\RestApiGeneratorBundle\FludioRestApiGeneratorBundle(),
         // ...
     ];
     
