@@ -36,8 +36,8 @@ Add those entities to the configuration, that need some endpoints.
 
 fludio_api_admin:
     entities:
-        - MyBundle\Entity\Post
-        - MyBundle\Entity\Comment
+        MyBundle\Entity\Post: ~
+        MyBundle\Entity\Comment: ~
 ```
 This will result in the following endpoints:
 
