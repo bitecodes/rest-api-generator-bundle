@@ -8,10 +8,11 @@
     </testsuites>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./Configuration</directory>
-            <directory suffix=".php">./Controller</directory>
-            <directory suffix=".php">./DependencyInjection</directory>
-            <directory suffix=".php">./Factory</directory>
+            <directory suffix=".php">.</directory>
+            <exclude>
+                <directory suffix=".php">./Tests</directory>
+                <directory suffix=".php">./vendor</directory>
+            </exclude>
         </whitelist>
     </filter>
     <logging>
