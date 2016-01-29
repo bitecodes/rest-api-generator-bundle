@@ -1,12 +1,37 @@
 {
-    "name": "fludio/api-admin-bundle",
-    "require": {
-        "doctrine/inflector": "^1.1"
-    },
-    "authors": [
-        {
-            "name": "Thomas Uhlmann",
-            "email": "tho.uhlmann@gmail.com"
-        }
-    ]
+  "name": "fludio/api-admin-bundle",
+  "authors": [
+    {
+      "name": "Thomas Uhlmann",
+      "email": "tho.uhlmann@gmail.com"
+    }
+  ],
+  "require": {
+    "doctrine/inflector": "^1.1",
+    "symfony/options-resolver": "^3.0",
+    "symfony/http-foundation": "^3.0",
+    "symfony/dependency-injection": "^3.0",
+    "symfony/http-kernel": "^3.0",
+    "jms/serializer-bundle": "^1.1",
+    "symfony/routing": "^3.0",
+    "symfony/form": "^3.0",
+    "nelmio/api-doc-bundle": "^2.11"
+  },
+  "require-dev": {
+    "matthiasnoback/symfony-dependency-injection-test": "^0.7.6",
+    "phpunit/phpunit": "^4.8",
+    "fludio/test-bundle": "dev-master"
+  },
+  "autoload": {
+    "psr-0": {
+      "Fludio\\ApiAdminBundle\\": ""
+    }
+  },
+  "target-dir": "Fludio/ApiAdminBundle",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/fludio/test-bundle.git"
+    }
+  ]
 }

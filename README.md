@@ -1,6 +1,6 @@
 # Rest Api Bundle
 
-Create a Rest-API for a CRUD application.
+An easy way to provide a restful API with CRUD endpoints.
 
 ## Install
 
@@ -63,11 +63,23 @@ This will result in the following endpoints:
 - [x] Provide basic endpoints
 - [x] Provide endpoint for batch update
 - [x] Provide endpoint for batch delete
-- [ ] Provide endpoint for batch create (?)
+- [ ] Pagination
+- [ ] Search filter
 - [ ] Add security options
+- [ ] Nested Resources
+- [ ] Configure returned Response
 - [ ] Configuration Options
   - [ ] Set another Controller
-  - [ ] Define which endpoints should be created (only|except)
-  - [ ] Override resource name
-- [ ] XML-Support
+  - [x] Define which endpoints should be created (only|except)
+  - [x] Override resource name
+  - [ ] Configure bundle prefix
 - [ ] NelmioApiDocBundle integration
+  - [x] Basic integreation
+  - [ ] Show security setting
+  - [ ] Better description
+  - [ ] Add Filter Params
+  - [ ] Add Pagination 
+- [ ] Add bundle specific EntityNotFoundException
+- [ ] Add hooks/ events (?)
+- [ ] Provide endpoint for batch create (?)
+- [ ] XML-Support
