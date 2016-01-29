@@ -1,9 +1,9 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Form;
+namespace Fludio\ApiAdminBundle\Tests\Dummy\Form;
 
+use Fludio\ApiAdminBundle\Tests\Dummy\TestEntity\Post;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -26,7 +26,7 @@ class PostType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Fludio\ApiAdminBundle\Entity\Post'
+            'data_class' => Post::class
         ));
     }
 }

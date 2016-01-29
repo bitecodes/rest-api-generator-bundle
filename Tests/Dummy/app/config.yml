@@ -1,0 +1,40 @@
+framework:
+    secret: "DirtySecret"
+    test: ~
+    form: ~
+    csrf_protection: ~
+    router:
+        resource: "%kernel.root_dir%/routing.yml"
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id:  ~
+        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
+
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver: pdo_sqlite
+                memory: true
+
+    orm:
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        mappings:
+            test_entities:
+                mapping: true
+                type: annotation
+                dir: %kernel.root_dir%/../TestEntity
+                prefix: Fludio\ApiAdminBundle\Tests\Dummy\TestEntity
+                is_bundle: false
+
+fludio_api_admin:
+    entities:
+        Fludio\ApiAdminBundle\Tests\Dummy\TestEntity\Post:
+            resource_name: my_post
+
+services:
+    fludio_api_admin.form.my_post_type:
+        class: Fludio\ApiAdminBundle\Tests\Dummy\Form\PostType
+        tags:
+            - { name: form.type, alias: post_form }

@@ -2,40 +2,61 @@
 
 namespace Fludio\ApiAdminBundle\Tests\Controller;
 
-use Fludio\TestBundle\Test\DatabaseReset;
+use Doctrine\ORM\Tools\SchemaTool;
+use Fludio\ApiAdminBundle\Tests\Dummy\app\AppKernel;
+use Fludio\ApiAdminBundle\Tests\Dummy\TestEntity\Post;
+use Fludio\TestBundle\Test\DatabaseTransactions;
 use Fludio\TestBundle\Test\TestCase;
-use Fludio\ApiAdminBundle\Entity\Post;
 
-class PostControllerTest extends TestCase
+class RestApiControllerTest extends TestCase
 {
-    use DatabaseReset;
+//    use DatabaseTransactions;
+
+    protected static function createKernel(array $options = array())
+    {
+        return new AppKernel('test', true);
+    }
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
+
+        $this->client->getContainer()->get('router');
+
+        $meta = $em->getClassMetadata(Post::class);
+
+        $schemaTool = new SchemaTool($em);
+        $schemaTool->createSchema($em->getMetadataFactory()->getAllMetadata());
+    }
 
     /** @test */
     public function it_returns_multiple_posts()
     {
-        $this->factory->times(2)->create(Post::class, ['title' => 'My Post']);
+        $this->factory->times(2)->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.api_admin.index.post');
+        $url = $this->generateUrl('fludio.api_admin.index.my_post');
 
         $this
             ->get($url, ['HTTP_Accept' => 'application/json'])
             ->seeJsonResponse()
             ->seeStatusCode(200)
-            ->seeJsonContains(['title' => 'My Post']);
+            ->seeJsonContains(['title' => 'My Post', 'content' => 'bla']);
     }
 
     /** @test */
     public function it_returns_a_single_post()
     {
-        $post = $this->factory->create(Post::class, ['title' => 'My Post']);
+        $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.api_admin.show.post', ['id' => $post->getId()]);
+        $url = $this->generateUrl('fludio.api_admin.show.my_post', ['id' => $post->getId()]);
 
         $this
             ->get($url)
             ->seeJsonResponse()
             ->seeStatusCode(200)
-            ->seeJsonContains(['title' => 'My Post']);
+            ->seeJsonContains(['title' => 'My Post', 'content' => 'bla']);
     }
 
 //    /** @test */
@@ -52,24 +73,24 @@ class PostControllerTest extends TestCase
     /** @test */
     public function it_creates_a_new_post()
     {
-        $url = $this->generateUrl('fludio.api_admin.create.post');
+        $url = $this->generateUrl('fludio.api_admin.create.my_post');
 
-        $data = $this->factory->values(Post::class, ['title' => 'My Post']);
+        $data = $this->factory->values(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
         $this
             ->post($url, $data)
             ->seeJsonResponse()
             ->seeStatusCode(200)
-            ->seeJsonContains(['title' => 'My Post'])
-            ->seeInDatabase(Post::class, ['title' => 'My Post']);
+            ->seeJsonContains(['title' => 'My Post', 'content' => 'bla'])
+            ->seeInDatabase(Post::class, ['title' => 'My Post', 'content' => 'bla']);
     }
 
     /** @test */
     public function it_updates_posts_with_put()
     {
-        $post = $this->factory->create(Post::class);
+        $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.api_admin.update.post', ['id' => $post->getId()]);
+        $url = $this->generateUrl('fludio.api_admin.update.my_post', ['id' => $post->getId()]);
 
         $data = [
             'title' => $post->getTitle(),
@@ -85,12 +106,15 @@ class PostControllerTest extends TestCase
             ->seeInDatabase(Post::class, $data);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @expectedException Doctrine\DBAL\Exception\NotNullConstraintViolationException
+     */
     public function it_will_not_update_if_put_does_not_provide_all_data()
     {
-        $post = $this->factory->create(Post::class);
+        $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.api_admin.update.post', ['id' => $post->getId()]);
+        $url = $this->generateUrl('fludio.api_admin.update.my_post', ['id' => $post->getId()]);
 
         $data = [
             'content' => 'some_content',
@@ -105,9 +129,9 @@ class PostControllerTest extends TestCase
     /** @test */
     public function it_updates_posts_with_patch()
     {
-        $post = $this->factory->create(Post::class);
+        $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.api_admin.update.post', ['id' => $post->getId()]);
+        $url = $this->generateUrl('fludio.api_admin.update.my_post', ['id' => $post->getId()]);
 
         $data = [
             'content' => 'some_content',
@@ -125,9 +149,9 @@ class PostControllerTest extends TestCase
     /** @test */
     public function it_batch_updates_posts()
     {
-        $posts = $this->factory->times(5)->create(Post::class);
+        $posts = $this->factory->times(5)->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.api_admin.batch_update.post');
+        $url = $this->generateUrl('fludio.api_admin.batch_update.my_post');
 
         $data = [
             'id' => [1, 2, 3],
@@ -148,9 +172,9 @@ class PostControllerTest extends TestCase
     /** @test */
     public function it_deletes_posts()
     {
-        $post = $this->factory->create(Post::class);
+        $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.api_admin.delete.post', ['id' => $post->getId()]);
+        $url = $this->generateUrl('fludio.api_admin.delete.my_post', ['id' => $post->getId()]);
 
         $this
             ->seeInDatabase(Post::class, ['id' => $post->getId()])
@@ -163,9 +187,9 @@ class PostControllerTest extends TestCase
     /** @test */
     public function it_batch_deletes_posts()
     {
-        $this->factory->times(5)->create(Post::class);
+        $this->factory->times(5)->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.api_admin.batch_delete.post');
+        $url = $this->generateUrl('fludio.api_admin.batch_delete.my_post');
 
         $this
             ->delete($url, ['id' => [1, 2, 3]])

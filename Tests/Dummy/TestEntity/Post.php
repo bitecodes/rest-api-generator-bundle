@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\ApiAdminBundle\Entity;
+namespace Fludio\ApiAdminBundle\Tests\Dummy\TestEntity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -94,4 +94,3 @@ class Post
         return $this->content;
     }
 }
-

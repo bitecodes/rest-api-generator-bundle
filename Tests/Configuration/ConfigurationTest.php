@@ -2,31 +2,31 @@
 
 namespace Fludio\ApiAdminBundle\Tests\Configuration;
 
-use Fludio\ApiAdminBundle\Configuration\Configuration;
-use Fludio\ApiAdminBundle\Configuration\Convention;
-use Fludio\ApiAdminBundle\Tests\Dummy\Entity\Post;
+use Fludio\ApiAdminBundle\Resource\ResourceManager;
+use Fludio\ApiAdminBundle\Resource\Resource;
+use Fludio\ApiAdminBundle\Resource\ResourceActionData;
+use Fludio\ApiAdminBundle\Tests\Dummy\TestEntity\Post;
 
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     protected $bundlePrefix = 'fludio.api_admin';
     /**
-     * @var Configuration
+     * @var Resource
      */
     protected $config;
 
     public function setUp()
     {
-        $convention = new Convention([
-            'bundlePrefix' => $this->bundlePrefix
-        ]);
+        $this->config = new Resource(Post::class);
 
-        $this->config = new Configuration(Post::class, $convention);
+        $manager = new ResourceManager();
+        $manager->addConfiguration($this->config);
     }
 
     /** @test */
     public function it_returns_the_resource_name()
     {
-        $this->assertEquals('post', $this->config->getResourceName());
+        $this->assertEquals('posts', $this->config->getName());
     }
 
     /**
@@ -37,7 +37,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function it_returns_the_correct_route_names($routeType)
     {
-        $this->assertEquals($this->bundlePrefix . '.' . $routeType . '.post', $this->config->getRouteName($routeType));
+        $this->assertEquals($this->bundlePrefix . '.' . $routeType . '.posts', $this->config->getActions()->getRouteName($routeType));
     }
 
     /** @test */
@@ -57,13 +57,13 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function it_returns_the_route_urls($routeType, $expectedUrl)
     {
-        $this->assertEquals($expectedUrl, $this->config->getUrl($routeType));
+        $this->assertEquals($expectedUrl, $this->config->getActions()->getUrl($routeType));
     }
 
     /** @test */
     public function it_returns_the_base_url_for_this_entity()
     {
-        $this->assertEquals('/posts', $this->config->getResourceBaseUrl());
+        $this->assertEquals('/posts', $this->config->getActions()->getResourceBaseUrl());
     }
 
     /**
@@ -76,31 +76,31 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function it_returns_the_controller_action_names($routeType, $expectedUrl, $expectedControllerAction)
     {
-        $this->assertEquals($expectedControllerAction, $this->config->getControllerAction($routeType));
+        $this->assertEquals($expectedControllerAction, $this->config->getActions()->getControllerAction($routeType));
     }
 
     /** @test */
     public function it_returns_the_controller_service_name()
     {
-        $this->assertEquals($this->bundlePrefix . '.controller.post', $this->config->getControllerServiceName());
+        $this->assertEquals($this->bundlePrefix . '.controller.posts', $this->config->getServices()->getControllerServiceName());
     }
 
     /** @test */
     public function it_returns_the_repository_service_name()
     {
-        $this->assertEquals($this->bundlePrefix . '.repositories.post', $this->config->getRepositoryServiceName());
+        $this->assertEquals($this->bundlePrefix . '.repositories.posts', $this->config->getServices()->getRepositoryServiceName());
     }
 
     /** @test */
     public function it_returns_the_entity_handler_service_name()
     {
-        $this->assertEquals($this->bundlePrefix . '.entity_handler.post', $this->config->getEntityHandlerServiceName());
+        $this->assertEquals($this->bundlePrefix . '.entity_handler.posts', $this->config->getServices()->getEntityHandlerServiceName());
     }
 
     /** @test */
     public function it_returns_the_form_handler_service_name()
     {
-        $this->assertEquals($this->bundlePrefix . '.form_handler.post', $this->config->getFormHandlerServiceName());
+        $this->assertEquals($this->bundlePrefix . '.form_handler.posts', $this->config->getServices()->getFormHandlerServiceName());
     }
 
     /**
@@ -109,11 +109,11 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     public function routes()
     {
         return [
-            [Configuration::ROUTE_INDEX, '/posts', $this->bundlePrefix . '.controller.post:indexAction'],
-            [Configuration::ROUTE_SHOW, '/posts/{id}', $this->bundlePrefix . '.controller.post:showAction'],
-            [Configuration::ROUTE_CREATE, '/posts', $this->bundlePrefix . '.controller.post:createAction'],
-            [Configuration::ROUTE_UPDATE, '/posts/{id}', $this->bundlePrefix . '.controller.post:updateAction'],
-            [Configuration::ROUTE_DELETE, '/posts/{id}', $this->bundlePrefix . '.controller.post:deleteAction'],
+            [ResourceActionData::ACTION_INDEX, '/posts', $this->bundlePrefix . '.controller.posts:indexAction'],
+            [ResourceActionData::ACTION_SHOW, '/posts/{id}', $this->bundlePrefix . '.controller.posts:showAction'],
+            [ResourceActionData::ACTION_CREATE, '/posts', $this->bundlePrefix . '.controller.posts:createAction'],
+            [ResourceActionData::ACTION_UPDATE, '/posts/{id}', $this->bundlePrefix . '.controller.posts:updateAction'],
+            [ResourceActionData::ACTION_DELETE, '/posts/{id}', $this->bundlePrefix . '.controller.posts:deleteAction'],
         ];
     }
 }
