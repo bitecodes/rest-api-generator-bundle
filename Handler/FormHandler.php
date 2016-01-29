@@ -61,4 +61,9 @@ class FormHandler
 
         $this->om->flush();
     }
+
+    public function getFormTypeClass()
+    {
+        return get_class($this->formType);
+    }
 }
