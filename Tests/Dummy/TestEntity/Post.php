@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Post
  *
  * @ORM\Table(name="post")
- * @ORM\Entity(repositoryClass="Fludio\ApiAdminBundle\Repository\PostRepository")
+ * @ORM\Entity()
  */
 class Post
 {
