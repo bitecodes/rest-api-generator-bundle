@@ -38,9 +38,12 @@ class GenerateApiDocHandler implements HandlerInterface
                 if ($this->returnsEntity($route)) {
                     $this->setOutput($annotation, $resource);
                 }
-
                 if ($this->expectsInput($route)) {
                     $this->setInput($annotation, $resource);
+                }
+                if ($roles = $route->getDefault('_roles')) {
+                    $annotation->setAuthentication(true);
+                    $annotation->setAuthenticationRoles($roles);
                 }
             }
         }
