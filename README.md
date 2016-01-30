@@ -76,6 +76,7 @@ This will result in the following endpoints:
   - [ ] Set another Controller
   - [x] Define which endpoints should be created (only|except)
   - [x] Override resource name
+  - [ ] Enable/Disable NelmioApiDoc
   - [ ] Configure bundle prefix
 - [ ] NelmioApiDocBundle integration
   - [x] Basic integreation
