@@ -68,7 +68,7 @@ This will result in the following endpoints:
 - [ ] Pagination
 - [ ] Search filter
 - [x] Add security options
-- [ ] Access entites by something else than the id
+- [ ] Access entities by something else than the id
 - [ ] Better error messages
 - [ ] Nested Resources
 - [ ] Configure returned Response
@@ -87,9 +87,10 @@ This will result in the following endpoints:
 - [ ] Add bundle specific EntityNotFoundException
 - [ ] Add hooks/ events (?)
 - [ ] Provide endpoint for batch create (?)
-- [ ] Listener to format all DateTime to a specific format
+- [X] Listener to format all DateTimes to a specific format
 - [ ] XML-Support
 - [ ] Documentation
   - [ ] Route selection
   - [ ] Resource name
   - [ ] Security section
+  - [ ] DateTimeFormatListener
