@@ -35,6 +35,12 @@ class Post
      */
     private $content;
 
+    /**
+     * @var DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdAt;
 
     /**
      * Get id
@@ -92,5 +98,24 @@ class Post
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param DateTime $createdAt
+     * @return $this
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
 }

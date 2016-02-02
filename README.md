@@ -87,6 +87,7 @@ This will result in the following endpoints:
 - [ ] Add bundle specific EntityNotFoundException
 - [ ] Add hooks/ events (?)
 - [ ] Provide endpoint for batch create (?)
+- [ ] Listener to format all DateTime to a specific format
 - [ ] XML-Support
 - [ ] Documentation
   - [ ] Route selection

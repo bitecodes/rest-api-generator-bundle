@@ -3,6 +3,7 @@
 namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 
 use Fludio\RestApiGeneratorBundle\Resource\ResourceOptions;
+use Symfony\Component\Config\Definition\ArrayNode;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\ScalarNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -35,6 +36,7 @@ class Configuration implements ConfigurationInterface
                             ->append($this->getExceptNode())
                             ->append($this->getResourceNameNode())
                             ->append($this->getSecureNode())
+                            ->append($this->getListenerNode())
                         ->end()
                     ->end()
                 ->end()
@@ -44,6 +46,8 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
+     * Node for routing - only
+     *
      * @return ArrayNodeDefinition
      */
     private function getOnlyNode()
@@ -56,6 +60,8 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
+     * Node for routing - except
+     *
      * @return ArrayNodeDefinition
      */
     private function getExceptNode()
@@ -67,11 +73,21 @@ class Configuration implements ConfigurationInterface
         return $node;
     }
 
+    /**
+     * Node for resource name
+     *
+     * @return ScalarNodeDefinition
+     */
     private function getResourceNameNode()
     {
         return new ScalarNodeDefinition('resource_name');
     }
 
+    /**
+     * Node for security settings
+     *
+     * @return ArrayNodeDefinition
+     */
     private function getSecureNode()
     {
         $node = new ArrayNodeDefinition('secure');
@@ -133,6 +149,23 @@ class Configuration implements ConfigurationInterface
 
                     return $val;
                 })
+            ->end();
+
+        return $node;
+    }
+
+    /**
+     * Node for listener settings
+     *
+     * @return ArrayNodeDefinition
+     */
+    private function getListenerNode()
+    {
+        $node = new ArrayNodeDefinition('listener');
+
+        $node
+            ->children()
+                ->scalarNode('datetime')->end()
             ->end();
 
         return $node;
