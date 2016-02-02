@@ -9,6 +9,11 @@ use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
 
 class DateTimeFormatterListener implements EventSubscriberInterface
 {
+    protected $formatOptions = [
+        'unix' => 'U',
+        'unixmilli' => 'U000'
+    ];
+
     /**
      * Holds an array of object references and
      * their datetime properties
@@ -20,10 +25,15 @@ class DateTimeFormatterListener implements EventSubscriberInterface
      * @var PropertyNamingStrategyInterface
      */
     protected $naming;
+    /**
+     * @var string
+     */
+    private $format;
 
-    public function __construct($jmsNamingStrategyClass)
+    public function __construct($jmsNamingStrategyClass, $format)
     {
         $this->naming = new $jmsNamingStrategyClass;
+        $this->format = isset($this->formatOptions[$format]) ? $this->formatOptions[$format] : $format;
     }
 
     public static function getSubscribedEvents()
@@ -74,7 +84,7 @@ class DateTimeFormatterListener implements EventSubscriberInterface
 
         if (isset($this->datetimes[$objHash])) {
             foreach ($this->datetimes[$objHash] as $field => $datetime) {
-                $value = $datetime->format('U');
+                $value = $datetime->format($this->format);
                 $event->getVisitor()->addData($field, $value);
             }
         }

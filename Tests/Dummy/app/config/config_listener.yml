@@ -2,15 +2,7 @@ imports:
     - { resource: base_config.yml }
 
 fludio_rest_api_generator:
+    listener:
+        datetime: unix
     entities:
         Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post:
-            listener:
-                datetime: unix
-
-services:
-    fludio_rest_api_generator.listener.date_time_formatter_listener:
-        class: Fludio\RestApiGeneratorBundle\Listener\DateTimeFormatterListener
-        arguments:
-            - %jms_serializer.camel_case_naming_strategy.class%
-        tags:
-            - { name: jms_serializer.event_subscriber }

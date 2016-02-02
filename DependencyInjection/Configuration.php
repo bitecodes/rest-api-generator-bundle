@@ -29,6 +29,7 @@ class Configuration implements ConfigurationInterface
         // more information on that topic.
         $rootNode
             ->children()
+                ->append($this->getListenerNode())
                 ->arrayNode('entities')
                     ->prototype('array')
                         ->children()
@@ -36,7 +37,6 @@ class Configuration implements ConfigurationInterface
                             ->append($this->getExceptNode())
                             ->append($this->getResourceNameNode())
                             ->append($this->getSecureNode())
-                            ->append($this->getListenerNode())
                         ->end()
                     ->end()
                 ->end()
@@ -164,8 +164,9 @@ class Configuration implements ConfigurationInterface
         $node = new ArrayNodeDefinition('listener');
 
         $node
+            ->addDefaultsIfNotSet()
             ->children()
-                ->scalarNode('datetime')->end()
+                ->scalarNode('datetime')->defaultFalse()->end()
             ->end();
 
         return $node;

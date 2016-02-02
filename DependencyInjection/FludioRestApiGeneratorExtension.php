@@ -3,12 +3,14 @@
 namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 
 use Doctrine\Common\Inflector\Inflector;
+use Fludio\RestApiGeneratorBundle\Listener\DateTimeFormatterListener;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
 use Fludio\RestApiGeneratorBundle\Resource\Resource;
 use Fludio\RestApiGeneratorBundle\Resource\Convention;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -27,8 +29,19 @@ class FludioRestApiGeneratorExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $endpointConfig = $config['entities'];
+        $this->registerApiResources($container, $config['entities']);
+        $this->registerListeners($container, $config['listener']);
 
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.yml');
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param $endpointConfig
+     */
+    protected function registerApiResources(ContainerBuilder $container, $endpointConfig)
+    {
         $endpointManager = new Definition(ResourceManager::class);
         $container->setDefinition('fludio.rest_api_generator.endpoint_manager', $endpointManager);
 
@@ -36,9 +49,18 @@ class FludioRestApiGeneratorExtension extends Extension
             $definition = $this->newEntityEndpointConfigurationDefinition($container, $entity, $options);
             $endpointManager->addMethodCall('addConfiguration', [$definition]);
         }
+    }
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.yml');
+    private function registerListeners(ContainerBuilder $container, $listeners)
+    {
+        if (!empty($listeners['datetime'])) {
+            $definition = new Definition(DateTimeFormatterListener::class);
+            $namingStrategyClass = $container->getParameter('jms_serializer.camel_case_naming_strategy.class');
+            $format = $listeners['datetime'];
+            $definition->setArguments([$namingStrategyClass, $format]);
+            $definition->addTag('jms_serializer.event_subscriber');
+            $container->setDefinition('fludio_rest_api_generator.listener.date_time_formatter_listener', $definition);
+        }
     }
 
     /**
