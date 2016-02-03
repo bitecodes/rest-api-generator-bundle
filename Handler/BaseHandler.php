@@ -3,6 +3,7 @@
 namespace Fludio\RestApiGeneratorBundle\Handler;
 
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\FormTypeInterface;
 
 class BaseHandler
 {
@@ -17,18 +18,18 @@ class BaseHandler
     /**
      * @var string
      */
-    private $entityClass;
+    private $formType;
 
     /**
      * @param EntityRepository $repository
      * @param FormHandler $formHandler
-     * @param $entityClass
+     * @param $formType
      */
-    function __construct(EntityRepository $repository, FormHandler $formHandler, $entityClass)
+    function __construct(EntityRepository $repository, FormHandler $formHandler, $formType)
     {
         $this->repository = $repository;
         $this->formHandler = $formHandler;
-        $this->entityClass = $entityClass;
+        $this->formType = $formType;
     }
 
     /**
@@ -63,7 +64,8 @@ class BaseHandler
      */
     public function post($params)
     {
-        return $this->formHandler->processForm(new $this->entityClass, $params, 'POST');
+        $className = $this->repository->getClassName();
+        return $this->formHandler->processForm(new $className, $params, 'POST');
     }
 
     /**

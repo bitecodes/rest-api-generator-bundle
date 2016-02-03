@@ -3,6 +3,7 @@
 namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 
 use Doctrine\ORM\EntityRepository;
+use Fludio\RestApiGeneratorBundle\Form\DynamicFormType;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
 use Fludio\RestApiGeneratorBundle\Resource\Resource;
 use Fludio\RestApiGeneratorBundle\Controller\RestApiController;
@@ -38,22 +39,22 @@ class EndpointControllerCompilePass implements CompilerPassInterface
 
         // Repo
         $repo = new Definition(EntityRepository::class);
-        $repo->addArgument($entityConfig->getEntityNamespace());
         $repo->setFactory([new Reference('doctrine.orm.entity_manager'), 'getRepository']);
+        $repo->addArgument($entityConfig->getEntityNamespace());
         $container->setDefinition($repoServiceName, $repo);
 
         // Form Handler
         $formHandler = new Definition(FormHandler::class);
         $formHandler->addArgument(new Reference('doctrine.orm.entity_manager'));
         $formHandler->addArgument(new Reference('form.factory'));
-        $formHandler->addArgument(new Reference('fludio_rest_api_generator.form.' . $entityConfig->getName() . '_type'));
+        $formHandler->addArgument(DynamicFormType::class);
         $container->setDefinition($formHandlerServiceName, $formHandler);
 
         // Handler
         $entityHandler = new Definition(BaseHandler::class);
         $entityHandler->addArgument(new Reference($repoServiceName));
         $entityHandler->addArgument(new Reference($formHandlerServiceName));
-        $entityHandler->addArgument($entityConfig->getEntityNamespace());
+        $entityHandler->addArgument(DynamicFormType::class);
         $container->setDefinition($entityHandlerServiceName, $entityHandler);
 
         // Controller

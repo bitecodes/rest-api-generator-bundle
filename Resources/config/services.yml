@@ -19,6 +19,13 @@ services:
         tags:
             - { name: routing.loader }
 
+    fludio_rest_api_generator.form.dynamic_form_type:
+        class: Fludio\RestApiGeneratorBundle\Form\DynamicFormType
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: form.type, alias: Fludio\RestApiGeneratorBundle\Form\DynamicFormType }
+
     fludio_rest_api_generator.annotation.generate_api_doc_handler:
         class: Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler
         arguments:
@@ -26,3 +33,4 @@ services:
             - '@service_container'
         tags:
             - { name: nelmio_api_doc.extractor.handler }
+

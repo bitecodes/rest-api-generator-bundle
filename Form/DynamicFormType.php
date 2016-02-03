@@ -1,14 +1,28 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Dummy\Form;
+namespace Fludio\RestApiGeneratorBundle\Form;
 
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PostType extends AbstractType
+class DynamicFormType extends AbstractType
 {
+    /**
+     * @var EntityManager
+     */
+    private $em;
+
+    /**
+     * DynamicFormType constructor.
+     * @param EntityManager $em
+     */
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -16,8 +30,7 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('content');
+            ->addEventSubscriber(new DynamicFormSubscriber($this->em, $options['object']));
     }
 
     /**
@@ -26,7 +39,7 @@ class PostType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Post::class
+            'object' => null
         ));
     }
 }

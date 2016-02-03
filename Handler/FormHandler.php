@@ -16,7 +16,7 @@ class FormHandler
     public function __construct(
         ObjectManager $objectManager,
         FormFactoryInterface $formFactory,
-        FormTypeInterface $formType
+        $formType
     )
     {
         $this->om = $objectManager;
@@ -26,9 +26,10 @@ class FormHandler
 
     public function processForm($object, array $parameters, $method)
     {
-        $form = $this->formFactory->create(get_class($this->formType), $object, array(
+        $form = $this->formFactory->create($this->formType, $object, array(
             'method' => $method,
             'csrf_protection' => false,
+            'object' => $object
         ));
 
         $form->submit($parameters, 'PATCH' !== $method);
