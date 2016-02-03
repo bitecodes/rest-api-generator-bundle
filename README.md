@@ -65,13 +65,14 @@ This will result in the following endpoints:
 - [x] Provide endpoint for batch delete
 - [x] Add Travis-CI
 - [x] Add Coveralls
+- [x] Search filter
 - [ ] Pagination
-- [ ] Search filter
 - [x] Add security options
 - [ ] Access entities by something else than the id
 - [ ] Better error messages
 - [ ] Nested Resources
 - [ ] Configure returned Response
+  - [ ] Add metadata (pagination links, count?)
 - [X] Dynamic FormTypes
 - [ ] Configuration Options
   - [ ] Set another Controller
@@ -93,5 +94,6 @@ This will result in the following endpoints:
 - [ ] Documentation
   - [ ] Route selection
   - [ ] Resource name
+  - [ ] Filter/Pagination
   - [ ] Security section
   - [ ] DateTimeFormatListener
