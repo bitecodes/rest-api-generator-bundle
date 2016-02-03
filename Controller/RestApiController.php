@@ -41,7 +41,9 @@ class RestApiController extends Controller
      * @ApiDoc()
      * @GenerateApiDoc()
      *
+     * @param $id
      * @return array
+     * @throws EntityNotFoundException
      */
     public function showAction($id)
     {
