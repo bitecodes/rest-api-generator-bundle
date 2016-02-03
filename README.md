@@ -72,6 +72,7 @@ This will result in the following endpoints:
 - [ ] Better error messages
 - [ ] Nested Resources
 - [ ] Configure returned Response
+- [X] Dynamic FormTypes
 - [ ] Configuration Options
   - [ ] Set another Controller
   - [x] Define which endpoints should be created (only|except)
