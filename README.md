@@ -70,9 +70,11 @@ This will result in the following endpoints:
 - [x] Add security options
 - [ ] Access entities by something else than the id
 - [ ] Better error messages
+- [ ] Add bundle specific EntityNotFoundException
+- [ ] Resource Actions as classes (polymorphic)
 - [ ] Nested Resources
 - [ ] Configure returned Response
-  - [ ] Add metadata (pagination links, count?)
+  - [ ] Add metadata (pagination links, total?)
 - [X] Dynamic FormTypes
 - [ ] Configuration Options
   - [ ] Set another Controller
@@ -86,7 +88,6 @@ This will result in the following endpoints:
   - [x] Better description
   - [ ] Add Filter Params
   - [ ] Add Pagination 
-- [ ] Add bundle specific EntityNotFoundException
 - [ ] Add hooks/ events (?)
 - [ ] Provide endpoint for batch create (?)
 - [X] Listener to format all DateTimes to a specific format
