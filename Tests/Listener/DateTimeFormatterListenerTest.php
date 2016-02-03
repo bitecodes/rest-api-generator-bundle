@@ -41,6 +41,6 @@ class DateTimeFormatterListenerTest extends TestCase
             ->get($url)
             ->seeJsonResponse()
             ->seeStatusCode(200)
-            ->seeJsonContains(['created_at' => '1454356800']);
+            ->seeInJson(['created_at' => '1454356800']);
     }
 }

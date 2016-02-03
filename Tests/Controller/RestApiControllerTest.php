@@ -34,10 +34,10 @@ class RestApiControllerTest extends TestCase
         $url = $this->generateUrl('fludio.rest_api_generator.index.posts');
 
         $this
-            ->get($url, ['HTTP_Accept' => 'application/json'])
+            ->get($url)
             ->seeJsonResponse()
             ->seeStatusCode(200)
-            ->seeJsonContains(['title' => 'My Post', 'content' => 'bla']);
+            ->seeInJson(['title' => 'My Post', 'content' => 'bla']);
     }
 
     /** @test */
@@ -51,7 +51,7 @@ class RestApiControllerTest extends TestCase
             ->get($url)
             ->seeJsonResponse()
             ->seeStatusCode(200)
-            ->seeJsonContains(['title' => 'My Post', 'content' => 'bla']);
+            ->seeInJson(['title' => 'My Post', 'content' => 'bla']);
     }
 
 //    /** @test */
@@ -76,7 +76,7 @@ class RestApiControllerTest extends TestCase
             ->post($url, $data)
             ->seeJsonResponse()
             ->seeStatusCode(200)
-            ->seeJsonContains(['title' => 'My Post', 'content' => 'bla'])
+            ->seeInJson(['title' => 'My Post', 'content' => 'bla'])
             ->seeInDatabase(Post::class, ['title' => 'My Post', 'content' => 'bla']);
     }
 
@@ -96,8 +96,8 @@ class RestApiControllerTest extends TestCase
             ->put($url, $data)
             ->seeJsonResponse()
             ->seeStatusCode(200)
-            ->seeJsonContains(['title' => $post->getTitle()])
-            ->seeJsonContains(['content' => 'some_content'])
+            ->seeInJson(['title' => $post->getTitle()])
+            ->seeInJson(['content' => 'some_content'])
             ->seeInDatabase(Post::class, $data);
     }
 
@@ -136,8 +136,8 @@ class RestApiControllerTest extends TestCase
             ->patch($url, $data)
             ->seeJsonResponse()
             ->seeStatusCode(200)
-            ->seeJsonContains(['title' => $post->getTitle()])
-            ->seeJsonContains(['content' => 'some_content'])
+            ->seeInJson(['title' => $post->getTitle()])
+            ->seeInJson(['content' => 'some_content'])
             ->seeInDatabase(Post::class, $data);
     }
 
