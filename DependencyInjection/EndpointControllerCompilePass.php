@@ -36,12 +36,20 @@ class EndpointControllerCompilePass implements CompilerPassInterface
         $formHandlerServiceName = $entityConfig->getServices()->getFormHandlerServiceName();
         $entityHandlerServiceName = $entityConfig->getServices()->getEntityHandlerServiceName();
         $controllerServiceName = $entityConfig->getServices()->getControllerServiceName();
+        $filterServiceName = $entityConfig->getServices()->getFilterServiceName();
+        $filterClass = $entityConfig->getFilterClass();
 
         // Repo
         $repo = new Definition(EntityRepository::class);
         $repo->setFactory([new Reference('doctrine.orm.entity_manager'), 'getRepository']);
         $repo->addArgument($entityConfig->getEntityNamespace());
         $container->setDefinition($repoServiceName, $repo);
+
+        // Filter
+        if ($filterClass) {
+            $filter = new Definition($filterClass);
+            $container->setDefinition($filterServiceName, $filter);
+        }
 
         // Form Handler
         $formHandler = new Definition(FormHandler::class);
@@ -54,7 +62,9 @@ class EndpointControllerCompilePass implements CompilerPassInterface
         $entityHandler = new Definition(BaseHandler::class);
         $entityHandler->addArgument(new Reference($repoServiceName));
         $entityHandler->addArgument(new Reference($formHandlerServiceName));
-        $entityHandler->addArgument(DynamicFormType::class);
+        if ($filterClass) {
+            $entityHandler->addArgument(new Reference($filterServiceName));
+        }
         $container->setDefinition($entityHandlerServiceName, $entityHandler);
 
         // Controller

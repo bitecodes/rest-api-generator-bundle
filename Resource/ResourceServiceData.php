@@ -59,6 +59,14 @@ class ResourceServiceData
     }
 
     /**
+     * @return string
+     */
+    public function getFilterServiceName()
+    {
+        return $this->getServiceName('filter');
+    }
+
+    /**
      * Return a service name by conventions
      *
      * @param $service

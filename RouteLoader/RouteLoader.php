@@ -71,6 +71,15 @@ class RouteLoader extends Loader
                 ->setDefault('_roles', $apiConfig->getActions()->getSecurityForAction($routeIdentifier))
                 ->setMethods($this->routes[$routeIdentifier]);
 
+            if ($routeIdentifier == ResourceActionData::ACTION_INDEX) {
+                if ($apiConfig->getFilterClass()) {
+                    $method = 'filter';
+                } else {
+                    $method = 'all';
+                }
+                $route->setDefault('_indexGetterMethod', $method);
+            }
+
             $routes->add($apiConfig->getActions()->getRouteName($routeIdentifier), $route);
         }
     }

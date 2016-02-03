@@ -37,6 +37,7 @@ class Configuration implements ConfigurationInterface
                             ->append($this->getExceptNode())
                             ->append($this->getResourceNameNode())
                             ->append($this->getSecureNode())
+                            ->append($this->getFilterNode())
                         ->end()
                     ->end()
                 ->end()
@@ -170,5 +171,13 @@ class Configuration implements ConfigurationInterface
             ->end();
 
         return $node;
+    }
+
+    /**
+     *
+     */
+    private function getFilterNode()
+    {
+        return new ScalarNodeDefinition('filter');
     }
 }

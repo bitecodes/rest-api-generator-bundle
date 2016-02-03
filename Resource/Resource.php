@@ -3,6 +3,7 @@
 namespace Fludio\RestApiGeneratorBundle\Resource;
 
 use Doctrine\Common\Inflector\Inflector;
+use Fludio\DoctrineFilter\FilterInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Resource
@@ -17,6 +18,10 @@ class Resource
      * @var string
      */
     protected $name;
+    /**
+     * @var FilterInterface
+     */
+    protected $filterClass;
     /**
      * @var string
      */
@@ -35,8 +40,8 @@ class Resource
         $options = ResourceOptions::resolve($entity, $options);
 
         $this->name = $options['resource_name'];
-
         $this->entity = $entity;
+        $this->filterClass = $options['filter'];
         $this->actions = new ResourceActionData($options, $this);
         $this->services = new ResourceServiceData($options, $this);
     }
@@ -67,6 +72,14 @@ class Resource
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return FilterInterface
+     */
+    public function getFilterClass()
+    {
+        return $this->filterClass;
     }
 
     /**

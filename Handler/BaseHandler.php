@@ -3,12 +3,13 @@
 namespace Fludio\RestApiGeneratorBundle\Handler;
 
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\FormTypeInterface;
+use Fludio\DoctrineFilter\FilterInterface;
+use Fludio\RestApiGeneratorBundle\Repository\RepositoryDecorator;
 
 class BaseHandler
 {
     /**
-     * @var EntityRepository
+     * @var RepositoryDecorator
      */
     private $repository;
     /**
@@ -16,20 +17,20 @@ class BaseHandler
      */
     private $formHandler;
     /**
-     * @var string
+     * @var FilterInterface
      */
-    private $formType;
+    private $filter;
 
     /**
      * @param EntityRepository $repository
      * @param FormHandler $formHandler
-     * @param $formType
+     * @param FilterInterface $filter
      */
-    function __construct(EntityRepository $repository, FormHandler $formHandler, $formType)
+    function __construct(EntityRepository $repository, FormHandler $formHandler, FilterInterface $filter = null)
     {
-        $this->repository = $repository;
+        $this->repository = new RepositoryDecorator($repository);
         $this->formHandler = $formHandler;
-        $this->formType = $formType;
+        $this->filter = $filter;
     }
 
     /**
@@ -38,6 +39,26 @@ class BaseHandler
     public function all()
     {
         return $this->repository->findAll();
+    }
+
+    /**
+     * @param $params
+     * @return array
+     */
+    public function filter($params)
+    {
+        return $this->repository->filter($this->filter, $params);
+    }
+
+    /**
+     * @param $params
+     * @param int $offset
+     * @param int $limit
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function paginate($params, $offset = 0, $limit = 20)
+    {
+        return $this->repository->paginate($this->filter, $params, $offset, $limit);
     }
 
     /**

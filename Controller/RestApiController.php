@@ -22,13 +22,17 @@ class RestApiController extends Controller
      * @ApiDoc()
      * @GenerateApiDoc()
      *
+     * @param Request $request
+     * @param $_indexGetterMethod
      * @return array
      */
-    public function indexAction()
+    public function indexAction(Request $request, $_indexGetterMethod)
     {
         $this->checkForAccess();
 
-        return $this->getHandler()->all();
+        $params = $request->query->all();
+
+        return $this->getHandler()->{$_indexGetterMethod}($params);
     }
 
     /**
@@ -187,7 +191,10 @@ class RestApiController extends Controller
         $this->handler = $handler;
     }
 
-    private function checkForAccess()
+    /**
+     * Check if user has permission to access action
+     */
+    protected function checkForAccess()
     {
         $roles = $this->get('request_stack')->getCurrentRequest()->get('_roles');
 

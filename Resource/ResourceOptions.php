@@ -32,9 +32,7 @@ class ResourceOptions
             'secure' => [
                 'default' => []
             ],
-            'listener' => [
-                'datetime' => false
-            ]
+            'filter' => null
         ]);
 
         return $resolver->resolve($options);

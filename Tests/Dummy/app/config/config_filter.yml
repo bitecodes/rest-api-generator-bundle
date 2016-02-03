@@ -4,5 +4,4 @@ imports:
 fludio_rest_api_generator:
     entities:
         Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post:
-            only: ['index', 'show', 'create', 'delete']
-            except: ['delete']
+            filter: Fludio\RestApiGeneratorBundle\Tests\Dummy\Filter\PostFilter
