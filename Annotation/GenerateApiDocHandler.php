@@ -3,6 +3,8 @@
 namespace Fludio\RestApiGeneratorBundle\Annotation;
 
 use Doctrine\Common\Inflector\Inflector;
+use Fludio\DoctrineFilter\FilterBuilder;
+use Fludio\DoctrineFilter\FilterInterface;
 use Fludio\RestApiGeneratorBundle\Handler\FormHandler;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
@@ -11,7 +13,6 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Nelmio\ApiDocBundle\Extractor\HandlerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Route;
-use Symfony\Component\Yaml\Inline;
 
 class GenerateApiDocHandler implements HandlerInterface
 {
@@ -49,6 +50,8 @@ class GenerateApiDocHandler implements HandlerInterface
                 }
                 $annotation->setDescription($this->getDescription($resource, $route));
                 $annotation->setDocumentation($this->getDescription($resource, $route));
+
+                $this->addFilter($annotation, $resource);
             }
         }
     }
@@ -151,5 +154,29 @@ class GenerateApiDocHandler implements HandlerInterface
         }
 
         return $description;
+    }
+
+    /**
+     * @param ApiDoc $annotation
+     * @param $resource
+     */
+    protected function addFilter(ApiDoc $annotation, $resource)
+    {
+        $filterClass = $resource->getFilterClass();
+        /** @var FilterInterface $filter */
+        if ($filterClass) {
+            $filter = new $filterClass;
+            $qb = $this->container->get('doctrine.orm.default_entity_manager')->getRepository($resource->getEntityNamespace())->createQueryBuilder('x');
+            $builder = new FilterBuilder($qb);
+            $filter->buildFilter($builder);
+            $filters = $builder->getFilters();
+            foreach ($filters as $filterElement) {
+                $name = $filterElement->getName();
+                $options = $filterElement->getOptions();
+                $description = !empty($options['description']) ? $options['description'] : '';
+                $requirement = !empty($options['requirement']) ? $options['requirement'] : '';
+                $annotation->addFilter($name, compact('description', 'requirement'));
+            }
+        }
     }
 }
