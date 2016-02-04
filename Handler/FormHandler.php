@@ -65,6 +65,6 @@ class FormHandler
 
     public function getFormTypeClass()
     {
-        return get_class($this->formType);
+        return $this->formType;
     }
 }
