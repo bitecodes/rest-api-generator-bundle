@@ -669,12 +669,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fludio/doctrine-filter.git",
-                "reference": "bf1e06c34ed4d087adf52f2066cd59711ab13d87"
+                "reference": "e1ed56f99b8f7d05a67215006426193e149f2910"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fludio/doctrine-filter/zipball/bf1e06c34ed4d087adf52f2066cd59711ab13d87",
-                "reference": "bf1e06c34ed4d087adf52f2066cd59711ab13d87",
+                "url": "https://api.github.com/repos/fludio/doctrine-filter/zipball/e1ed56f99b8f7d05a67215006426193e149f2910",
+                "reference": "e1ed56f99b8f7d05a67215006426193e149f2910",
                 "shasum": ""
             },
             "require": {
@@ -703,7 +703,7 @@
                 "source": "https://github.com/fludio/doctrine-filter/tree/master",
                 "issues": "https://github.com/fludio/doctrine-filter/issues"
             },
-            "time": "2016-02-01 05:18:53"
+            "time": "2016-02-04 18:58:18"
         },
         {
             "name": "guzzle/guzzle",
