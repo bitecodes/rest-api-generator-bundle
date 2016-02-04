@@ -3,8 +3,8 @@
 namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 
 use Fludio\RestApiGeneratorBundle\Resource\ResourceOptions;
-use Symfony\Component\Config\Definition\ArrayNode;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\BooleanNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\ScalarNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -38,6 +38,7 @@ class Configuration implements ConfigurationInterface
                             ->append($this->getResourceNameNode())
                             ->append($this->getSecureNode())
                             ->append($this->getFilterNode())
+                            ->append($this->getPaginationNode())
                         ->end()
                     ->end()
                 ->end()
@@ -174,10 +175,22 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     *
+     * @return ScalarNodeDefinition
      */
     private function getFilterNode()
     {
         return new ScalarNodeDefinition('filter');
+    }
+
+    /**
+     * @return BooleanNodeDefinition
+     */
+    private function getPaginationNode()
+    {
+        $node = new BooleanNodeDefinition('paginate');
+
+        $node->defaultFalse();
+
+        return $node;
     }
 }

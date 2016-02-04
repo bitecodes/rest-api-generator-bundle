@@ -31,6 +31,12 @@ class GenerateApiDocHandler implements HandlerInterface
         $this->container = $container;
     }
 
+    /**
+     * @param ApiDoc $annotation
+     * @param array $annotations
+     * @param Route $route
+     * @param \ReflectionMethod $method
+     */
     public function handle(ApiDoc $annotation, array $annotations, Route $route, \ReflectionMethod $method)
     {
         $resource = $this->getResource($route);
@@ -52,10 +58,15 @@ class GenerateApiDocHandler implements HandlerInterface
                 $annotation->setDocumentation($this->getDescription($resource, $route));
 
                 $this->addFilter($annotation, $resource);
+                $this->addPagination($annotation, $resource);
             }
         }
     }
 
+    /**
+     * @param Route $route
+     * @return mixed
+     */
     private function getResource(Route $route)
     {
         $entity = $route->getDefault('_entity');
@@ -67,6 +78,10 @@ class GenerateApiDocHandler implements HandlerInterface
         }
     }
 
+    /**
+     * @param ApiDoc $annotation
+     * @param Resource $resource
+     */
     private function setOutput(ApiDoc $annotation, Resource $resource)
     {
         $refl = new \ReflectionClass($annotation);
@@ -78,6 +93,10 @@ class GenerateApiDocHandler implements HandlerInterface
         $prop->setAccessible(false);
     }
 
+    /**
+     * @param ApiDoc $annotation
+     * @param Resource $resource
+     */
     private function setInput(ApiDoc $annotation, Resource $resource)
     {
         $refl = new \ReflectionClass($annotation);
@@ -92,6 +111,10 @@ class GenerateApiDocHandler implements HandlerInterface
         $prop->setAccessible(false);
     }
 
+    /**
+     * @param Route $route
+     * @return bool
+     */
     private function returnsEntity(Route $route)
     {
         $methods = $route->getMethods();
@@ -107,6 +130,10 @@ class GenerateApiDocHandler implements HandlerInterface
         return false;
     }
 
+    /**
+     * @param Route $route
+     * @return bool
+     */
     private function expectsInput(Route $route)
     {
         $methods = $route->getMethods();
@@ -121,6 +148,11 @@ class GenerateApiDocHandler implements HandlerInterface
         return false;
     }
 
+    /**
+     * @param Resource $resource
+     * @param Route $route
+     * @return string
+     */
     private function getDescription(Resource $resource, Route $route)
     {
         $description = '';
@@ -158,9 +190,9 @@ class GenerateApiDocHandler implements HandlerInterface
 
     /**
      * @param ApiDoc $annotation
-     * @param $resource
+     * @param Resource $resource
      */
-    protected function addFilter(ApiDoc $annotation, $resource)
+    protected function addFilter(ApiDoc $annotation, Resource $resource)
     {
         $filterClass = $resource->getFilterClass();
         /** @var FilterInterface $filter */
@@ -177,6 +209,23 @@ class GenerateApiDocHandler implements HandlerInterface
                 $requirement = !empty($options['requirement']) ? $options['requirement'] : '';
                 $annotation->addFilter($name, compact('description', 'requirement'));
             }
+        }
+    }
+
+    /**
+     * @param ApiDoc $annotation
+     * @param Resource $resource
+     */
+    protected function addPagination(ApiDoc $annotation, Resource $resource)
+    {
+        if ($resource->hasPagination()) {
+            $annotation->addFilter('offset', [
+                'description' => 'Offset'
+            ]);
+
+            $annotation->addFilter('limit', [
+                'description' => 'Limit'
+            ]);
         }
     }
 }

@@ -23,6 +23,10 @@ class Resource
      */
     protected $filterClass;
     /**
+     * @var boolean
+     */
+    protected $paginate;
+    /**
      * @var string
      */
     private $entity;
@@ -42,6 +46,7 @@ class Resource
         $this->name = $options['resource_name'];
         $this->entity = $entity;
         $this->filterClass = $options['filter'];
+        $this->paginate = $options['paginate'];
         $this->actions = new ResourceActionData($options, $this);
         $this->services = new ResourceServiceData($options, $this);
     }
@@ -80,6 +85,14 @@ class Resource
     public function getFilterClass()
     {
         return $this->filterClass;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPagination()
+    {
+        return $this->paginate;
     }
 
     /**

@@ -72,7 +72,9 @@ class RouteLoader extends Loader
                 ->setMethods($this->routes[$routeIdentifier]);
 
             if ($routeIdentifier == ResourceActionData::ACTION_INDEX) {
-                if ($apiConfig->getFilterClass()) {
+                if ($apiConfig->hasPagination()) {
+                    $method = 'paginate';
+                } elseif ($apiConfig->getFilterClass()) {
                     $method = 'filter';
                 } else {
                     $method = 'all';

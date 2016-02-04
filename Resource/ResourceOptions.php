@@ -32,7 +32,8 @@ class ResourceOptions
             'secure' => [
                 'default' => []
             ],
-            'filter' => null
+            'filter' => null,
+            'paginate' => false
         ]);
 
         return $resolver->resolve($options);

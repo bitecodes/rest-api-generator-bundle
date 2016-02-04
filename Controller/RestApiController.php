@@ -32,7 +32,10 @@ class RestApiController extends Controller
 
         $params = $request->query->all();
 
-        return $this->getHandler()->{$_indexGetterMethod}($params);
+        $offset = !empty($params['offset']) ? $params['offset'] : null;
+        $limit = !empty($params['limit']) ? $params['limit'] : null;
+
+        return $this->getHandler()->{$_indexGetterMethod}($params, $offset, $limit);
     }
 
     /**
