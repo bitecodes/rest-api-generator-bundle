@@ -66,35 +66,36 @@ This will result in the following endpoints:
 - [x] Add Travis-CI
 - [x] Add Coveralls
 - [x] Search filter
-- [ ] Pagination
+- [X] Pagination
 - [x] Add security options
-- [ ] Access entities by something else than the id
-- [ ] Better error messages
-- [ ] Add bundle specific EntityNotFoundException
-- [ ] Resource Actions as classes (polymorphic)
-- [ ] Nested Resources
+- [X] Dynamic FormTypes
+- [X] Listener to format all DateTimes to a specific format
 - [ ] Configure returned Response
   - [ ] Add metadata (pagination links, total?)
-- [X] Dynamic FormTypes
+- [ ] Better error messages
+- [ ] Add bundle specific EntityNotFoundException
+- [ ] Access entities by something else than the id
+- [ ] Resource Actions as classes (polymorphic)
+- [ ] Nested Resources
 - [ ] Configuration Options
-  - [ ] Set another Controller
   - [x] Define which endpoints should be created (only|except)
   - [x] Override resource name
   - [ ] Enable/Disable NelmioApiDoc
+  - [ ] Set another Controller
   - [ ] Configure bundle prefix
-- [ ] NelmioApiDocBundle integration
+- [x] NelmioApiDocBundle integration
   - [x] Basic integreation
   - [x] Show security setting
   - [x] Better description
-  - [ ] Add Filter Params
-  - [ ] Add Pagination 
-- [ ] Add hooks/ events (?)
-- [ ] Provide endpoint for batch create (?)
-- [X] Listener to format all DateTimes to a specific format
+  - [x] Add Filter Params
+  - [x] Add Pagination
+  - [ ] Better descriptions 
 - [ ] XML-Support
+- [ ] Add hooks/ events
 - [ ] Documentation
   - [ ] Route selection
   - [ ] Resource name
   - [ ] Filter/Pagination
   - [ ] Security section
   - [ ] DateTimeFormatListener
+- [ ] Provide endpoint for batch create (?)
