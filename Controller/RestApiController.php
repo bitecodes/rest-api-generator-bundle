@@ -3,6 +3,8 @@
 namespace Fludio\RestApiGeneratorBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
+use Fludio\RestApiGeneratorBundle\Exception\ApiProblem;
+use Fludio\RestApiGeneratorBundle\Exception\ApiProblemException;
 use Fludio\RestApiGeneratorBundle\Handler\BaseHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -158,7 +160,11 @@ class RestApiController extends Controller
     protected function getEntityOrThrowException($id)
     {
         if (null === $entity = $this->getHandler()->get($id)) {
-            throw new EntityNotFoundException;
+            $problem = new ApiProblem(
+                404,
+                ApiProblem::TYPE_ENTITY_NOT_FOUND
+            );
+            throw new ApiProblemException($problem);
         }
 
         return $entity;
@@ -174,7 +180,11 @@ class RestApiController extends Controller
         $entites = $this->getHandler()->getBy(['id' => $ids]);
 
         if (count($ids) != count($entites)) {
-            throw new EntityNotFoundException;
+            $problem = new ApiProblem(
+                404,
+                ApiProblem::TYPE_ENTITY_NOT_FOUND
+            );
+            throw new ApiProblemException($problem);
         }
 
         return $entites;

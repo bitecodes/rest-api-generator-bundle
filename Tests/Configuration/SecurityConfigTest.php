@@ -58,8 +58,6 @@ class SecurityConfigTest extends TestCase
      */
     public function it_denies_access_when_user_does_not_have_necessary_role()
     {
-        $this->markTestSkipped('Implement error messages');
-
         $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
         $url = $this->getUrl('fludio.rest_api_generator.delete.posts', ['id' => 1]);
@@ -69,7 +67,7 @@ class SecurityConfigTest extends TestCase
                 'PHP_AUTH_USER' => 'user',
                 'PHP_AUTH_PW' => 'user',
             ])
-            ->seeStatusCode(401);
+            ->seeStatusCode(403);
     }
 
     /** @test */

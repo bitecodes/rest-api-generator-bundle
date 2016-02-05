@@ -54,16 +54,16 @@ class RestApiControllerTest extends TestCase
             ->seeInJson(['title' => 'My Post', 'content' => 'bla']);
     }
 
-//    /** @test */
-//    public function it_returns_400_if_entity_not_found()
-//    {
-//        $url = $this->generateUrl('api_get_post', ['id' => 1]);
-//
-//        $this
-//            ->get($url)
-//            ->seeJsonResponse()
-//            ->seeStatusCode(400);
-//    }
+    /** @test */
+    public function it_returns_404_if_entity_not_found()
+    {
+        $url = $this->generateUrl('fludio.rest_api_generator.show.posts', ['id' => 1]);
+
+        $this
+            ->get($url)
+            ->seeJsonResponse()
+            ->seeStatusCode(404);
+    }
 
     /** @test */
     public function it_creates_a_new_post()
@@ -101,10 +101,7 @@ class RestApiControllerTest extends TestCase
             ->seeInDatabase(Post::class, $data);
     }
 
-    /**
-     * @test
-     * @expectedException Doctrine\DBAL\Exception\NotNullConstraintViolationException
-     */
+    /** @test */
     public function it_will_not_update_if_put_does_not_provide_all_data()
     {
         $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
@@ -117,8 +114,8 @@ class RestApiControllerTest extends TestCase
 
         $this
             ->put($url, $data)
-            ->seeStatusCode(500)
-            ->seeInDatabase(Post::class, ['title' => $post->getTitle(), 'content' => $post->getContent()]);
+            ->seeStatusCode(422)
+            ->seeInDatabase(Post::class, ['title' => 'My Post', 'content' => 'bla']);
     }
 
     /** @test */

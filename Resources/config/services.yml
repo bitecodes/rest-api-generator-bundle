@@ -10,7 +10,7 @@ services:
     fludio_rest_api_generator.json_content_listener:
         class: Fludio\RestApiGeneratorBundle\Listener\JsonContentListener
         tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: -100 }
+            - { name: kernel.event_listener, event: kernel.request }
 
     app.routing_loader:
         class: Fludio\RestApiGeneratorBundle\RouteLoader\RouteLoader
@@ -34,3 +34,9 @@ services:
         tags:
             - { name: nelmio_api_doc.extractor.handler }
 
+    fludio_rest_api_generator.subscriber.api_exception_subscriber:
+        class: Fludio\RestApiGeneratorBundle\Subscriber\ApiExceptionSubscriber
+        arguments:
+            - '%kernel.debug%'
+        tags:
+            - { name: kernel.event_subscriber }

@@ -3677,12 +3677,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fludio/test-bundle.git",
-                "reference": "7d67f6162b0bcf3e25ee37b41c95ca94cf217ade"
+                "reference": "94c4d8ce2c2522d66baac6f5120c727a431741a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fludio/test-bundle/zipball/7d67f6162b0bcf3e25ee37b41c95ca94cf217ade",
-                "reference": "7d67f6162b0bcf3e25ee37b41c95ca94cf217ade",
+                "url": "https://api.github.com/repos/fludio/test-bundle/zipball/94c4d8ce2c2522d66baac6f5120c727a431741a8",
+                "reference": "94c4d8ce2c2522d66baac6f5120c727a431741a8",
                 "shasum": ""
             },
             "require": {
@@ -3715,7 +3715,7 @@
                 "source": "https://github.com/fludio/test-bundle/tree/master",
                 "issues": "https://github.com/fludio/test-bundle/issues"
             },
-            "time": "2016-02-03 20:26:30"
+            "time": "2016-02-05 12:45:21"
         },
         {
             "name": "fzaninotto/faker",

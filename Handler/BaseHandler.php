@@ -92,6 +92,7 @@ class BaseHandler
     /**
      * @param $entity
      * @param $params
+     * @param $method
      * @return mixed
      */
     public function update($entity, $params, $method)

@@ -3,9 +3,10 @@
 namespace Fludio\RestApiGeneratorBundle\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Fludio\RestApiGeneratorBundle\Exception\ApiProblem;
+use Fludio\RestApiGeneratorBundle\Exception\ApiProblemException;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\FormTypeInterface;
-use Fludio\RestApiGeneratorBundle\Exception\InvalidFormException;
+use Symfony\Component\Form\FormInterface;
 
 class FormHandler
 {
@@ -35,7 +36,7 @@ class FormHandler
         $form->submit($parameters, 'PATCH' !== $method);
 
         if (!$form->isValid()) {
-            throw new InvalidFormException($form);
+            $this->handleValidationError($form);
         }
 
         $data = $form->getData();
@@ -66,5 +67,38 @@ class FormHandler
     public function getFormTypeClass()
     {
         return $this->formType;
+    }
+
+    /**
+     * @param $form
+     */
+    protected function handleValidationError($form)
+    {
+        $problem = new ApiProblem(
+            422,
+            ApiProblem::TYPE_VALIDATION_ERROR
+        );
+        $problem->set('errors', $this->getErrorsFromForm($form));
+        throw new ApiProblemException($problem);
+    }
+
+    /**
+     * @param FormInterface $form
+     * @return array
+     */
+    protected function getErrorsFromForm(FormInterface $form)
+    {
+        $errors = array();
+        foreach ($form->getErrors() as $error) {
+            $errors[] = $error->getMessage();
+        }
+        foreach ($form->all() as $childForm) {
+            if ($childForm instanceof FormInterface) {
+                if ($childErrors = $this->getErrorsFromForm($childForm)) {
+                    $errors[$childForm->getName()] = $childErrors;
+                }
+            }
+        }
+        return $errors;
     }
 }

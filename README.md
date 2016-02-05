@@ -70,10 +70,10 @@ This will result in the following endpoints:
 - [x] Add security options
 - [X] Dynamic FormTypes
 - [X] Listener to format all DateTimes to a specific format
+- [X] Better error messages
 - [ ] Configure returned Response
   - [ ] Add metadata (pagination links, total?)
-- [ ] Better error messages
-- [ ] Add bundle specific EntityNotFoundException
+- [ ] defaults: _format: json|xml
 - [ ] Access entities by something else than the id
 - [ ] Resource Actions as classes (polymorphic)
 - [ ] Nested Resources
