@@ -1,5 +1,8 @@
 # RestApiGeneratorBundle
 
+[![Build Status](https://travis-ci.org/fludio/rest-api-generator-bundle.svg?branch=master)](https://travis-ci.org/fludio/rest-api-generator-bundle)
+[![Coverage Status](https://coveralls.io/repos/github/fludio/rest-api-generator-bundle/badge.svg?branch=master)](https://coveralls.io/github/fludio/rest-api-generator-bundle?branch=master)
+
 An easy way to provide a restful API with CRUD endpoints.
 
 ## Install
@@ -63,8 +66,6 @@ This will result in the following endpoints:
 - [x] Provide basic endpoints
 - [x] Provide endpoint for batch update
 - [x] Provide endpoint for batch delete
-- [x] Add Travis-CI
-- [x] Add Coveralls
 - [x] Search filter
 - [X] Pagination
 - [x] Add security options
