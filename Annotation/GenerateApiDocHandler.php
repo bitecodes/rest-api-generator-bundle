@@ -3,14 +3,16 @@
 namespace Fludio\RestApiGeneratorBundle\Annotation;
 
 use Doctrine\Common\Inflector\Inflector;
+use Doctrine\ORM\EntityManager;
 use Fludio\DoctrineFilter\FilterBuilder;
 use Fludio\DoctrineFilter\FilterInterface;
+use Fludio\RestApiGeneratorBundle\Form\DynamicFormSubscriber;
+use Fludio\RestApiGeneratorBundle\Form\DynamicFormType;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
 use Fludio\RestApiGeneratorBundle\Resource\Resource;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Nelmio\ApiDocBundle\Extractor\HandlerInterface;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Routing\Route;
 
 class GenerateApiDocHandler implements HandlerInterface
@@ -19,10 +21,15 @@ class GenerateApiDocHandler implements HandlerInterface
      * @var ResourceManager
      */
     private $manager;
+    /**
+     * @var EntityManager
+     */
+    private $em;
 
-    public function __construct(ResourceManager $manager)
+    public function __construct(ResourceManager $manager, EntityManager $em)
     {
         $this->manager = $manager;
+        $this->em = $em;
     }
 
     /**
@@ -42,7 +49,15 @@ class GenerateApiDocHandler implements HandlerInterface
                     $this->setOutput($annotation, $resource);
                 }
                 if ($this->expectsInput($route)) {
-                    $this->setInput($annotation, $resource);
+                    if ($resource->getFormTypeClass() == DynamicFormType::class) {
+                        $entityClass = $resource->getEntityNamespace();
+                        $handler = new DynamicFormSubscriber($this->em, new $entityClass);
+                        foreach ($handler->getFields() as $field) {
+                            $annotation->addParameter($field, ['dataType' => 'string', 'required' => false]);
+                        }
+                    } else {
+                        $this->setInput($annotation, $resource);
+                    }
                 }
                 if ($roles = $route->getDefault('_roles')) {
                     $annotation->setAuthentication(true);

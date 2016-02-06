@@ -86,12 +86,6 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function it_returns_the_repository_service_name()
-    {
-        $this->assertEquals($this->bundlePrefix . '.repositories.posts', $this->config->getServices()->getRepositoryServiceName());
-    }
-
-    /** @test */
     public function it_returns_the_entity_handler_service_name()
     {
         $this->assertEquals($this->bundlePrefix . '.entity_handler.posts', $this->config->getServices()->getEntityHandlerServiceName());

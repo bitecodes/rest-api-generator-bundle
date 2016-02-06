@@ -18,22 +18,25 @@ class DynamicFormSubscriber implements EventSubscriberInterface
         'date' => DateType::class,
         'time' => TimeType::class,
     ];
+    /**
+     * @var \Doctrine\ORM\Mapping\ClassMetadata
+     */
+    protected $classMetadata;
 
     /**
-     * @var EntityManager
+     * DynamicFormSubscriber constructor.
+     *
+     * @param EntityManager $em
+     * @param $object
      */
-    private $em;
-    /**
-     * @var
-     */
-    private $object;
-
     public function __construct(EntityManager $em, $object)
     {
-        $this->object = $object;
-        $this->em = $em;
+        $this->classMetadata = $em->getClassMetadata(get_class($object));
     }
 
+    /**
+     * @return array
+     */
     public static function getSubscribedEvents()
     {
         return [
@@ -47,11 +50,9 @@ class DynamicFormSubscriber implements EventSubscriberInterface
     public function onPreSubmit(FormEvent $event)
     {
         $form = $event->getForm();
-        $meta = $this->em->getClassMetadata(get_class($this->object));
-        $fields = $this->getFieldsFromMetadata($meta);
-        $mappings = $meta->fieldMappings;
+        $mappings = $this->classMetadata->fieldMappings;
 
-        foreach ($fields as $field) {
+        foreach ($this->getFields() as $field) {
             if (isset($mappings[$field]) && in_array($mappings[$field]['type'], array_keys($this->typeDict))) {
                 $typeClass = $this->typeDict[$mappings[$field]['type']];
                 $form->add($field, $typeClass, ['widget' => 'single_text']);
@@ -65,20 +66,18 @@ class DynamicFormSubscriber implements EventSubscriberInterface
      * Returns an array of fields. Fields can be both column fields and
      * association fields.
      *
-     * @param ClassMetadataInfo $metadata
-     *
      * @return array $fields
      */
-    protected function getFieldsFromMetadata(ClassMetadataInfo $metadata)
+    public function getFields()
     {
-        $fields = (array)$metadata->fieldNames;
+        $fields = (array)$this->classMetadata->fieldNames;
 
         // Remove the primary key field if it's not managed manually
-        if (!$metadata->isIdentifierNatural()) {
-            $fields = array_diff($fields, $metadata->identifier);
+        if (!$this->classMetadata->isIdentifierNatural()) {
+            $fields = array_diff($fields, $this->classMetadata->identifier);
         }
 
-        foreach ($metadata->associationMappings as $fieldName => $relation) {
+        foreach ($this->classMetadata->associationMappings as $fieldName => $relation) {
             if ($relation['type'] !== ClassMetadataInfo::ONE_TO_MANY) {
                 $fields[] = $fieldName;
             }

@@ -4,15 +4,15 @@ namespace Fludio\RestApiGeneratorBundle\Tests\Annotation;
 
 use Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDoc;
 use Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler;
-use Fludio\RestApiGeneratorBundle\Form\DynamicFormType;
 use Fludio\RestApiGeneratorBundle\Resource\Resource;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\Filter\PostFilter;
+use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestCase;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Routing\Route;
 
-class GenerateApiDocHandlerTest extends \PHPUnit_Framework_TestCase
+class GenerateApiDocHandlerTest extends TestCase
 {
     /**
      * @var ResourceManager
@@ -21,6 +21,8 @@ class GenerateApiDocHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $resource = new Resource(Post::class, [
             'filter' => PostFilter::class,
             'paginate' => true
@@ -43,7 +45,7 @@ class GenerateApiDocHandlerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $handler = new GenerateApiDocHandler($this->manager);
+        $handler = new GenerateApiDocHandler($this->manager, $this->em);
         $handler->handle($apiDoc, [$generateApiDocAnnotation], $route, $method);
 
         $this->assertNull($apiDoc->getInput());
@@ -67,11 +69,10 @@ class GenerateApiDocHandlerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $handler = new GenerateApiDocHandler($this->manager);
+        $handler = new GenerateApiDocHandler($this->manager, $this->em);
         $handler->handle($apiDoc, [$generateApiDocAnnotation], $route, $method);
 
-        $this->assertEquals(DynamicFormType::class, $apiDoc->getInput());
-//        $this->assertCount(3, $apiDoc->getParameters());
+        $this->assertCount(3, $apiDoc->getParameters());
         $this->assertEquals(Post::class, $apiDoc->getOutput());
     }
 }

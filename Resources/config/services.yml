@@ -30,6 +30,7 @@ services:
         class: Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler
         arguments:
             - '@fludio.rest_api_generator.endpoint_manager'
+            - '@doctrine.orm.entity_manager'
         tags:
             - { name: nelmio_api_doc.extractor.handler }
 
