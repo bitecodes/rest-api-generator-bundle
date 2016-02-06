@@ -98,7 +98,10 @@ class GenerateApiDocHandler implements HandlerInterface
         $prop = $refl->getProperty('input');
 
         $prop->setAccessible(true);
-        $prop->setValue($annotation, $resource->getFormTypeClass());
+        $prop->setValue($annotation, [
+            'class' => $resource->getFormTypeClass(),
+            'name' => ''
+        ]);
         $prop->setAccessible(false);
     }
 
