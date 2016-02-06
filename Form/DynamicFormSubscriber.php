@@ -5,11 +5,20 @@ namespace Fludio\RestApiGeneratorBundle\Form;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
 class DynamicFormSubscriber implements EventSubscriberInterface
 {
+    protected $typeDict = [
+        'datetime' => DateTimeType::class,
+        'date' => DateType::class,
+        'time' => TimeType::class,
+    ];
+
     /**
      * @var EntityManager
      */
@@ -32,23 +41,23 @@ class DynamicFormSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @param FormEvent $event
+     */
     public function onPreSubmit(FormEvent $event)
     {
         $form = $event->getForm();
-        if (is_string($this->object)) {
-            var_dump($this->object);
-            die();
-        }
         $meta = $this->em->getClassMetadata(get_class($this->object));
         $fields = $this->getFieldsFromMetadata($meta);
         $mappings = $meta->fieldMappings;
 
         foreach ($fields as $field) {
-//            if (isset($mappings[$field]) && in_array($mappings[$field]['type'], ['date', 'time', 'datetime'])) {
-//                $form->add($field, $mappings[$field]['type']);
-//            } else {
-            $form->add($field);
-//            }
+            if (isset($mappings[$field]) && in_array($mappings[$field]['type'], array_keys($this->typeDict))) {
+                $typeClass = $this->typeDict[$mappings[$field]['type']];
+                $form->add($field, $typeClass, ['widget' => 'single_text']);
+            } else {
+                $form->add($field);
+            }
         }
     }
 
