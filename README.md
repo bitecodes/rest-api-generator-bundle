@@ -103,3 +103,4 @@ This will result in the following endpoints:
 
 Bugs:
 - ResourceActionData::getActionFromRoute needs to detect prefix
+- BetweenFilterType for ApiDoc

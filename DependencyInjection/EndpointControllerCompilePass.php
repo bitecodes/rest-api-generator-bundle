@@ -48,7 +48,7 @@ class EndpointControllerCompilePass implements CompilerPassInterface
         $formHandler = new Definition(FormHandler::class);
         $formHandler->addArgument(new Reference('doctrine.orm.entity_manager'));
         $formHandler->addArgument(new Reference('form.factory'));
-        $formHandler->addArgument(DynamicFormType::class);
+        $formHandler->addArgument($entityConfig->getFormTypeClass());
         $container->setDefinition($formHandlerServiceName, $formHandler);
 
         // Handler
