@@ -66,8 +66,10 @@ class GenerateApiDocHandler implements HandlerInterface
                 $annotation->setDescription($this->getDescription($resource, $route));
                 $annotation->setDocumentation($this->getDescription($resource, $route));
 
-                $this->addFilter($annotation, $resource);
-                $this->addPagination($annotation, $resource);
+                if ($resource->getActions()->getActionFromRoute($route) == ResourceActionData::ACTION_INDEX) {
+                    $this->addFilter($annotation, $resource);
+                    $this->addPagination($annotation, $resource);
+                }
             }
         }
     }
