@@ -1,3 +1,0 @@
-Fludio\RestApiGeneratorBundle\Entity\Post:
-    title: faker.sentence
-    content: faker.text(500)
