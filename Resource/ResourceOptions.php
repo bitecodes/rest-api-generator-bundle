@@ -3,6 +3,7 @@
 namespace Fludio\RestApiGeneratorBundle\Resource;
 
 use Doctrine\Common\Util\Inflector;
+use Fludio\RestApiGeneratorBundle\Form\DynamicFormType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ResourceOptions
@@ -29,6 +30,7 @@ class ResourceOptions
             'only' => [],
             'except' => [],
             'resource_name' => self::getDefaultResourceName($entity),
+            'form_type' => DynamicFormType::class,
             'secure' => [
                 'default' => []
             ],

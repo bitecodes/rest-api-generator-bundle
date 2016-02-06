@@ -2,6 +2,7 @@
 
 namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 
+use Fludio\RestApiGeneratorBundle\Form\DynamicFormType;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceOptions;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\BooleanNodeDefinition;
@@ -38,6 +39,7 @@ class Configuration implements ConfigurationInterface
                             ->append($this->getResourceNameNode())
                             ->append($this->getSecureNode())
                             ->append($this->getFilterNode())
+                            ->append($this->getFormTypeNode())
                             ->append($this->getPaginationNode())
                         ->end()
                     ->end()
@@ -190,6 +192,15 @@ class Configuration implements ConfigurationInterface
         $node = new BooleanNodeDefinition('paginate');
 
         $node->defaultFalse();
+
+        return $node;
+    }
+
+    private function getFormTypeNode()
+    {
+        $node = new ScalarNodeDefinition('form_type');
+
+        $node->defaultValue(DynamicFormType::class);
 
         return $node;
     }
