@@ -19,9 +19,13 @@ class Resource
      */
     protected $name;
     /**
-     * @var FilterInterface
+     * @var string
      */
     protected $filterClass;
+    /**
+     * @var string
+     */
+    protected $formTypeClass;
     /**
      * @var boolean
      */
@@ -47,6 +51,7 @@ class Resource
         $this->entity = $entity;
         $this->filterClass = $options['filter'];
         $this->paginate = $options['paginate'];
+        $this->formTypeClass = $options['form_type'];
         $this->actions = new ResourceActionData($options, $this);
         $this->services = new ResourceServiceData($options, $this);
     }
@@ -80,11 +85,19 @@ class Resource
     }
 
     /**
-     * @return FilterInterface
+     * @return string
      */
     public function getFilterClass()
     {
         return $this->filterClass;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormTypeClass()
+    {
+        return $this->formTypeClass;
     }
 
     /**

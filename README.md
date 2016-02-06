@@ -100,3 +100,8 @@ This will result in the following endpoints:
   - [ ] Security section
   - [ ] DateTimeFormatListener
 - [ ] Provide endpoint for batch create (?)
+
+Bugs:
+- ResourceActionData::getActionFromRoute needs to detect prefix
+- NelmioApiDoc handle dynamic form
+- Entities should be able to use their own repo

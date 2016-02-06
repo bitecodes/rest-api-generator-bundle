@@ -5,13 +5,12 @@ namespace Fludio\RestApiGeneratorBundle\Annotation;
 use Doctrine\Common\Inflector\Inflector;
 use Fludio\DoctrineFilter\FilterBuilder;
 use Fludio\DoctrineFilter\FilterInterface;
-use Fludio\RestApiGeneratorBundle\Handler\FormHandler;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
 use Fludio\RestApiGeneratorBundle\Resource\Resource;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Nelmio\ApiDocBundle\Extractor\HandlerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Routing\Route;
 
 class GenerateApiDocHandler implements HandlerInterface
@@ -20,15 +19,10 @@ class GenerateApiDocHandler implements HandlerInterface
      * @var ResourceManager
      */
     private $manager;
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
 
-    public function __construct(ResourceManager $manager, ContainerInterface $container)
+    public function __construct(ResourceManager $manager)
     {
         $this->manager = $manager;
-        $this->container = $container;
     }
 
     /**
@@ -101,13 +95,10 @@ class GenerateApiDocHandler implements HandlerInterface
     {
         $refl = new \ReflectionClass($annotation);
 
-        /** @var FormHandler $formHandler */
-        $formHandler = $this->container->get($resource->getServices()->getFormHandlerServiceName());
-
         $prop = $refl->getProperty('input');
 
         $prop->setAccessible(true);
-        $prop->setValue($annotation, $formHandler->getFormTypeClass());
+        $prop->setValue($annotation, $resource->getFormTypeClass());
         $prop->setAccessible(false);
     }
 
@@ -198,11 +189,9 @@ class GenerateApiDocHandler implements HandlerInterface
         /** @var FilterInterface $filter */
         if ($filterClass) {
             $filter = new $filterClass;
-            $qb = $this->container->get('doctrine.orm.default_entity_manager')->getRepository($resource->getEntityNamespace())->createQueryBuilder('x');
-            $builder = new FilterBuilder($qb);
+            $builder = new FilterBuilder();
             $filter->buildFilter($builder);
-            $filters = $builder->getFilters();
-            foreach ($filters as $filterElement) {
+            foreach ($builder->getFilters() as $filterElement) {
                 $name = $filterElement->getName();
                 $options = $filterElement->getOptions();
                 $description = !empty($options['description']) ? $options['description'] : '';
