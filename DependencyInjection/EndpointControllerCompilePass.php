@@ -32,18 +32,11 @@ class EndpointControllerCompilePass implements CompilerPassInterface
      */
     protected function setupEntity(Resource $entityConfig, ContainerBuilder $container)
     {
-        $repoServiceName = $entityConfig->getServices()->getRepositoryServiceName();
         $formHandlerServiceName = $entityConfig->getServices()->getFormHandlerServiceName();
         $entityHandlerServiceName = $entityConfig->getServices()->getEntityHandlerServiceName();
         $controllerServiceName = $entityConfig->getServices()->getControllerServiceName();
         $filterServiceName = $entityConfig->getServices()->getFilterServiceName();
         $filterClass = $entityConfig->getFilterClass();
-
-        // Repo
-        $repo = new Definition(EntityRepository::class);
-        $repo->setFactory([new Reference('doctrine.orm.entity_manager'), 'getRepository']);
-        $repo->addArgument($entityConfig->getEntityNamespace());
-        $container->setDefinition($repoServiceName, $repo);
 
         // Filter
         if ($filterClass) {
@@ -60,7 +53,8 @@ class EndpointControllerCompilePass implements CompilerPassInterface
 
         // Handler
         $entityHandler = new Definition(BaseHandler::class);
-        $entityHandler->addArgument(new Reference($repoServiceName));
+        $entityHandler->addArgument(new Reference('doctrine.orm.entity_manager'));
+        $entityHandler->addArgument($entityConfig->getEntityNamespace());
         $entityHandler->addArgument(new Reference($formHandlerServiceName));
         if ($filterClass) {
             $entityHandler->addArgument(new Reference($filterServiceName));

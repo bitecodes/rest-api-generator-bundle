@@ -2,7 +2,7 @@
 
 namespace Fludio\RestApiGeneratorBundle\Handler;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManager;
 use Fludio\DoctrineFilter\FilterInterface;
 use Fludio\RestApiGeneratorBundle\Repository\RepositoryDecorator;
 
@@ -22,12 +22,14 @@ class BaseHandler
     private $filter;
 
     /**
-     * @param EntityRepository $repository
+     * @param EntityManager $em
+     * @param $entityClass
      * @param FormHandler $formHandler
      * @param FilterInterface $filter
      */
-    function __construct(EntityRepository $repository, FormHandler $formHandler, FilterInterface $filter = null)
+    function __construct(EntityManager $em, $entityClass, FormHandler $formHandler, FilterInterface $filter = null)
     {
+        $repository = $em->getRepository($entityClass);
         $this->repository = new RepositoryDecorator($repository);
         $this->formHandler = $formHandler;
         $this->filter = $filter;

@@ -104,4 +104,3 @@ This will result in the following endpoints:
 Bugs:
 - ResourceActionData::getActionFromRoute needs to detect prefix
 - NelmioApiDoc handle dynamic form
-- Entities should be able to use their own repo

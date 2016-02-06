@@ -49,16 +49,6 @@ class ResourceServiceData
     }
 
     /**
-     * Get service name of entity handler
-     *
-     * @return string
-     */
-    public function getRepositoryServiceName()
-    {
-        return $this->getServiceName('repositories');
-    }
-
-    /**
      * @return string
      */
     public function getFilterServiceName()
