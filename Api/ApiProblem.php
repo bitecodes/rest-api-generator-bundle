@@ -64,6 +64,17 @@ class ApiProblem extends ApiResponse
         return $this->title;
     }
 
+    protected function getApiHead()
+    {
+        return [
+            'status' => $this->statusCode,
+            'type' => $this->type,
+            'title' => $this->title,
+            'data' => $this->data
+        ];
+    }
+
+
     /**
      * @return array
      */
