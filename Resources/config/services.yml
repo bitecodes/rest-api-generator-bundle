@@ -11,6 +11,13 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    fludio_rest_api_generator.subscriber.api_exception_subscriber:
+        class: Fludio\RestApiGeneratorBundle\Subscriber\ApiExceptionSubscriber
+        arguments:
+            - '%kernel.debug%'
+        tags:
+            - { name: kernel.event_subscriber }
+
     app.routing_loader:
         class: Fludio\RestApiGeneratorBundle\RouteLoader\RouteLoader
         arguments:
@@ -33,9 +40,3 @@ services:
         tags:
             - { name: nelmio_api_doc.extractor.handler }
 
-    fludio_rest_api_generator.subscriber.api_exception_subscriber:
-        class: Fludio\RestApiGeneratorBundle\Subscriber\ApiExceptionSubscriber
-        arguments:
-            - '%kernel.debug%'
-        tags:
-            - { name: kernel.event_subscriber }
