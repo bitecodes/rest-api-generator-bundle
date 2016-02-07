@@ -132,7 +132,7 @@ class BaseHandler
      * @param $ids
      * @return bool
      */
-    public function batchDelete($ids)
+    public function batchDelete(array $ids)
     {
         foreach ($ids as $id) {
             $entity = $this->get($id);

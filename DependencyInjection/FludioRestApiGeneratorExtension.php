@@ -3,7 +3,7 @@
 namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 
 use Doctrine\Common\Inflector\Inflector;
-use Fludio\RestApiGeneratorBundle\Listener\DateTimeFormatterListener;
+use Fludio\RestApiGeneratorBundle\Subscriber\DateTimeFormatterSubscriber;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
 use Fludio\RestApiGeneratorBundle\Resource\Resource;
 use Fludio\RestApiGeneratorBundle\Resource\Convention;
@@ -53,7 +53,7 @@ class FludioRestApiGeneratorExtension extends Extension
     private function registerListeners(ContainerBuilder $container, $listeners)
     {
         if (!empty($listeners['datetime'])) {
-            $definition = new Definition(DateTimeFormatterListener::class);
+            $definition = new Definition(DateTimeFormatterSubscriber::class);
             $namingStrategyClass = $container->getParameter('jms_serializer.camel_case_naming_strategy.class');
             $format = $listeners['datetime'];
             $definition->setArguments([$namingStrategyClass, $format]);

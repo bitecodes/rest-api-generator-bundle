@@ -1,13 +1,13 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Listener;
+namespace Fludio\RestApiGeneratorBundle\Tests\Subscriber;
 
 use Doctrine\ORM\Tools\SchemaTool;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Fludio\TestBundle\Test\TestCase;
 
-class DateTimeFormatterListenerTest extends TestCase
+class DateTimeFormatterSubscriberTest extends TestCase
 {
     protected static function createKernel(array $options = array())
     {

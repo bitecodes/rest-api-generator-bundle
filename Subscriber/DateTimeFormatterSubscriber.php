@@ -1,13 +1,13 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Listener;
+namespace Fludio\RestApiGeneratorBundle\Subscriber;
 
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
 use JMS\Serializer\EventDispatcher\PreSerializeEvent;
 use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
 
-class DateTimeFormatterListener implements EventSubscriberInterface
+class DateTimeFormatterSubscriber implements EventSubscriberInterface
 {
     protected $formatOptions = [
         'unix' => 'U',
