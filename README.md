@@ -67,12 +67,12 @@ This will result in the following endpoints:
 - [x] Provide endpoint for batch update
 - [x] Provide endpoint for batch delete
 - [x] Search filter
-- [X] Pagination
+- [x] Pagination
 - [x] Add security options
-- [X] Dynamic FormTypes
-- [X] Listener to format all DateTimes to a specific format
-- [X] Better error messages
-- [ ] Configure returned Response
+- [x] Dynamic FormTypes
+- [x] Listener to format all DateTimes to a specific format
+- [x] Better error messages
+- [x] Streamline returned Response
   - [ ] Add metadata (pagination links, total?)
 - [ ] defaults: _format: json|xml
 - [ ] Access entities by something else than the id
