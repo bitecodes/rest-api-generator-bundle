@@ -1,14 +1,29 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Listener;
+namespace Fludio\RestApiGeneratorBundle\Subscriber;
 
 use Fludio\RestApiGeneratorBundle\Api\ApiProblem;
 use Fludio\RestApiGeneratorBundle\Exception\ApiProblemException;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
-class JsonContentListener
+class JsonContentSubscriber implements EventSubscriberInterface
 {
-    public function onKernelRequest(GetResponseEvent $event)
+    /**
+     * @return array
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            KernelEvents::REQUEST => 'setContentToRequest'
+        ];
+    }
+
+    /**
+     * @param GetResponseEvent $event
+     */
+    public function setContentToRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();
 
@@ -21,6 +36,9 @@ class JsonContentListener
         }
     }
 
+    /**
+     * Validate json decoding
+     */
     protected function validateJsonContent()
     {
         switch (json_last_error()) {

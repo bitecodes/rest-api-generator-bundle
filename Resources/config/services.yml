@@ -7,10 +7,10 @@ services:
             - { name: kernel.event_listener, event: kernel.view }
             - { name: kernel.event_listener, event: kernel.controller }
 
-    fludio_rest_api_generator.json_content_listener:
-        class: Fludio\RestApiGeneratorBundle\Listener\JsonContentListener
+    fludio_rest_api_generator.json_content_subscriber:
+        class: Fludio\RestApiGeneratorBundle\Subscriber\JsonContentSubscriber
         tags:
-            - { name: kernel.event_listener, event: kernel.request }
+            - { name: kernel.event_subscriber }
 
     app.routing_loader:
         class: Fludio\RestApiGeneratorBundle\RouteLoader\RouteLoader
