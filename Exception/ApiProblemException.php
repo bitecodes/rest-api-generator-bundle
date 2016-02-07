@@ -2,6 +2,7 @@
 
 namespace Fludio\RestApiGeneratorBundle\Exception;
 
+use Fludio\RestApiGeneratorBundle\Api\ApiProblem;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ApiProblemException extends HttpException

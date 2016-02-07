@@ -1,10 +1,10 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Exception;
+namespace Fludio\RestApiGeneratorBundle\Api;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class ApiProblem
+class ApiProblem extends ApiResponse
 {
     const TYPE_VALIDATION_ERROR = 'validation_error';
     const TYPE_INVALID_REQUEST_BODY_FORMAT = 'invalid_body_format';
@@ -15,21 +15,11 @@ class ApiProblem
      *
      * @var array
      */
-    protected static $titles = array(
+    protected static $titles = [
         self::TYPE_VALIDATION_ERROR => 'There was a validation error',
         self::TYPE_INVALID_REQUEST_BODY_FORMAT => 'Invalid JSON format sent',
         self::TYPE_ENTITY_NOT_FOUND => 'The requested entity was not found',
-    );
-
-    /**
-     * @var int
-     */
-    protected $statusCode;
-
-    /**
-     * @var null|string
-     */
-    protected $type;
+    ];
 
     /**
      * @var string
@@ -37,20 +27,14 @@ class ApiProblem
     protected $title;
 
     /**
-     * @var array
-     */
-    protected $extraData = array();
-
-    /**
      * ApiProblem constructor.
      *
      * @param $statusCode
      * @param null $type
+     * @param array $data
      */
-    public function __construct($statusCode, $type = null)
+    public function __construct($statusCode, $type = null, $data = [])
     {
-        $this->statusCode = $statusCode;
-
         if ($type === null) {
             // no type? The default is about:blank and the title should
             // be the standard status code message
@@ -66,26 +50,11 @@ class ApiProblem
             $title = self::$titles[$type];
         }
 
-        $this->type = $type;
         $this->title = $title;
+
+        parent::__construct($statusCode, $data, $type);
     }
 
-    /**
-     * @param $name
-     * @param $value
-     */
-    public function set($name, $value)
-    {
-        $this->extraData[$name] = $value;
-    }
-
-    /**
-     * @return int
-     */
-    public function getStatusCode()
-    {
-        return $this->statusCode;
-    }
 
     /**
      * @return string
@@ -101,12 +70,10 @@ class ApiProblem
     public function toArray()
     {
         return array_merge(
-            $this->extraData,
-            array(
-                'status' => $this->statusCode,
-                'type' => $this->type,
-                'title' => $this->title,
-            )
+            parent::toArray(),
+            [
+                'title' => $this->title
+            ]
         );
     }
 }

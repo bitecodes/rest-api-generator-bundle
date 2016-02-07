@@ -3,7 +3,7 @@
 namespace Fludio\RestApiGeneratorBundle\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Fludio\RestApiGeneratorBundle\Exception\ApiProblem;
+use Fludio\RestApiGeneratorBundle\Api\ApiProblem;
 use Fludio\RestApiGeneratorBundle\Exception\ApiProblemException;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;

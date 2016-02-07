@@ -2,6 +2,7 @@
 
 namespace Fludio\RestApiGeneratorBundle\Listener;
 
+use Fludio\RestApiGeneratorBundle\Api\ApiResponse;
 use Fludio\RestApiGeneratorBundle\Controller\RestApiController;
 use JMS\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +33,9 @@ class SerializationListener
         if ($this->isRestController) {
             $data = $event->getControllerResult();
 
-            $json = $this->serializer->serialize($data, 'json');
+            $apiResponse = new ApiResponse(200, $data);
+
+            $json = $this->serializer->serialize($apiResponse->toArray(), 'json');
             $response = new Response($json, 200, [
                 'Content-Type' => 'application/json'
             ]);
