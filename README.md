@@ -12,7 +12,7 @@ Install via composer
 ```
 composer require ...
 ```
-Activate the bundle in your AppKernel.
+Then activate the bundle in your AppKernel.
 
 ``` php
 // app/AppKernel.php
@@ -28,11 +28,22 @@ public function registerBundles()
     // ...
 }
 ```
+And finally, add this to your routing configuration.
+
+```
+// app/config/routing.yml
+
+rest_api_generator:
+    resource: "@FludioRestApiGeneratorBundle/Resources/config/routing.yml"
+```
+
+With these basic steps the bundle is ready to be used. Now you can generate your entities as you are used to.
+
 
 ## Configuration
 
-Add those entities to the configuration, that need some endpoints.
-
+Now that you have some entities in your project, add them to the configuration, so that the bundle can generate
+some endpoints for these entities.
 
 ``` yaml
 // app/config/config.yml
@@ -42,7 +53,7 @@ fludio_rest_api_generator:
         MyBundle\Entity\Post: ~
         MyBundle\Entity\Comment: ~
 ```
-This will result in the following endpoints:
+Et voilà, now you have a fully working api. This will result in the following endpoints:
 
 | Name                                             | Method            | Scheme | Host | Path            |
 |--------------------------------------------------|-------------------|--------|------|-----------------|
@@ -60,6 +71,7 @@ This will result in the following endpoints:
 | fludio.rest_api_generator.batch\_update.comment  | PUT &#124;  PATCH | ANY    | ANY  | /comments       |
 | fludio.rest_api_generator.delete.comment         | DELETE            | ANY    | ANY  | /comments/{id}  |
 | fludio.rest_api_generator.batch\_delete.comment  | DELETE            | ANY    | ANY  | /comments       |
+
 
 ## TODO
 
@@ -100,6 +112,8 @@ This will result in the following endpoints:
   - [ ] Security section
   - [ ] DateTimeFormatListener
 - [ ] Provide endpoint for batch create (?)
+- [ ] Sort via query
+- [ ] Expose via query
 
 Bugs:
 - ResourceActionData::getActionFromRoute needs to detect prefix
