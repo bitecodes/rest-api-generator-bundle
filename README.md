@@ -30,7 +30,7 @@ public function registerBundles()
 ```
 And finally, add this to your routing configuration.
 
-```
+``` yaml
 // app/config/routing.yml
 
 rest_api_generator:
