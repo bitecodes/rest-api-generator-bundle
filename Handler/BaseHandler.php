@@ -54,13 +54,13 @@ class BaseHandler
 
     /**
      * @param $params
-     * @param int $offset
-     * @param int $limit
+     * @param int $page
+     * @param int $perPage
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function paginate($params, $offset = 0, $limit = 20)
+    public function paginate($params, $page = 1, $perPage = 20, &$paginator = null)
     {
-        return $this->repository->paginate($this->filter, $params, $offset, $limit);
+        return $this->repository->paginate($this->filter, $params, $page, $perPage, $paginator);
     }
 
     /**

@@ -6,10 +6,12 @@ use Doctrine\ORM\EntityNotFoundException;
 use Fludio\RestApiGeneratorBundle\Api\ApiProblem;
 use Fludio\RestApiGeneratorBundle\Exception\ApiProblemException;
 use Fludio\RestApiGeneratorBundle\Handler\BaseHandler;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDoc;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RestApiController extends Controller
 {
@@ -34,10 +36,17 @@ class RestApiController extends Controller
 
         $params = $request->query->all();
 
-        $offset = !empty($params['offset']) ? $params['offset'] : null;
+        $page = !empty($params['page']) ? $params['page'] : null;
         $limit = !empty($params['limit']) ? $params['limit'] : null;
 
-        return $this->getHandler()->{$_indexGetterMethod}($params, $offset, $limit);
+        $paginator = null;
+        $result = $this->getHandler()->{$_indexGetterMethod}($params, $page, $limit, $paginator);
+
+        if ($paginator instanceof Pagerfanta) {
+            $this->addLinksToMetadata($paginator, $request->get('_route'), $limit);
+        }
+
+        return $result;
     }
 
     /**
@@ -216,5 +225,24 @@ class RestApiController extends Controller
         if ($roles) {
             $this->denyAccessUnlessGranted($roles);
         }
+    }
+
+    /**
+     * @param Pagerfanta $paginator
+     * @param $route
+     * @param $limit
+     */
+    protected function addLinksToMetadata(Pagerfanta $paginator, $route, $limit)
+    {
+        $data = $this->get('fludio_rest_api_generator.services.response_data');
+        $router = $this->get('router');
+
+        $data->addLink('first', $router->generate($route, ['page' => 1, 'limit' => $limit], UrlGeneratorInterface::NETWORK_PATH));
+        $data->addLink('prev', $router->generate($route, ['page' => $paginator->getPreviousPage(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL));
+        $data->addLink('current', $router->generate($route, ['page' => $paginator->getCurrentPage(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL));
+        $data->addLink('next', $router->generate($route, ['page' => $paginator->getNextPage(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL));
+        $data->addLink('last', $router->generate($route, ['page' => $paginator->getNbPages(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL));
+
+        $data->addMeta('total', $paginator->getNbResults());
     }
 }

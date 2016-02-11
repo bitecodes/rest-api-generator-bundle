@@ -3,6 +3,7 @@ services:
         class: Fludio\RestApiGeneratorBundle\Subscriber\SerializationSubscriber
         arguments:
             - '@jms_serializer'
+            - '@fludio_rest_api_generator.services.response_data'
         tags:
             - { name: kernel.event_subscriber }
 
@@ -40,3 +41,5 @@ services:
         tags:
             - { name: nelmio_api_doc.extractor.handler }
 
+    fludio_rest_api_generator.services.response_data:
+        class: Fludio\RestApiGeneratorBundle\Services\MetadataStorage\ResponseData

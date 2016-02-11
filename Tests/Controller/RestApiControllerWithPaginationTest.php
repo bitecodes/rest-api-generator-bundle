@@ -33,16 +33,20 @@ class RestApiControllerWithPaginationTest extends TestCase
         $this->factory->create(Post::class, ['title' => 'Post 2', 'content' => 'Something else']);
         $this->factory->create(Post::class, ['title' => 'Post 3', 'content' => 'Even more']);
         $this->factory->create(Post::class, ['title' => 'Post 4', 'content' => 'Last one']);
+        $this->factory->create(Post::class, ['title' => 'Post 5', 'content' => 'Last one']);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.index.posts', ['offset' => 1, 'limit' => 2]);
+        $url = $this->generateUrl('fludio.rest_api_generator.index.posts', ['page' => 2, 'limit' => 2]);
 
         $this
             ->get($url)
             ->seeJsonResponse()
             ->seeStatusCode(200)
             ->seeNotInJson(['title' => 'Post 1'])
-            ->seeInJson(['title' => 'Post 2'])
+            ->seeNotInJson(['title' => 'Post 2'])
             ->seeInJson(['title' => 'Post 3'])
-            ->seeNotInJson(['title' => 'Post 4']);
+            ->seeInJson(['title' => 'Post 4'])
+            ->seeNotInJson(['title' => 'Post 5'])
+            ->seeInJson(['meta' => ['total' => 5]])
+            ->seeJsonHas('links', 5);
     }
 }

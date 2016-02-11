@@ -85,11 +85,12 @@ Et voilà, now you have a fully working api. This will result in the following e
 - [x] Listener to format all DateTimes to a specific format
 - [x] Better error messages
 - [x] Streamline returned Response
-  - [ ] Add metadata (pagination links, total?)
-- [ ] defaults: _format: json|xml
+  - [x] Add metadata (pagination links, total)
+- [ ] Sort via query
+- [ ] Expose via query
+- [ ] Nested Resources
 - [ ] Access entities by something else than the id
 - [ ] Resource Actions as classes (polymorphic)
-- [ ] Nested Resources
 - [ ] Configuration Options
   - [x] Define which endpoints should be created (only|except)
   - [x] Override resource name
@@ -104,6 +105,7 @@ Et voilà, now you have a fully working api. This will result in the following e
   - [x] Add Pagination
   - [ ] Better descriptions 
 - [ ] XML-Support
+- [ ] defaults: _format: json|xml
 - [ ] Add hooks/ events
 - [ ] Documentation
   - [ ] Route selection
@@ -112,8 +114,6 @@ Et voilà, now you have a fully working api. This will result in the following e
   - [ ] Security section
   - [ ] DateTimeFormatListener
 - [ ] Provide endpoint for batch create (?)
-- [ ] Sort via query
-- [ ] Expose via query
 
 Bugs:
 - ResourceActionData::getActionFromRoute needs to detect prefix
