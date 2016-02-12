@@ -2,7 +2,7 @@
 
 namespace Fludio\RestApiGeneratorBundle\Exception;
 
-use Fludio\RestApiGeneratorBundle\Api\ApiProblem;
+use Fludio\RestApiGeneratorBundle\Api\Response\ApiProblem;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ApiProblemException extends HttpException
@@ -15,7 +15,7 @@ class ApiProblemException extends HttpException
     /**
      * ApiProblemException constructor.
      *
-     * @param ApiProblem $apiProblem
+     * @param \Fludio\RestApiGeneratorBundle\Api\Response\ApiProblem $apiProblem
      * @param \Exception|null $previous
      * @param array $headers
      * @param int $code
@@ -30,7 +30,7 @@ class ApiProblemException extends HttpException
     }
 
     /**
-     * @return ApiProblem
+     * @return \Fludio\RestApiGeneratorBundle\Api\Response\ApiProblem
      */
     public function getApiProblem()
     {

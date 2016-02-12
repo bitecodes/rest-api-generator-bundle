@@ -1,7 +1,8 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Api;
+namespace Fludio\RestApiGeneratorBundle\Api\Response;
 
+use Fludio\RestApiGeneratorBundle\Api\Response\ApiResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApiProblem extends ApiResponse

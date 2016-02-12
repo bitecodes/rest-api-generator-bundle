@@ -3,7 +3,7 @@
 namespace Fludio\RestApiGeneratorBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
-use Fludio\RestApiGeneratorBundle\Api\ApiProblem;
+use Fludio\RestApiGeneratorBundle\Api\Response\ApiProblem;
 use Fludio\RestApiGeneratorBundle\Exception\ApiProblemException;
 use Fludio\RestApiGeneratorBundle\Handler\BaseHandler;
 use Pagerfanta\Pagerfanta;

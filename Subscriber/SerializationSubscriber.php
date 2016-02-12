@@ -2,7 +2,7 @@
 
 namespace Fludio\RestApiGeneratorBundle\Subscriber;
 
-use Fludio\RestApiGeneratorBundle\Api\ApiResponse;
+use Fludio\RestApiGeneratorBundle\Api\Response\ApiResponse;
 use Fludio\RestApiGeneratorBundle\Controller\RestApiController;
 use Fludio\RestApiGeneratorBundle\Services\MetadataStorage\ResponseData;
 use JMS\Serializer\Serializer;

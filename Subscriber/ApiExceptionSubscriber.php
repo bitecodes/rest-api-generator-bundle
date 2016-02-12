@@ -2,7 +2,7 @@
 
 namespace Fludio\RestApiGeneratorBundle\Subscriber;
 
-use Fludio\RestApiGeneratorBundle\Api\ApiProblem;
+use Fludio\RestApiGeneratorBundle\Api\Response\ApiProblem;
 use Fludio\RestApiGeneratorBundle\Exception\ApiProblemException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
