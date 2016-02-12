@@ -3,7 +3,7 @@
 namespace Fludio\RestApiGeneratorBundle\Tests\Resource;
 
 use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
-use Fludio\RestApiGeneratorBundle\Resource\Resource;
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 
@@ -17,7 +17,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->config = new Resource(Post::class);
+        $this->config = new ApiResource(Post::class);
 
         $manager = new ResourceManager();
         $manager->addConfiguration($this->config);

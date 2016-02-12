@@ -2,6 +2,7 @@
 
 namespace Fludio\RestApiGeneratorBundle\Resource;
 
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Symfony\Component\Routing\Route;
 
 class ResourceActionData
@@ -31,7 +32,7 @@ class ResourceActionData
      * @param array $options
      * @param Resource $resource
      */
-    public function __construct(array $options, Resource $resource)
+    public function __construct(array $options, ApiResource $resource)
     {
         $this->availableActions = ResourceOptions::getAvailableActions($options);
         $this->resource = $resource;

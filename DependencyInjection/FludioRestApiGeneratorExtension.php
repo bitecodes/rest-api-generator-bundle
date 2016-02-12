@@ -5,7 +5,7 @@ namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 use Doctrine\Common\Inflector\Inflector;
 use Fludio\RestApiGeneratorBundle\Subscriber\DateTimeFormatterSubscriber;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
-use Fludio\RestApiGeneratorBundle\Resource\Resource;
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Fludio\RestApiGeneratorBundle\Resource\Convention;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -70,7 +70,7 @@ class FludioRestApiGeneratorExtension extends Extension
      */
     private function newEntityEndpointConfigurationDefinition(ContainerBuilder $container, $entity, $options)
     {
-        $definition = new Definition(Resource::class);
+        $definition = new Definition(ApiResource::class);
         $definition->setArguments([$entity, $options]);
         $definition->setPublic(false);
         $refl = new \ReflectionClass($entity);

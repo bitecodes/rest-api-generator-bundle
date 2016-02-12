@@ -4,7 +4,7 @@ namespace Fludio\RestApiGeneratorBundle\Tests\Annotation;
 
 use Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDoc;
 use Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler;
-use Fludio\RestApiGeneratorBundle\Resource\Resource;
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\Filter\PostFilter;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestCase;
@@ -23,7 +23,7 @@ class GenerateApiDocHandlerTest extends TestCase
     {
         parent::setUp();
 
-        $resource = new Resource(Post::class, [
+        $resource = new ApiResource(Post::class, [
             'filter' => PostFilter::class,
             'paginate' => true
         ]);

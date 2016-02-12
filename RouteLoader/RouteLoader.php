@@ -4,7 +4,7 @@ namespace Fludio\RestApiGeneratorBundle\RouteLoader;
 
 use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
-use Fludio\RestApiGeneratorBundle\Resource\Resource;
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Fludio\RestApiGeneratorBundle\Resource\Convention;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
@@ -61,7 +61,7 @@ class RouteLoader extends Loader
      * @param $routes
      * @throws \Exception
      */
-    private function addRoute(Resource $apiConfig, $routes)
+    private function addRoute(ApiResource $apiConfig, $routes)
     {
         foreach ($apiConfig->getActions()->getAvailableActions() as $routeIdentifier) {
             $route = new Route($apiConfig->getActions()->getUrl($routeIdentifier));

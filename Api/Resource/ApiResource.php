@@ -1,12 +1,16 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Resource;
+namespace Fludio\RestApiGeneratorBundle\Api\Resource;
 
 use Doctrine\Common\Inflector\Inflector;
 use Fludio\DoctrineFilter\FilterInterface;
+use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
+use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
+use Fludio\RestApiGeneratorBundle\Resource\ResourceOptions;
+use Fludio\RestApiGeneratorBundle\Resource\ResourceServiceData;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Resource
+class ApiResource
 {
     /**
      * @var ResourceManager

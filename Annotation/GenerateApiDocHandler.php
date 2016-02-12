@@ -10,7 +10,7 @@ use Fludio\RestApiGeneratorBundle\Form\DynamicFormSubscriber;
 use Fludio\RestApiGeneratorBundle\Form\DynamicFormType;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
-use Fludio\RestApiGeneratorBundle\Resource\Resource;
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Nelmio\ApiDocBundle\Extractor\HandlerInterface;
 use Symfony\Component\Routing\Route;
@@ -89,7 +89,7 @@ class GenerateApiDocHandler implements HandlerInterface
      * @param ApiDoc $annotation
      * @param Resource $resource
      */
-    private function setOutput(ApiDoc $annotation, Resource $resource)
+    private function setOutput(ApiDoc $annotation, ApiResource $resource)
     {
         $refl = new \ReflectionClass($annotation);
 
@@ -104,7 +104,7 @@ class GenerateApiDocHandler implements HandlerInterface
      * @param ApiDoc $annotation
      * @param Resource $resource
      */
-    private function setInput(ApiDoc $annotation, Resource $resource)
+    private function setInput(ApiDoc $annotation, ApiResource $resource)
     {
         $refl = new \ReflectionClass($annotation);
 
@@ -160,7 +160,7 @@ class GenerateApiDocHandler implements HandlerInterface
      * @param Route $route
      * @return string
      */
-    private function getDescription(Resource $resource, Route $route)
+    private function getDescription(ApiResource $resource, Route $route)
     {
         $description = '';
 
@@ -199,7 +199,7 @@ class GenerateApiDocHandler implements HandlerInterface
      * @param ApiDoc $annotation
      * @param Resource $resource
      */
-    protected function addFilter(ApiDoc $annotation, Resource $resource)
+    protected function addFilter(ApiDoc $annotation, ApiResource $resource)
     {
         $filterClass = $resource->getFilterClass();
         /** @var FilterInterface $filter */
@@ -221,7 +221,7 @@ class GenerateApiDocHandler implements HandlerInterface
      * @param ApiDoc $annotation
      * @param Resource $resource
      */
-    protected function addPagination(ApiDoc $annotation, Resource $resource)
+    protected function addPagination(ApiDoc $annotation, ApiResource $resource)
     {
         if ($resource->hasPagination()) {
             $annotation->addFilter('offset', [

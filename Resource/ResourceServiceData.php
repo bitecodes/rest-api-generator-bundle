@@ -2,6 +2,8 @@
 
 namespace Fludio\RestApiGeneratorBundle\Resource;
 
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
+
 class ResourceServiceData
 {
     /**
@@ -13,7 +15,7 @@ class ResourceServiceData
      * ResourceService constructor.
      * @param array $options
      */
-    public function __construct(array $options, Resource $resource)
+    public function __construct(array $options, ApiResource $resource)
     {
         $this->resource = $resource;
     }

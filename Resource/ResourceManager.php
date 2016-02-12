@@ -2,6 +2,8 @@
 
 namespace Fludio\RestApiGeneratorBundle\Resource;
 
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
+
 class ResourceManager
 {
     /**
@@ -12,7 +14,7 @@ class ResourceManager
     /**
      * @param Resource $config
      */
-    public function addConfiguration(Resource $config)
+    public function addConfiguration(ApiResource $config)
     {
         $this->endpoints[$config->getEntityNamespace()] = $config;
         $config->setManager($this);

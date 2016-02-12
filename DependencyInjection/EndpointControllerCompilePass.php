@@ -5,7 +5,7 @@ namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 use Doctrine\ORM\EntityRepository;
 use Fludio\RestApiGeneratorBundle\Form\DynamicFormType;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
-use Fludio\RestApiGeneratorBundle\Resource\Resource;
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Fludio\RestApiGeneratorBundle\Controller\RestApiController;
 use Fludio\RestApiGeneratorBundle\Handler\BaseHandler;
 use Fludio\RestApiGeneratorBundle\Handler\FormHandler;
@@ -30,7 +30,7 @@ class EndpointControllerCompilePass implements CompilerPassInterface
      * @param Resource $entityConfig
      * @param ContainerBuilder $container
      */
-    protected function setupEntity(Resource $entityConfig, ContainerBuilder $container)
+    protected function setupEntity(ApiResource $entityConfig, ContainerBuilder $container)
     {
         $formHandlerServiceName = $entityConfig->getServices()->getFormHandlerServiceName();
         $entityHandlerServiceName = $entityConfig->getServices()->getEntityHandlerServiceName();

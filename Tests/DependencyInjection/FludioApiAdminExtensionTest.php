@@ -3,7 +3,7 @@
 namespace Fludio\RestApiGeneratorBundle\Tests\DependencyInjection;
 
 use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
-use Fludio\RestApiGeneratorBundle\Resource\Resource;
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Fludio\RestApiGeneratorBundle\DependencyInjection\FludioRestApiGeneratorExtension;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
@@ -30,7 +30,7 @@ class FludioApiAdminExtensionTest extends AbstractExtensionTestCase
     {
         $this->load($this->getConfig());
 
-        $this->assertContainerBuilderHasService('fludio.rest_api_generator.post', Resource::class);
+        $this->assertContainerBuilderHasService('fludio.rest_api_generator.post', ApiResource::class);
     }
 
     protected function getConfig()
