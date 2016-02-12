@@ -1,25 +1,9 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Resource;
+namespace Fludio\RestApiGeneratorBundle\Api\Resource\Traits;
 
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
-
-class ResourceServiceData
+trait ServiceNames
 {
-    /**
-     * @var Resource
-     */
-    private $resource;
-
-    /**
-     * ResourceService constructor.
-     * @param array $options
-     */
-    public function __construct(array $options, ApiResource $resource)
-    {
-        $this->resource = $resource;
-    }
-
     /**
      * Get service name of controller
      *
@@ -66,6 +50,6 @@ class ResourceServiceData
      */
     protected function getServiceName($service)
     {
-        return $this->resource->getBundlePrefix() . '.' . $service . '.' . $this->resource->getName();
+        return $this->getBundlePrefix() . '.' . $service . '.' . $this->getName();
     }
 }

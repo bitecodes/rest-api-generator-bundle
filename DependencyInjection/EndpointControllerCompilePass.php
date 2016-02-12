@@ -27,15 +27,15 @@ class EndpointControllerCompilePass implements CompilerPassInterface
     }
 
     /**
-     * @param Resource $entityConfig
+     * @param ApiResource $entityConfig
      * @param ContainerBuilder $container
      */
     protected function setupEntity(ApiResource $entityConfig, ContainerBuilder $container)
     {
-        $formHandlerServiceName = $entityConfig->getServices()->getFormHandlerServiceName();
-        $entityHandlerServiceName = $entityConfig->getServices()->getEntityHandlerServiceName();
-        $controllerServiceName = $entityConfig->getServices()->getControllerServiceName();
-        $filterServiceName = $entityConfig->getServices()->getFilterServiceName();
+        $formHandlerServiceName = $entityConfig->getFormHandlerServiceName();
+        $entityHandlerServiceName = $entityConfig->getEntityHandlerServiceName();
+        $controllerServiceName = $entityConfig->getControllerServiceName();
+        $filterServiceName = $entityConfig->getFilterServiceName();
         $filterClass = $entityConfig->getFilterClass();
 
         // Filter

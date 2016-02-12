@@ -12,7 +12,7 @@ class ResourceManager
     protected $endpoints = [];
 
     /**
-     * @param Resource $config
+     * @param ApiResource $config
      */
     public function addConfiguration(ApiResource $config)
     {
@@ -22,7 +22,7 @@ class ResourceManager
 
 
     /**
-     * @param Resource[] $configs
+     * @param ApiResource[] $configs
      */
     public function setConfigurations(array $configs)
     {
@@ -33,7 +33,7 @@ class ResourceManager
     }
 
     /**
-     * @return Resource[]
+     * @return ApiResource[]
      */
     public function getConfigurations()
     {
@@ -42,7 +42,7 @@ class ResourceManager
 
     /**
      * @param $entityClass
-     * @return bool|Resource
+     * @return bool|ApiResource
      */
     public function getConfigurationForEntity($entityClass)
     {

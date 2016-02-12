@@ -82,19 +82,19 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_returns_the_controller_service_name()
     {
-        $this->assertEquals($this->bundlePrefix . '.controller.posts', $this->config->getServices()->getControllerServiceName());
+        $this->assertEquals($this->bundlePrefix . '.controller.posts', $this->config->getControllerServiceName());
     }
 
     /** @test */
     public function it_returns_the_entity_handler_service_name()
     {
-        $this->assertEquals($this->bundlePrefix . '.entity_handler.posts', $this->config->getServices()->getEntityHandlerServiceName());
+        $this->assertEquals($this->bundlePrefix . '.entity_handler.posts', $this->config->getEntityHandlerServiceName());
     }
 
     /** @test */
     public function it_returns_the_form_handler_service_name()
     {
-        $this->assertEquals($this->bundlePrefix . '.form_handler.posts', $this->config->getServices()->getFormHandlerServiceName());
+        $this->assertEquals($this->bundlePrefix . '.form_handler.posts', $this->config->getFormHandlerServiceName());
     }
 
     /**

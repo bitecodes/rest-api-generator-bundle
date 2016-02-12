@@ -7,11 +7,13 @@ use Fludio\DoctrineFilter\FilterInterface;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceOptions;
-use Fludio\RestApiGeneratorBundle\Resource\ResourceServiceData;
+use Fludio\RestApiGeneratorBundle\Api\Resource\Traits\ServiceNames;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ApiResource
 {
+    use ServiceNames;
+
     /**
      * @var ResourceManager
      */
@@ -43,7 +45,7 @@ class ApiResource
      */
     protected $actions;
     /**
-     * @var ResourceServiceData
+     * @var ServiceNames
      */
     protected $services;
 
@@ -57,7 +59,6 @@ class ApiResource
         $this->paginate = $options['paginate'];
         $this->formTypeClass = $options['form_type'];
         $this->actions = new ResourceActionData($options, $this);
-        $this->services = new ResourceServiceData($options, $this);
     }
 
     /**
@@ -118,14 +119,6 @@ class ApiResource
     public function getActions()
     {
         return $this->actions;
-    }
-
-    /**
-     * @return ResourceServiceData
-     */
-    public function getServices()
-    {
-        return $this->services;
     }
 
     /**

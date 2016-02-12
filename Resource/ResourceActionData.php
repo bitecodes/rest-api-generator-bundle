@@ -30,7 +30,7 @@ class ResourceActionData
 
     /**
      * @param array $options
-     * @param Resource $resource
+     * @param ApiResource $resource
      */
     public function __construct(array $options, ApiResource $resource)
     {
@@ -114,7 +114,7 @@ class ResourceActionData
      */
     public function getControllerAction($action)
     {
-        return $this->resource->getServices()->getControllerServiceName() . ':' . $action . 'Action';
+        return $this->resource->getControllerServiceName() . ':' . $action . 'Action';
     }
 
     /**
