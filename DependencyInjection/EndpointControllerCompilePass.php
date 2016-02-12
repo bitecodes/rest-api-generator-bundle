@@ -21,7 +21,7 @@ class EndpointControllerCompilePass implements CompilerPassInterface
         /** @var ApiManager $manager */
         $manager = $container->get('fludio.rest_api_generator.endpoint_manager');
 
-        foreach ($manager->getConfigurations() as $entity => $config) {
+        foreach ($manager->getResources() as $entity => $config) {
             $this->setupEntity($config, $container);
         }
     }

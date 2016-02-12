@@ -82,7 +82,7 @@ class GenerateApiDocHandler implements HandlerInterface
     {
         $entity = $route->getDefault('_entity');
 
-        return $this->manager->getConfigurationForEntity($entity);
+        return $this->manager->getResourceForEntity($entity);
     }
 
     /**

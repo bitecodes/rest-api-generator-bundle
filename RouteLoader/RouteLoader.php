@@ -41,7 +41,7 @@ class RouteLoader extends Loader
 
         $routes = new RouteCollection();
 
-        foreach ($this->manager->getConfigurations() as $entity => $entityEndpointConfiguration) {
+        foreach ($this->manager->getResources() as $entity => $entityEndpointConfiguration) {
             $this->addRoute($entityEndpointConfiguration, $routes);
         }
 

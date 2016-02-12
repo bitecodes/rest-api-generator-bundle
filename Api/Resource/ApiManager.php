@@ -7,14 +7,14 @@ class ApiManager
     /**
      * @var ApiResource[]
      */
-    protected $endpoints = [];
+    protected $resources = [];
 
     /**
      * @param ApiResource $config
      */
-    public function addConfiguration(ApiResource $config)
+    public function addResource(ApiResource $config)
     {
-        $this->endpoints[$config->getEntityNamespace()] = $config;
+        $this->resources[$config->getEntityNamespace()] = $config;
         $config->setManager($this);
     }
 
@@ -22,33 +22,32 @@ class ApiManager
     /**
      * @param ApiResource[] $configs
      */
-    public function setConfigurations(array $configs)
+    public function setResources(array $configs)
     {
         foreach ($configs as $config) {
-            $this->addConfiguration($config);
-            $config->setManager($this);
+            $this->addResource($config);
         }
     }
 
     /**
      * @return ApiResource[]
      */
-    public function getConfigurations()
+    public function getResources()
     {
-        return $this->endpoints;
+        return $this->resources;
     }
 
     /**
      * @param $entityClass
      * @return bool|ApiResource
      */
-    public function getConfigurationForEntity($entityClass)
+    public function getResourceForEntity($entityClass)
     {
-        if (!isset($this->endpoints[$entityClass])) {
+        if (!isset($this->resources[$entityClass])) {
             return false;
         }
 
-        return $this->endpoints[$entityClass];
+        return $this->resources[$entityClass];
     }
 
     /**

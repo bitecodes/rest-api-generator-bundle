@@ -20,7 +20,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
         $this->config = new ApiResource(Post::class);
 
         $manager = new ApiManager();
-        $manager->addConfiguration($this->config);
+        $manager->addResource($this->config);
     }
 
     /** @test */

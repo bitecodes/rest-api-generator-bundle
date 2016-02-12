@@ -46,7 +46,7 @@ class FludioRestApiGeneratorExtension extends Extension
 
         foreach ($endpointConfig as $entity => $options) {
             $definition = $this->newEntityEndpointConfigurationDefinition($container, $entity, $options);
-            $endpointManager->addMethodCall('addConfiguration', [$definition]);
+            $endpointManager->addMethodCall('addResource', [$definition]);
         }
     }
 

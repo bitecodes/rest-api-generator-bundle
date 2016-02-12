@@ -2,6 +2,7 @@
 
 namespace Fludio\RestApiGeneratorBundle\Tests\DependencyInjection;
 
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
@@ -25,8 +26,9 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function bla()
     {
+        /** @var ApiManager $manager */
         $manager = $this->kernel->getContainer()->get('fludio.rest_api_generator.endpoint_manager');
-        $config = $manager->getConfigurationForEntity(Post::class);
+        $config = $manager->getResourceForEntity(Post::class);
 
         $this->assertInstanceOf(ApiResource::class, $config);
         $this->assertEquals('/posts', $config->getActions()->getUrl(ResourceActionData::ACTION_INDEX));

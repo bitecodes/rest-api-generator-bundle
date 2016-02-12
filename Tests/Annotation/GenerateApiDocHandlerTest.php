@@ -29,7 +29,7 @@ class GenerateApiDocHandlerTest extends TestCase
         ]);
 
         $this->manager = new ApiManager();
-        $this->manager->addConfiguration($resource);
+        $this->manager->addResource($resource);
     }
 
     /** @test */
