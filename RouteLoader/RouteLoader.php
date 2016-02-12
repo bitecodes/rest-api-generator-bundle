@@ -3,7 +3,7 @@
 namespace Fludio\RestApiGeneratorBundle\RouteLoader;
 
 use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
-use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Fludio\RestApiGeneratorBundle\Resource\Convention;
 use Symfony\Component\Config\Loader\Loader;
@@ -28,7 +28,7 @@ class RouteLoader extends Loader
      */
     private $manager;
 
-    public function __construct(ResourceManager $manager)
+    public function __construct(ApiManager $manager)
     {
         $this->manager = $manager;
     }

@@ -2,7 +2,7 @@
 
 namespace Fludio\RestApiGeneratorBundle\Tests\DependencyInjection;
 
-use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Fludio\RestApiGeneratorBundle\DependencyInjection\FludioRestApiGeneratorExtension;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
@@ -22,7 +22,7 @@ class FludioApiAdminExtensionTest extends AbstractExtensionTestCase
     {
         $this->load($this->getConfig());
 
-        $this->assertContainerBuilderHasService('fludio.rest_api_generator.endpoint_manager', ResourceManager::class);
+        $this->assertContainerBuilderHasService('fludio.rest_api_generator.endpoint_manager', ApiManager::class);
     }
 
     /** @test */

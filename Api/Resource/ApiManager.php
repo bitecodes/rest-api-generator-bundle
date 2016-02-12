@@ -1,13 +1,11 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Resource;
+namespace Fludio\RestApiGeneratorBundle\Api\Resource;
 
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
-
-class ResourceManager
+class ApiManager
 {
     /**
-     * @var Resource[]
+     * @var ApiResource[]
      */
     protected $endpoints = [];
 

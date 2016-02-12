@@ -5,7 +5,7 @@ namespace Fludio\RestApiGeneratorBundle\Api\Resource;
 use Doctrine\Common\Inflector\Inflector;
 use Fludio\DoctrineFilter\FilterInterface;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
-use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceOptions;
 use Fludio\RestApiGeneratorBundle\Api\Resource\Traits\ServiceNames;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,7 +15,7 @@ class ApiResource
     use ServiceNames;
 
     /**
-     * @var ResourceManager
+     * @var ApiManager
      */
     protected $manager;
     /**
@@ -62,9 +62,9 @@ class ApiResource
     }
 
     /**
-     * @param ResourceManager $manager
+     * @param ApiManager $manager
      */
-    public function setManager(ResourceManager $manager)
+    public function setManager(ApiManager $manager)
     {
         $this->manager = $manager;
     }

@@ -9,7 +9,7 @@ use Fludio\DoctrineFilter\FilterInterface;
 use Fludio\RestApiGeneratorBundle\Form\DynamicFormSubscriber;
 use Fludio\RestApiGeneratorBundle\Form\DynamicFormType;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
-use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Nelmio\ApiDocBundle\Extractor\HandlerInterface;
@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Route;
 class GenerateApiDocHandler implements HandlerInterface
 {
     /**
-     * @var ResourceManager
+     * @var \Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager
      */
     private $manager;
     /**
@@ -26,7 +26,7 @@ class GenerateApiDocHandler implements HandlerInterface
      */
     private $em;
 
-    public function __construct(ResourceManager $manager, EntityManager $em)
+    public function __construct(ApiManager $manager, EntityManager $em)
     {
         $this->manager = $manager;
         $this->em = $em;

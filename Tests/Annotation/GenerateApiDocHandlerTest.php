@@ -5,7 +5,7 @@ namespace Fludio\RestApiGeneratorBundle\Tests\Annotation;
 use Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDoc;
 use Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
-use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\Filter\PostFilter;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestCase;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Route;
 class GenerateApiDocHandlerTest extends TestCase
 {
     /**
-     * @var ResourceManager
+     * @var \Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager
      */
     protected $manager;
 
@@ -28,7 +28,7 @@ class GenerateApiDocHandlerTest extends TestCase
             'paginate' => true
         ]);
 
-        $this->manager = new ResourceManager();
+        $this->manager = new ApiManager();
         $this->manager->addConfiguration($resource);
     }
 

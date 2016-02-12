@@ -4,7 +4,7 @@ namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 
 use Doctrine\Common\Inflector\Inflector;
 use Fludio\RestApiGeneratorBundle\Subscriber\DateTimeFormatterSubscriber;
-use Fludio\RestApiGeneratorBundle\Resource\ResourceManager;
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Fludio\RestApiGeneratorBundle\Resource\Convention;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -41,7 +41,7 @@ class FludioRestApiGeneratorExtension extends Extension
      */
     protected function registerApiResources(ContainerBuilder $container, $endpointConfig)
     {
-        $endpointManager = new Definition(ResourceManager::class);
+        $endpointManager = new Definition(ApiManager::class);
         $container->setDefinition('fludio.rest_api_generator.endpoint_manager', $endpointManager);
 
         foreach ($endpointConfig as $entity => $options) {
