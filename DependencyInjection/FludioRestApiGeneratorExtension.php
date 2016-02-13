@@ -3,6 +3,7 @@
 namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 
 use Doctrine\Common\Inflector\Inflector;
+use Fludio\RestApiGeneratorBundle\Resource\ResourceOptions;
 use Fludio\RestApiGeneratorBundle\Subscriber\DateTimeFormatterSubscriber;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
@@ -76,8 +77,7 @@ class FludioRestApiGeneratorExtension extends Extension
         $definition = new Definition(ApiResource::class);
         $definition->setArguments([$entity, $options]);
         $definition->setPublic(false);
-        $refl = new \ReflectionClass($entity);
-        $container->setDefinition('fludio.rest_api_generator.' . Inflector::tableize($refl->getShortName()), $definition);
+        $container->setDefinition('fludio.rest_api_generator.' . ResourceOptions::getDefaultResourceName($entity), $definition);
         return $definition;
     }
 }

@@ -24,6 +24,7 @@ class ResourceOptions
             'only' => [],
             'except' => [],
             'resource_name' => self::getDefaultResourceName($entity),
+            'identifier' => 'id',
             'form_type' => DynamicFormType::class,
             'secure' => [
                 'default' => []
@@ -50,7 +51,7 @@ class ResourceOptions
      * @param $entity
      * @return string
      */
-    private static function getDefaultResourceName($entity)
+    public static function getDefaultResourceName($entity)
     {
         $refl = new \ReflectionClass($entity);
         $name = $refl->getShortName();

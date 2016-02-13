@@ -36,6 +36,10 @@ class ApiResource
     /**
      * @var string
      */
+    protected $identifier;
+    /**
+     * @var string
+     */
     private $entity;
     /**
      * @var Action[]
@@ -55,6 +59,7 @@ class ApiResource
         $this->filterClass = $options['filter'];
         $this->paginate = $options['paginate'];
         $this->formTypeClass = $options['form_type'];
+        $this->identifier = $options['identifier'];
     }
 
     public function getResourceBaseUrl()
@@ -130,6 +135,14 @@ class ApiResource
     public function getFormTypeClass()
     {
         return $this->formTypeClass;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
     }
 
     /**

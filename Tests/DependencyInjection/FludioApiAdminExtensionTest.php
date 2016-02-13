@@ -30,7 +30,7 @@ class FludioApiAdminExtensionTest extends AbstractExtensionTestCase
     {
         $this->load($this->getConfig());
 
-        $this->assertContainerBuilderHasService('fludio.rest_api_generator.post', ApiResource::class);
+        $this->assertContainerBuilderHasService('fludio.rest_api_generator.posts', ApiResource::class);
     }
 
     protected function getConfig()

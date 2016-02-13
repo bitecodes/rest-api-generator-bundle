@@ -3,13 +3,15 @@
 namespace Fludio\RestApiGeneratorBundle\Handler;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Fludio\DoctrineFilter\FilterInterface;
+use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Fludio\RestApiGeneratorBundle\Repository\RepositoryDecorator;
 
 class BaseHandler
 {
     /**
-     * @var RepositoryDecorator
+     * @var RepositoryDecorator|EntityRepository
      */
     private $repository;
     /**
@@ -20,19 +22,24 @@ class BaseHandler
      * @var FilterInterface
      */
     private $filter;
+    /**
+     * @var ApiResource
+     */
+    private $apiResource;
 
     /**
      * @param EntityManager $em
-     * @param $entityClass
+     * @param ApiResource $apiResource
      * @param FormHandler $formHandler
      * @param FilterInterface $filter
      */
-    function __construct(EntityManager $em, $entityClass, FormHandler $formHandler, FilterInterface $filter = null)
+    function __construct(EntityManager $em, ApiResource $apiResource, FormHandler $formHandler, FilterInterface $filter = null)
     {
-        $repository = $em->getRepository($entityClass);
+        $repository = $em->getRepository($apiResource->getEntityClass());
         $this->repository = new RepositoryDecorator($repository);
         $this->formHandler = $formHandler;
         $this->filter = $filter;
+        $this->apiResource = $apiResource;
     }
 
     /**
@@ -56,6 +63,7 @@ class BaseHandler
      * @param $params
      * @param int $page
      * @param int $perPage
+     * @param null $paginator
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function paginate($params, $page = 1, $perPage = 20, &$paginator = null)
@@ -69,16 +77,16 @@ class BaseHandler
      */
     public function get($id)
     {
-        return $this->repository->find($id);
+        return $this->repository->findOneBy($this->getCriteria($id));
     }
 
     /**
-     * @param $criteria
+     * @param $ids
      * @return array
      */
-    public function getBy($criteria)
+    public function getBy($ids)
     {
-        return $this->repository->findBy($criteria);
+        return $this->repository->findBy($this->getCriteria($ids));
     }
 
     /**
@@ -142,5 +150,16 @@ class BaseHandler
         }
 
         return true;
+    }
+
+    /**
+     * @param $id
+     * @return array
+     */
+    protected function getCriteria($id)
+    {
+        return [
+            $this->apiResource->getIdentifier() => $id
+        ];
     }
 }

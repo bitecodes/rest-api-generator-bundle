@@ -89,7 +89,7 @@ Et voilà, now you have a fully working api. This will result in the following e
 - [ ] Sort via query
 - [ ] Expose via query
 - [ ] Nested Resources
-- [ ] Access entities by something else than the id
+- [x] Access entities by something else than the id
 - [x] Resource Actions as classes (polymorphic)
 - [ ] Configuration Options
   - [x] Define which endpoints should be created (only|except)
@@ -116,5 +116,4 @@ Et voilà, now you have a fully working api. This will result in the following e
 - [ ] Provide endpoint for batch create (?)
 
 Bugs:
-- ResourceActionData::getActionFromRoute needs to detect prefix
 - BetweenFilterType for ApiDoc

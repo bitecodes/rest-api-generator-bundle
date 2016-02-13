@@ -32,6 +32,7 @@ class EndpointControllerCompilePass implements CompilerPassInterface
      */
     protected function setupEntity(ApiResource $entityConfig, ContainerBuilder $container)
     {
+        $apiResourceServiceName = $entityConfig->getResourceServiceName();
         $formHandlerServiceName = $entityConfig->getFormHandlerServiceName();
         $entityHandlerServiceName = $entityConfig->getEntityHandlerServiceName();
         $controllerServiceName = $entityConfig->getControllerServiceName();
@@ -54,7 +55,7 @@ class EndpointControllerCompilePass implements CompilerPassInterface
         // Handler
         $entityHandler = new Definition(BaseHandler::class);
         $entityHandler->addArgument(new Reference('doctrine.orm.entity_manager'));
-        $entityHandler->addArgument($entityConfig->getEntityClass());
+        $entityHandler->addArgument(new Reference($apiResourceServiceName));
         $entityHandler->addArgument(new Reference($formHandlerServiceName));
         if ($filterClass) {
             $entityHandler->addArgument(new Reference($filterServiceName));

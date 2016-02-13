@@ -55,15 +55,14 @@ class RestApiController extends Controller
      * @ApiDoc()
      * @GenerateApiDoc()
      *
-     * @param $id
+     * @param Request $request
      * @return array
-     * @throws EntityNotFoundException
      */
-    public function showAction($id)
+    public function showAction(Request $request)
     {
         $this->checkForAccess();
 
-        return $this->getEntityOrThrowException($id);
+        return $this->getEntityOrThrowException($request);
     }
 
     /**
@@ -89,15 +88,13 @@ class RestApiController extends Controller
      * @GenerateApiDoc()
      *
      * @param Request $request the request object
-     * @param $id
      * @return array
-     * @throws EntityNotFoundException
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request)
     {
         $this->checkForAccess();
 
-        $entity = $this->getEntityOrThrowException($id);
+        $entity = $this->getEntityOrThrowException($request);
         return $this->getHandler()->update($entity, $request->request->all(), $request->getMethod());
     }
 
@@ -128,15 +125,14 @@ class RestApiController extends Controller
      * @ApiDoc()
      * @GenerateApiDoc()
      *
-     * @param $id
+     * @param Request $request
      * @return array
-     * @throws EntityNotFoundException
      */
-    public function deleteAction($id)
+    public function deleteAction(Request $request)
     {
         $this->checkForAccess();
 
-        $entity = $this->getEntityOrThrowException($id);
+        $entity = $this->getEntityOrThrowException($request);
 
         $this->getHandler()->delete($entity);
 
@@ -162,12 +158,13 @@ class RestApiController extends Controller
     }
 
     /**
-     * @param $id
+     * @param Request $request
      * @return null|object
-     * @throws EntityNotFoundException
      */
-    protected function getEntityOrThrowException($id)
+    protected function getEntityOrThrowException(Request $request)
     {
+        $id = $this->getId($request);
+
         if (null === $entity = $this->getHandler()->get($id)) {
             $problem = new ApiProblem(
                 404,
@@ -186,7 +183,7 @@ class RestApiController extends Controller
      */
     protected function getEntitiesOrThrowException($ids)
     {
-        $entites = $this->getHandler()->getBy(['id' => $ids]);
+        $entites = $this->getHandler()->getBy($ids);
 
         if (count($ids) != count($entites)) {
             $problem = new ApiProblem(
@@ -244,5 +241,15 @@ class RestApiController extends Controller
         $data->addLink('last', $router->generate($route, ['page' => $paginator->getNbPages(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL));
 
         $data->addMeta('total', $paginator->getNbResults());
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    protected function getId(Request $request)
+    {
+        $identifier = $request->get('_identifier');
+        return $request->get($identifier);
     }
 }

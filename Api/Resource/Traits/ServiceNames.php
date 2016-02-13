@@ -43,6 +43,14 @@ trait ServiceNames
     }
 
     /**
+     * @return string
+     */
+    public function getResourceServiceName()
+    {
+        return $this->getBundlePrefix() . '.' . $this->getName();
+    }
+
+    /**
      * Return a service name by conventions
      *
      * @param $service

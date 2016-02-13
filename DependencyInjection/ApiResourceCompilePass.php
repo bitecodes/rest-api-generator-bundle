@@ -22,9 +22,7 @@ class ApiResourceCompilePass implements CompilerPassInterface
         $manager = $container->get('fludio.rest_api_generator.endpoint_manager');
 
         foreach ($manager->getResources() as $apiResource) {
-            $refl = new \ReflectionClass($apiResource->getEntityClass());
-            $name = $refl->getShortName();
-            $def = $container->getDefinition('fludio.rest_api_generator.' . Inflector::tableize($name));
+            $def = $container->getDefinition($apiResource->getResourceServiceName());
             $options = $config['entities'][$apiResource->getEntityClass()];
             $base = !empty($options['only']) ? $options['only'] : self::$allActions;
             $actions = array_diff($base, $options['except']);

@@ -37,6 +37,7 @@ class Configuration implements ConfigurationInterface
                             ->append($this->getOnlyNode())
                             ->append($this->getExceptNode())
                             ->append($this->getResourceNameNode())
+                            ->append($this->getIdentifierNode())
                             ->append($this->getSecureNode())
                             ->append($this->getFilterNode())
                             ->append($this->getFormTypeNode())
@@ -201,6 +202,15 @@ class Configuration implements ConfigurationInterface
         $node = new ScalarNodeDefinition('form_type');
 
         $node->defaultValue(DynamicFormType::class);
+
+        return $node;
+    }
+
+    private function getIdentifierNode()
+    {
+        $node = new ScalarNodeDefinition('identifier');
+
+        $node->defaultValue('id');
 
         return $node;
     }
