@@ -35,7 +35,7 @@ class DateTimeFormatterSubscriberTest extends TestCase
             'createdAt' => new \DateTime('2016-02-01 20:00:00')
         ]);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.show.posts', ['id' => $post->getId()]);
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.show', ['id' => $post->getId()]);
 
         $this
             ->get($url)

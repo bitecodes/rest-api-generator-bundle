@@ -14,10 +14,9 @@ class ApiManager
      */
     public function addResource(ApiResource $config)
     {
-        $this->resources[$config->getEntityNamespace()] = $config;
+        $this->resources[$config->getEntityClass()] = $config;
         $config->setManager($this);
     }
-
 
     /**
      * @param ApiResource[] $configs

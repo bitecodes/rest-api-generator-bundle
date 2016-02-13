@@ -54,7 +54,7 @@ class EndpointControllerCompilePass implements CompilerPassInterface
         // Handler
         $entityHandler = new Definition(BaseHandler::class);
         $entityHandler->addArgument(new Reference('doctrine.orm.entity_manager'));
-        $entityHandler->addArgument($entityConfig->getEntityNamespace());
+        $entityHandler->addArgument($entityConfig->getEntityClass());
         $entityHandler->addArgument(new Reference($formHandlerServiceName));
         if ($filterClass) {
             $entityHandler->addArgument(new Reference($filterServiceName));

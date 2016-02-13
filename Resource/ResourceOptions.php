@@ -9,13 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ResourceOptions
 {
     public static $allActions = [
-        ResourceActionData::ACTION_INDEX,
-        ResourceActionData::ACTION_SHOW,
-        ResourceActionData::ACTION_CREATE,
-        ResourceActionData::ACTION_UPDATE,
-        ResourceActionData::ACTION_BATCH_UPDATE,
-        ResourceActionData::ACTION_DELETE,
-        ResourceActionData::ACTION_BATCH_DELETE
+        'index', 'show', 'create', 'update', 'delete', 'batch_delete', 'batch_update'
     ];
 
     /**

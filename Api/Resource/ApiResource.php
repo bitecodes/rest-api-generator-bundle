@@ -2,13 +2,10 @@
 
 namespace Fludio\RestApiGeneratorBundle\Api\Resource;
 
-use Doctrine\Common\Inflector\Inflector;
-use Fludio\DoctrineFilter\FilterInterface;
-use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
+use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Action;
+use Fludio\RestApiGeneratorBundle\Api\Routing\Action\ActionList;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceOptions;
 use Fludio\RestApiGeneratorBundle\Api\Resource\Traits\ServiceNames;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ApiResource
 {
@@ -41,7 +38,7 @@ class ApiResource
      */
     private $entity;
     /**
-     * @var ResourceActionData
+     * @var Action[]
      */
     protected $actions;
     /**
@@ -52,13 +49,17 @@ class ApiResource
     public function __construct($entity, array $options = [])
     {
         $options = ResourceOptions::resolve($entity, $options);
-
+        $this->actions = new ActionList();
         $this->name = $options['resource_name'];
         $this->entity = $entity;
         $this->filterClass = $options['filter'];
         $this->paginate = $options['paginate'];
         $this->formTypeClass = $options['form_type'];
-        $this->actions = new ResourceActionData($options, $this);
+    }
+
+    public function getResourceBaseUrl()
+    {
+        return '/' . $this->getName();
     }
 
     /**
@@ -70,11 +71,37 @@ class ApiResource
     }
 
     /**
+     * @param Action $action
+     */
+    public function addAction(Action $action)
+    {
+        $this->actions->add($action);
+        $action->setApiResource($this);
+    }
+
+    /**
+     * @return \Fludio\RestApiGeneratorBundle\Api\Routing\Action\Action[]|ActionList
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    /**
+     * @param $actionClass
+     * @return Action
+     */
+    public function getAction($actionClass)
+    {
+        return $this->actions->get($actionClass);
+    }
+
+    /**
      * Return the entity
      *
      * @return mixed
      */
-    public function getEntityNamespace()
+    public function getEntityClass()
     {
         return $this->entity;
     }
@@ -114,19 +141,10 @@ class ApiResource
     }
 
     /**
-     * @return ResourceActionData
-     */
-    public function getActions()
-    {
-        return $this->actions;
-    }
-
-    /**
      * @return string
      */
     public function getBundlePrefix()
     {
         return $this->manager->getBundlePrefix();
     }
-
 }

@@ -6,11 +6,13 @@ use Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDoc;
 use Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
+use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Index;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\Filter\PostFilter;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestCase;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\Router;
 
 class GenerateApiDocHandlerTest extends TestCase
 {
@@ -27,6 +29,12 @@ class GenerateApiDocHandlerTest extends TestCase
             'filter' => PostFilter::class,
             'paginate' => true
         ]);
+
+        $router = $this->getMockBuilder(Router::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $resource->addAction(new Index($router));
 
         $this->manager = new ApiManager();
         $this->manager->addResource($resource);

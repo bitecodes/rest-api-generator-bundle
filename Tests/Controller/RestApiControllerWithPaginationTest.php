@@ -35,7 +35,7 @@ class RestApiControllerWithPaginationTest extends TestCase
         $this->factory->create(Post::class, ['title' => 'Post 4', 'content' => 'Last one']);
         $this->factory->create(Post::class, ['title' => 'Post 5', 'content' => 'Last one']);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.index.posts', ['page' => 2, 'limit' => 2]);
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.index', ['page' => 2, 'limit' => 2]);
 
         $this
             ->get($url)

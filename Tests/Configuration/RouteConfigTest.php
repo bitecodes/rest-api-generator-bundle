@@ -30,9 +30,9 @@ class RouteConfigTest extends TestCase
         }
 
         $this->assertEquals($routeNames, [
-            'fludio.rest_api_generator.index.posts',
-            'fludio.rest_api_generator.show.posts',
-            'fludio.rest_api_generator.create.posts',
+            'fludio.rest_api_generator.posts.index',
+            'fludio.rest_api_generator.posts.show',
+            'fludio.rest_api_generator.posts.create',
         ]);
     }
 }

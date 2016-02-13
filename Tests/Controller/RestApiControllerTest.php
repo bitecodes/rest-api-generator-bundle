@@ -31,7 +31,7 @@ class RestApiControllerTest extends TestCase
     {
         $this->factory->times(2)->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.index.posts');
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.index');
 
         $this
             ->get($url)
@@ -45,7 +45,7 @@ class RestApiControllerTest extends TestCase
     {
         $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.show.posts', ['id' => $post->getId()]);
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.show', ['id' => $post->getId()]);
 
         $this
             ->get($url)
@@ -57,7 +57,7 @@ class RestApiControllerTest extends TestCase
     /** @test */
     public function it_returns_404_if_entity_not_found()
     {
-        $url = $this->generateUrl('fludio.rest_api_generator.show.posts', ['id' => 1]);
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.show', ['id' => 1]);
 
         $this
             ->get($url)
@@ -68,7 +68,7 @@ class RestApiControllerTest extends TestCase
     /** @test */
     public function it_creates_a_new_post()
     {
-        $url = $this->generateUrl('fludio.rest_api_generator.create.posts');
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.create');
 
         $data = $this->factory->values(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
@@ -85,7 +85,7 @@ class RestApiControllerTest extends TestCase
     {
         $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.update.posts', ['id' => $post->getId()]);
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.update', ['id' => $post->getId()]);
 
         $data = [
             'title' => $post->getTitle(),
@@ -106,7 +106,7 @@ class RestApiControllerTest extends TestCase
     {
         $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.update.posts', ['id' => $post->getId()]);
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.update', ['id' => $post->getId()]);
 
         $data = [
             'content' => 'some_content',
@@ -123,7 +123,7 @@ class RestApiControllerTest extends TestCase
     {
         $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.update.posts', ['id' => $post->getId()]);
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.update', ['id' => $post->getId()]);
 
         $data = [
             'content' => 'some_content',
@@ -143,7 +143,7 @@ class RestApiControllerTest extends TestCase
     {
         $posts = $this->factory->times(5)->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.batch_update.posts');
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.batch_update');
 
         $data = [
             'id' => [1, 2, 3],
@@ -166,7 +166,7 @@ class RestApiControllerTest extends TestCase
     {
         $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.delete.posts', ['id' => $post->getId()]);
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.delete', ['id' => $post->getId()]);
 
         $this
             ->seeInDatabase(Post::class, ['id' => $post->getId()])
@@ -181,7 +181,7 @@ class RestApiControllerTest extends TestCase
     {
         $this->factory->times(5)->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.batch_delete.posts');
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.batch_delete');
 
         $this
             ->delete($url, ['id' => [1, 2, 3]])

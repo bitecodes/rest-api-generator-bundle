@@ -2,6 +2,7 @@
 
 namespace Fludio\RestApiGeneratorBundle;
 
+use Fludio\RestApiGeneratorBundle\DependencyInjection\ApiResourceCompilePass;
 use Fludio\RestApiGeneratorBundle\DependencyInjection\EndpointControllerCompilePass;
 use Fludio\RestApiGeneratorBundle\DependencyInjection\EndpointManagerCompilePass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -13,6 +14,7 @@ class FludioRestApiGeneratorBundle extends Bundle
     {
         parent::build($container);
 
+        $container->addCompilerPass(new ApiResourceCompilePass());
         $container->addCompilerPass(new EndpointControllerCompilePass());
     }
 

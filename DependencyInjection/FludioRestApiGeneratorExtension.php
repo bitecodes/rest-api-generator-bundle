@@ -28,6 +28,8 @@ class FludioRestApiGeneratorExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $container->setParameter('fludio.rest_api_generator.config', $config);
+
         $this->registerApiResources($container, $config['entities']);
         $this->registerListeners($container, $config['listener']);
 
@@ -41,12 +43,13 @@ class FludioRestApiGeneratorExtension extends Extension
      */
     protected function registerApiResources(ContainerBuilder $container, $endpointConfig)
     {
-        $endpointManager = new Definition(ApiManager::class);
-        $container->setDefinition('fludio.rest_api_generator.endpoint_manager', $endpointManager);
+        // Register ApiManager
+        $apiManager = new Definition(ApiManager::class);
+        $container->setDefinition('fludio.rest_api_generator.endpoint_manager', $apiManager);
 
         foreach ($endpointConfig as $entity => $options) {
-            $definition = $this->newEntityEndpointConfigurationDefinition($container, $entity, $options);
-            $endpointManager->addMethodCall('addResource', [$definition]);
+            $definition = $this->newApiResourceDefinition($container, $entity, $options);
+            $apiManager->addMethodCall('addResource', [$definition]);
         }
     }
 
@@ -68,7 +71,7 @@ class FludioRestApiGeneratorExtension extends Extension
      * @param $options
      * @return Definition
      */
-    private function newEntityEndpointConfigurationDefinition(ContainerBuilder $container, $entity, $options)
+    private function newApiResourceDefinition(ContainerBuilder $container, $entity, $options)
     {
         $definition = new Definition(ApiResource::class);
         $definition->setArguments([$entity, $options]);

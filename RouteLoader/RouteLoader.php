@@ -2,7 +2,7 @@
 
 namespace Fludio\RestApiGeneratorBundle\RouteLoader;
 
-use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
+use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Index;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Fludio\RestApiGeneratorBundle\Resource\Convention;
@@ -13,13 +13,13 @@ use Symfony\Component\Routing\RouteCollection;
 class RouteLoader extends Loader
 {
     private $routes = [
-        ResourceActionData::ACTION_INDEX => ['GET'],
-        ResourceActionData::ACTION_SHOW => ['GET'],
-        ResourceActionData::ACTION_CREATE => ['POST'],
-        ResourceActionData::ACTION_UPDATE => ['PUT', 'PATCH'],
-        ResourceActionData::ACTION_BATCH_UPDATE => ['PUT', 'PATCH'],
-        ResourceActionData::ACTION_DELETE => ['DELETE'],
-        ResourceActionData::ACTION_BATCH_DELETE => ['DELETE'],
+        'index' => ['GET'],
+        'show' => ['GET'],
+        'create' => ['POST'],
+        'updaet' => ['PUT', 'PATCH'],
+        'batch_update' => ['PUT', 'PATCH'],
+        'delete' => ['DELETE'],
+        'batch_delete' => ['DELETE'],
     ];
 
     private $loaded;
@@ -57,32 +57,32 @@ class RouteLoader extends Loader
     }
 
     /**
-     * @param Resource $apiConfig
+     * @param ApiResource $apiResource
      * @param $routes
      * @throws \Exception
      */
-    private function addRoute(ApiResource $apiConfig, $routes)
+    private function addRoute(ApiResource $apiResource, $routes)
     {
-        foreach ($apiConfig->getActions()->getAvailableActions() as $routeIdentifier) {
-            $route = new Route($apiConfig->getActions()->getUrl($routeIdentifier));
-            $route
-                ->setDefault('_controller', $apiConfig->getActions()->getControllerAction($routeIdentifier))
-                ->setDefault('_entity', $apiConfig->getEntityNamespace())
-                ->setDefault('_roles', $apiConfig->getActions()->getSecurityForAction($routeIdentifier))
-                ->setMethods($this->routes[$routeIdentifier]);
+        foreach ($apiResource->getActions()->all() as $action) {
 
-            if ($routeIdentifier == ResourceActionData::ACTION_INDEX) {
-                if ($apiConfig->hasPagination()) {
+            $route = new Route($action->getUrlSchema());
+            $route
+                ->setDefault('_controller', $action->getControllerAction())
+                ->setDefault('_entity', $apiResource->getEntityClass())
+                ->setDefault('_roles', $action->getRoles())
+                ->setMethods($action->getMethods());
+
+            if ($action instanceof Index) {
+                if ($apiResource->hasPagination()) {
                     $method = 'paginate';
-                } elseif ($apiConfig->getFilterClass()) {
+                } elseif ($apiResource->getFilterClass()) {
                     $method = 'filter';
                 } else {
                     $method = 'all';
                 }
                 $route->setDefault('_indexGetterMethod', $method);
             }
-
-            $routes->add($apiConfig->getActions()->getRouteName($routeIdentifier), $route);
+            $routes->add($action->getRouteName(), $route);
         }
     }
 

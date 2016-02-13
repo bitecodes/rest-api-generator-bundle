@@ -6,9 +6,15 @@ use Doctrine\Common\Inflector\Inflector;
 use Doctrine\ORM\EntityManager;
 use Fludio\DoctrineFilter\FilterBuilder;
 use Fludio\DoctrineFilter\FilterInterface;
+use Fludio\RestApiGeneratorBundle\Api\Routing\Action\BatchDelete;
+use Fludio\RestApiGeneratorBundle\Api\Routing\Action\BatchUpdate;
+use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Create;
+use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Delete;
+use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Index;
+use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Show;
+use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Update;
 use Fludio\RestApiGeneratorBundle\Form\DynamicFormSubscriber;
 use Fludio\RestApiGeneratorBundle\Form\DynamicFormType;
-use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -50,7 +56,7 @@ class GenerateApiDocHandler implements HandlerInterface
                 }
                 if ($this->expectsInput($route)) {
                     if ($resource->getFormTypeClass() == DynamicFormType::class) {
-                        $entityClass = $resource->getEntityNamespace();
+                        $entityClass = $resource->getEntityClass();
                         $handler = new DynamicFormSubscriber($this->em, new $entityClass);
                         foreach ($handler->getFields() as $field) {
                             $annotation->addParameter($field, ['dataType' => 'string', 'required' => false]);
@@ -66,7 +72,7 @@ class GenerateApiDocHandler implements HandlerInterface
                 $annotation->setDescription($this->getDescription($resource, $route));
                 $annotation->setDocumentation($this->getDescription($resource, $route));
 
-                if ($resource->getActions()->getActionFromRoute($route) == ResourceActionData::ACTION_INDEX) {
+                if ($resource->getActions()->getActionFromRoute($route) instanceof Index) {
                     $this->addFilter($annotation, $resource);
                     $this->addPagination($annotation, $resource);
                 }
@@ -76,7 +82,7 @@ class GenerateApiDocHandler implements HandlerInterface
 
     /**
      * @param Route $route
-     * @return mixed
+     * @return ApiResource
      */
     private function getResource(Route $route)
     {
@@ -96,7 +102,7 @@ class GenerateApiDocHandler implements HandlerInterface
         $prop = $refl->getProperty('output');
 
         $prop->setAccessible(true);
-        $prop->setValue($annotation, $resource->getEntityNamespace());
+        $prop->setValue($annotation, $resource->getEntityClass());
         $prop->setAccessible(false);
     }
 
@@ -156,7 +162,7 @@ class GenerateApiDocHandler implements HandlerInterface
     }
 
     /**
-     * @param Resource $resource
+     * @param ApiResource $resource
      * @param Route $route
      * @return string
      */
@@ -168,26 +174,26 @@ class GenerateApiDocHandler implements HandlerInterface
 
         $action = $resource->getActions()->getActionFromRoute($route);
 
-        switch ($action) {
-            case ResourceActionData::ACTION_INDEX:
+        switch (get_class($action)) {
+            case Index::class:
                 $description = 'List all ' . Inflector::pluralize($name);
                 break;
-            case ResourceActionData::ACTION_SHOW:
+            case Show::class:
                 $description = 'Get a single ' . Inflector::singularize($name);
                 break;
-            case ResourceActionData::ACTION_CREATE:
+            case Create::class:
                 $description = 'Create a new ' . Inflector::singularize($name);
                 break;
-            case ResourceActionData::ACTION_UPDATE:
+            case Update::class:
                 $description = 'Update a ' . Inflector::singularize($name);
                 break;
-            case ResourceActionData::ACTION_BATCH_UPDATE:
+            case BatchUpdate::class:
                 $description = 'Update multiple ' . Inflector::pluralize($name);
                 break;
-            case ResourceActionData::ACTION_DELETE:
+            case Delete::class:
                 $description = 'Delete a ' . Inflector::singularize($name);
                 break;
-            case ResourceActionData::ACTION_BATCH_DELETE:
+            case BatchDelete::class:
                 $description = 'Delete multiple ' . Inflector::pluralize($name);
                 break;
         }
@@ -197,7 +203,7 @@ class GenerateApiDocHandler implements HandlerInterface
 
     /**
      * @param ApiDoc $annotation
-     * @param Resource $resource
+     * @param ApiResource $resource
      */
     protected function addFilter(ApiDoc $annotation, ApiResource $resource)
     {
@@ -219,7 +225,7 @@ class GenerateApiDocHandler implements HandlerInterface
 
     /**
      * @param ApiDoc $annotation
-     * @param Resource $resource
+     * @param ApiResource $resource
      */
     protected function addPagination(ApiDoc $annotation, ApiResource $resource)
     {

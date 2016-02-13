@@ -32,7 +32,7 @@ class RestApiControllerWithFilterTest extends TestCase
         $this->factory->create(Post::class, ['title' => 'Post 1', 'content' => 'My post content']);
         $this->factory->create(Post::class, ['title' => 'Post 2', 'content' => 'Something else']);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.index.posts', ['title' => 'Post 2']);
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.index', ['title' => 'Post 2']);
 
         $this
             ->get($url)

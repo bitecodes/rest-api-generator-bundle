@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Api;
+namespace Fludio\RestApiGeneratorBundle\Tests\Api\Response;
 
 use Fludio\RestApiGeneratorBundle\Api\Response\ApiProblem;
 
@@ -9,7 +9,7 @@ class ApiProblemTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_sorts_the_response_data()
     {
-        $response = new \Fludio\RestApiGeneratorBundle\Api\Response\ApiProblem(404, null, ['my_stuff' => 'comes here']);
+        $response = new ApiProblem(404, null, ['my_stuff' => 'comes here']);
         $response->set('meta', 'will be here');
         $response->set('additional_data', 'will be here');
 

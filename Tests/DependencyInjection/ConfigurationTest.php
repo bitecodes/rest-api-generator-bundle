@@ -4,7 +4,8 @@ namespace Fludio\RestApiGeneratorBundle\Tests\DependencyInjection;
 
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
-use Fludio\RestApiGeneratorBundle\Resource\ResourceActionData;
+use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Index;
+use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Show;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Symfony\Component\HttpKernel\Kernel;
@@ -28,12 +29,12 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         /** @var ApiManager $manager */
         $manager = $this->kernel->getContainer()->get('fludio.rest_api_generator.endpoint_manager');
-        $config = $manager->getResourceForEntity(Post::class);
+        $apiResource = $manager->getResourceForEntity(Post::class);
 
-        $this->assertInstanceOf(ApiResource::class, $config);
-        $this->assertEquals('/posts', $config->getActions()->getUrl(ResourceActionData::ACTION_INDEX));
-        $this->assertCount(7, $config->getActions()->getAvailableActions());
-        $this->assertTrue(in_array(ResourceActionData::ACTION_INDEX, $config->getActions()->getAvailableActions()));
-        $this->assertTrue(in_array(ResourceActionData::ACTION_SHOW, $config->getActions()->getAvailableActions()));
+        $this->assertInstanceOf(ApiResource::class, $apiResource);
+        $this->assertEquals('/posts', $apiResource->getAction(Index::class)->getUrl());
+        $this->assertCount(7, $apiResource->getActions()->all());
+        $this->assertInstanceOf(Index::class, $apiResource->getActions()->get(Index::class));
+        $this->assertInstanceOf(Show::class, $apiResource->getActions()->get(Show::class));
     }
 }

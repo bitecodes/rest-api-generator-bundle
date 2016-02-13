@@ -40,7 +40,7 @@ class ApiExceptionSubscriberTest extends TestCase
     /** @test */
     public function it_catches_entity_not_found_errors()
     {
-        $url = $this->generateUrl('fludio.rest_api_generator.show.posts', ['id' => 1]);
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.show', ['id' => 1]);
 
         $this
             ->get($url)
@@ -53,7 +53,7 @@ class ApiExceptionSubscriberTest extends TestCase
     /** @test */
     public function it_catches_invalid_json()
     {
-        $url = $this->generateUrl('fludio.rest_api_generator.create.posts');
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.create');
 
         $invalidBody = <<<EOF
 {
@@ -72,7 +72,7 @@ EOF;
     /** @test */
     public function it_catches_validation_errors()
     {
-        $url = $this->generateUrl('fludio.rest_api_generator.create.posts');
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.create');
 
         $data = ['content' => 'My Post Content'];
 
