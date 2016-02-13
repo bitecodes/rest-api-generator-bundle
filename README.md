@@ -90,7 +90,7 @@ Et voilà, now you have a fully working api. This will result in the following e
 - [ ] Expose via query
 - [ ] Nested Resources
 - [ ] Access entities by something else than the id
-- [ ] Resource Actions as classes (polymorphic)
+- [x] Resource Actions as classes (polymorphic)
 - [ ] Configuration Options
   - [x] Define which endpoints should be created (only|except)
   - [x] Override resource name
