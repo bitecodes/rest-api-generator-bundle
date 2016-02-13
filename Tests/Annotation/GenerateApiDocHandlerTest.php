@@ -6,7 +6,7 @@ use Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDoc;
 use Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
-use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Index;
+use Fludio\RestApiGeneratorBundle\Api\Actions\Index;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\Filter\PostFilter;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestCase;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;

@@ -5,11 +5,11 @@ namespace Fludio\RestApiGeneratorBundle\Tests\Api\Resource;
 use Doctrine\Common\Util\Inflector;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
-use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Create;
-use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Delete;
-use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Index;
-use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Show;
-use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Update;
+use Fludio\RestApiGeneratorBundle\Api\Actions\Create;
+use Fludio\RestApiGeneratorBundle\Api\Actions\Delete;
+use Fludio\RestApiGeneratorBundle\Api\Actions\Index;
+use Fludio\RestApiGeneratorBundle\Api\Actions\Show;
+use Fludio\RestApiGeneratorBundle\Api\Actions\Update;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Symfony\Component\Routing\Router;
 

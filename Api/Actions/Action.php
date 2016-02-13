@@ -1,10 +1,9 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Api\Routing\Action;
+namespace Fludio\RestApiGeneratorBundle\Api\Actions;
 
 use Doctrine\Common\Inflector\Inflector;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
-use Fludio\RestApiGeneratorBundle\Api\Response\ApiProblem;
 use Symfony\Component\Routing\Router;
 
 abstract class Action
@@ -36,17 +35,29 @@ abstract class Action
      */
     protected $roles;
 
+    /**
+     * Action constructor.
+     * @param Router $router
+     */
     public function __construct(Router $router)
     {
         $this->router = $router;
         $this->action = $this->getActionName();
     }
 
+    /**
+     * @param array $params
+     * @param int $referenceType
+     * @return string
+     */
     public function getUrl($params = [], $referenceType = Router::ABSOLUTE_PATH)
     {
         return $this->router->generate($this->getRouteName(), $params, $referenceType);
     }
 
+    /**
+     * @return string
+     */
     public function getUrlSchema()
     {
         if ($this->urlType == self::URL_TYPE_COLLECTION) {
@@ -56,21 +67,33 @@ abstract class Action
         }
     }
 
+    /**
+     * @return array
+     */
     public function getMethods()
     {
         return $this->methods;
     }
 
+    /**
+     * @param ApiResource $apiResource
+     */
     public function setApiResource(ApiResource $apiResource)
     {
         $this->apiResource = $apiResource;
     }
 
-    public function setRoles($roles)
+    /**
+     * @param array $roles
+     */
+    public function setRoles(array $roles)
     {
         $this->roles = $roles;
     }
 
+    /**
+     * @return array
+     */
     public function getRoles()
     {
         return $this->roles;
@@ -86,11 +109,17 @@ abstract class Action
         return $this->apiResource->getBundlePrefix() . '.' . $this->apiResource->getName() . '.' . $this->action;
     }
 
+    /**
+     * @return string
+     */
     public function getControllerAction()
     {
         return $this->apiResource->getControllerServiceName() . ':' . $this->action . 'Action';
     }
 
+    /**
+     * @return string
+     */
     protected function getActionName()
     {
         $refl = new \ReflectionClass($this);

@@ -1,11 +1,10 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Api\Routing\Action;
+namespace Fludio\RestApiGeneratorBundle\Api\Actions;
 
 class Show extends Action
 {
     protected $methods = ['GET'];
 
     protected $urlType = Action::URL_TYPE_ELEMENT;
-
 }

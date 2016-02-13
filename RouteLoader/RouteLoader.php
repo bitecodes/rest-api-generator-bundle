@@ -2,7 +2,7 @@
 
 namespace Fludio\RestApiGeneratorBundle\RouteLoader;
 
-use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Index;
+use Fludio\RestApiGeneratorBundle\Api\Actions\Index;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Fludio\RestApiGeneratorBundle\Resource\Convention;
@@ -58,12 +58,11 @@ class RouteLoader extends Loader
 
     /**
      * @param ApiResource $apiResource
-     * @param $routes
-     * @throws \Exception
+     * @param RouteCollection $routes
      */
-    private function addRoute(ApiResource $apiResource, $routes)
+    private function addRoute(ApiResource $apiResource, RouteCollection $routes)
     {
-        foreach ($apiResource->getActions()->all() as $action) {
+        foreach ($apiResource->getActions() as $action) {
 
             $route = new Route($action->getUrlSchema());
             $route

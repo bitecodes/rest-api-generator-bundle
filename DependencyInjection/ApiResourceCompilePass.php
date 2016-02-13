@@ -30,7 +30,7 @@ class ApiResourceCompilePass implements CompilerPassInterface
             $actions = array_diff($base, $options['except']);
 
             foreach ($actions as $actionName) {
-                $actionClass = 'Fludio\RestApiGeneratorBundle\Api\Routing\Action\\' . Inflector::classify($actionName);
+                $actionClass = 'Fludio\RestApiGeneratorBundle\Api\Actions\\' . Inflector::classify($actionName);
                 $action = new Definition($actionClass);
                 $action->addArgument(new Reference('router'));
                 if ($roles = $this->getActionSecurity($options)) {

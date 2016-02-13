@@ -6,13 +6,13 @@ use Doctrine\Common\Inflector\Inflector;
 use Doctrine\ORM\EntityManager;
 use Fludio\DoctrineFilter\FilterBuilder;
 use Fludio\DoctrineFilter\FilterInterface;
-use Fludio\RestApiGeneratorBundle\Api\Routing\Action\BatchDelete;
-use Fludio\RestApiGeneratorBundle\Api\Routing\Action\BatchUpdate;
-use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Create;
-use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Delete;
-use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Index;
-use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Show;
-use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Update;
+use Fludio\RestApiGeneratorBundle\Api\Actions\BatchDelete;
+use Fludio\RestApiGeneratorBundle\Api\Actions\BatchUpdate;
+use Fludio\RestApiGeneratorBundle\Api\Actions\Create;
+use Fludio\RestApiGeneratorBundle\Api\Actions\Delete;
+use Fludio\RestApiGeneratorBundle\Api\Actions\Index;
+use Fludio\RestApiGeneratorBundle\Api\Actions\Show;
+use Fludio\RestApiGeneratorBundle\Api\Actions\Update;
 use Fludio\RestApiGeneratorBundle\Form\DynamicFormSubscriber;
 use Fludio\RestApiGeneratorBundle\Form\DynamicFormType;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
@@ -72,7 +72,7 @@ class GenerateApiDocHandler implements HandlerInterface
                 $annotation->setDescription($this->getDescription($resource, $route));
                 $annotation->setDocumentation($this->getDescription($resource, $route));
 
-                if ($resource->getActions()->getActionFromRoute($route) instanceof Index) {
+                if ($resource->getActions()->getActionForRoute($route) instanceof Index) {
                     $this->addFilter($annotation, $resource);
                     $this->addPagination($annotation, $resource);
                 }
@@ -172,7 +172,7 @@ class GenerateApiDocHandler implements HandlerInterface
 
         $name = $resource->getName();
 
-        $action = $resource->getActions()->getActionFromRoute($route);
+        $action = $resource->getActions()->getActionForRoute($route);
 
         switch (get_class($action)) {
             case Index::class:

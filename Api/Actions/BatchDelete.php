@@ -1,11 +1,10 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Api\Routing\Action;
+namespace Fludio\RestApiGeneratorBundle\Api\Actions;
 
 class BatchDelete extends Action
 {
     protected $methods = ['DELETE'];
 
     protected $urlType = Action::URL_TYPE_COLLECTION;
-
 }

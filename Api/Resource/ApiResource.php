@@ -2,8 +2,8 @@
 
 namespace Fludio\RestApiGeneratorBundle\Api\Resource;
 
-use Fludio\RestApiGeneratorBundle\Api\Routing\Action\Action;
-use Fludio\RestApiGeneratorBundle\Api\Routing\Action\ActionList;
+use Fludio\RestApiGeneratorBundle\Api\Actions\Action;
+use Fludio\RestApiGeneratorBundle\Api\Actions\ActionList;
 use Fludio\RestApiGeneratorBundle\Resource\ResourceOptions;
 use Fludio\RestApiGeneratorBundle\Api\Resource\Traits\ServiceNames;
 
@@ -80,7 +80,7 @@ class ApiResource
     }
 
     /**
-     * @return \Fludio\RestApiGeneratorBundle\Api\Routing\Action\Action[]|ActionList
+     * @return ActionList
      */
     public function getActions()
     {
