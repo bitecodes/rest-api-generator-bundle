@@ -57,20 +57,20 @@ Et voilà, now you have a fully working api. This will result in the following e
 
 | Name                                             | Method            | Scheme | Host | Path            |
 |--------------------------------------------------|-------------------|--------|------|-----------------|
-| fludio.rest_api_generator.index.post             | GET               | ANY    | ANY  | /posts          |
-| fludio.rest_api_generator.show.post              | GET               | ANY    | ANY  | /posts/{id}     |
-| fludio.rest_api_generator.create.post            | POST              | ANY    | ANY  | /posts          |
-| fludio.rest_api_generator.update.post            | PUT &#124; PATCH  | ANY    | ANY  | /posts/{id}     |
-| fludio.rest_api_generator.batch\_update.post     | PUT &#124; PATCH  | ANY    | ANY  | /posts          |
-| fludio.rest_api_generator.delete.post            | DELETE            | ANY    | ANY  | /posts/{id}     |
-| fludio.rest_api_generator.batch\_delete.post     | DELETE            | ANY    | ANY  | /posts          |
-| fludio.rest_api_generator.index.comment          | GET               | ANY    | ANY  | /comments       |
-| fludio.rest_api_generator.show.comment           | GET               | ANY    | ANY  | /comments/{id}  |
-| fludio.rest_api_generator.create.comment         | POST              | ANY    | ANY  | /comments       |
-| fludio.rest_api_generator.update.comment         | PUT &#124;  PATCH | ANY    | ANY  | /comments/{id}  |
-| fludio.rest_api_generator.batch\_update.comment  | PUT &#124;  PATCH | ANY    | ANY  | /comments       |
-| fludio.rest_api_generator.delete.comment         | DELETE            | ANY    | ANY  | /comments/{id}  |
-| fludio.rest_api_generator.batch\_delete.comment  | DELETE            | ANY    | ANY  | /comments       |
+| fludio.rest_api_generator.post.index             | GET               | ANY    | ANY  | /posts          |
+| fludio.rest_api_generator.post.show              | GET               | ANY    | ANY  | /posts/{id}     |
+| fludio.rest_api_generator.post.create            | POST              | ANY    | ANY  | /posts          |
+| fludio.rest_api_generator.post.update            | PUT &#124; PATCH  | ANY    | ANY  | /posts/{id}     |
+| fludio.rest_api_generator.post.batch\_update     | PUT &#124; PATCH  | ANY    | ANY  | /posts          |
+| fludio.rest_api_generator.post.delete            | DELETE            | ANY    | ANY  | /posts/{id}     |
+| fludio.rest_api_generator.post.batch\_delete     | DELETE            | ANY    | ANY  | /posts          |
+| fludio.rest_api_generator.comment.index          | GET               | ANY    | ANY  | /comments       |
+| fludio.rest_api_generator.comment.show           | GET               | ANY    | ANY  | /comments/{id}  |
+| fludio.rest_api_generator.comment.create         | POST              | ANY    | ANY  | /comments       |
+| fludio.rest_api_generator.comment.update         | PUT &#124;  PATCH | ANY    | ANY  | /comments/{id}  |
+| fludio.rest_api_generator.comment.batch\_update  | PUT &#124;  PATCH | ANY    | ANY  | /comments       |
+| fludio.rest_api_generator.comment.delete         | DELETE            | ANY    | ANY  | /comments/{id}  |
+| fludio.rest_api_generator.comment.batch\_delete  | DELETE            | ANY    | ANY  | /comments       |
 
 
 ## TODO
