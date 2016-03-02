@@ -3,7 +3,7 @@
 namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 
 use Fludio\RestApiGeneratorBundle\Form\DynamicFormType;
-use Fludio\RestApiGeneratorBundle\Resource\ResourceOptions;
+use Fludio\RestApiGeneratorBundle\DependencyInjection\ConfigurationProcessor;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\BooleanNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\ScalarNodeDefinition;
@@ -25,9 +25,6 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('fludio_rest_api_generator');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
         $rootNode
             ->children()
                 ->append($this->getListenerNode())
@@ -59,7 +56,13 @@ class Configuration implements ConfigurationInterface
     {
         $node = new ArrayNodeDefinition('only');
 
-        $node->prototype('scalar')->end();
+        $node
+            ->defaultValue(['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete'])
+            ->prototype('scalar')
+            ->validate()
+            ->ifNotInArray(['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete'])
+                ->thenInvalid('Invalid action for only: "%s"')
+            ->end();
 
         return $node;
     }
@@ -73,7 +76,13 @@ class Configuration implements ConfigurationInterface
     {
         $node = new ArrayNodeDefinition('except');
 
-        $node->prototype('scalar')->end();
+        $node
+            ->defaultValue([])
+            ->prototype('scalar')
+            ->validate()
+            ->ifNotInArray(['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete'])
+                ->thenInvalid('Invalid action for except: "%s"')
+            ->end();
 
         return $node;
     }
@@ -85,7 +94,13 @@ class Configuration implements ConfigurationInterface
      */
     private function getResourceNameNode()
     {
-        return new ScalarNodeDefinition('resource_name');
+        $node = new ScalarNodeDefinition('resource_name');
+
+        $node
+            ->cannotBeEmpty()
+            ->end();
+
+        return $node;
     }
 
     /**
@@ -135,7 +150,7 @@ class Configuration implements ConfigurationInterface
         $routesNode
             ->beforeNormalization()
                 ->always(function($val) {
-                    foreach(ResourceOptions::$allActions as $action) {
+                    foreach(ConfigurationProcessor::$allActions as $action) {
                         if(!isset($val[$action])) {
                             $val[$action] = ['MY', 'EMPTY', 'ARRAY'];
                         }
@@ -146,7 +161,7 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->validate()
                 ->always(function($val) {
-                    foreach(ResourceOptions::$allActions as $action) {
+                    foreach(ConfigurationProcessor::$allActions as $action) {
                         if (!empty($val[$action]) && $val[$action] == ['MY', 'EMPTY', 'ARRAY']) {
                             unset($val[$action]);
                         }
@@ -182,7 +197,14 @@ class Configuration implements ConfigurationInterface
      */
     private function getFilterNode()
     {
-        return new ScalarNodeDefinition('filter');
+        $node = new ScalarNodeDefinition('filter');
+
+        $node
+            ->defaultNull()
+            ->cannotBeEmpty()
+            ->end();
+
+        return $node;
     }
 
     /**
@@ -192,7 +214,10 @@ class Configuration implements ConfigurationInterface
     {
         $node = new BooleanNodeDefinition('paginate');
 
-        $node->defaultFalse();
+        $node
+            ->defaultValue(false)
+            ->treatNullLike(false)
+            ->defaultFalse();
 
         return $node;
     }
@@ -201,7 +226,8 @@ class Configuration implements ConfigurationInterface
     {
         $node = new ScalarNodeDefinition('form_type');
 
-        $node->defaultValue(DynamicFormType::class);
+        $node
+            ->defaultValue(DynamicFormType::class);
 
         return $node;
     }
@@ -210,7 +236,8 @@ class Configuration implements ConfigurationInterface
     {
         $node = new ScalarNodeDefinition('identifier');
 
-        $node->defaultValue('id');
+        $node
+            ->defaultValue('id');
 
         return $node;
     }
