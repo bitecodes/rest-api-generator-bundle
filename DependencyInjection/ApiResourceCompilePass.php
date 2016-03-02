@@ -28,37 +28,14 @@ class ApiResourceCompilePass implements CompilerPassInterface
             $actions = array_diff($base, $options['except']);
 
             foreach ($actions as $actionName) {
-                $actionClass = 'Fludio\RestApiGeneratorBundle\Api\Actions\\' . Inflector::classify($actionName);
+                $class = Inflector::classify($actionName);
+                $actionClass = "Fludio\\RestApiGeneratorBundle\\Api\\Actions\\$class";
                 $action = new Definition($actionClass);
                 $action->addArgument(new Reference('router'));
-                if ($roles = $this->getActionSecurity($options)) {
-                    $action->addMethodCall('setRoles', [$roles[$actionName]]);
-                }
+                $action->addMethodCall('setRoles', [ConfigurationProcessor::getActionSecurity($options, $actionName)]);
                 $container->set('fludio.rest_api_generator.action.' . $apiResource->getName() . '.' . Inflector::tableize($actionName), $action);
                 $def->addMethodCall('addAction', [$action]);
             }
-        }
-    }
-
-    protected static function getActionSecurity($options)
-    {
-        if (isset($options['secure'])) {
-            $secure = $options['secure'];
-
-            $defaultSecurity = isset($secure['default']) ? $secure['default'] : [];
-
-            $security = array_reduce(self::$allActions, function ($acc, $action) use ($defaultSecurity) {
-                $acc[$action] = $defaultSecurity;
-                return $acc;
-            }, []);
-
-            if (isset($secure['routes'])) {
-                foreach ($secure['routes'] as $action => $roles) {
-                    $security[$action] = $roles;
-                }
-            }
-
-            return $security;
         }
     }
 }
