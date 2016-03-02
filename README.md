@@ -86,7 +86,7 @@ Et voilà, now you have a fully working api. This will result in the following e
 - [x] Better error messages
 - [x] Streamline returned Response
   - [x] Add metadata (pagination links, total)
-- [ ] Sort via query
+- [x] Sort via query
 - [ ] Expose via query
 - [ ] Nested Resources
 - [x] Access entities by something else than the id
