@@ -6,6 +6,10 @@ php:
   - 7.0
   - hhvm
 
+env:
+  - SYMFONY_VERSION="2.8.*"
+  - SYMFONY_VERSION="3.0.*"
+
 before_install:
   - composer self-update
   - mkdir -p build/logs
@@ -14,7 +18,9 @@ matrix:
     allow_failures:
         - php: hhvm
 
-install: composer update --prefer-dist
+install:
+  - composer update --prefer-dist
+  - composer require symfony/framework-bundle:${SYMFONY_VERSION}
 
 after_script:
   - travis_retry php vendor/bin/coveralls -v
