@@ -6,12 +6,17 @@ php:
   - 7.0
   - hhvm
 
+env:
+  - SYMFONY_VERSION=2.8.*
+
 matrix:
   include:
     - php: 5.5
-      env: SYMFONY_VERSION="2.8.*"
+      env: SYMFONY_VERSION=2.8.*@dev
     - php: 5.5
-      env: SYMFONY_VERSION="3.0.*"
+      env: SYMFONY_VERSION=3.0.*@dev
+    - php: 5.3
+      env: COMPOSER_FLAGS="--prefer-lowest"
 
 before_install:
   - composer self-update
@@ -23,7 +28,7 @@ matrix:
         - php: hhvm
 
 install:
-  - composer update --prefer-dist
+  - composer update --prefer-dist $COMPOSER_FLAGS
 
 after_script:
   - travis_retry php vendor/bin/coveralls -v
