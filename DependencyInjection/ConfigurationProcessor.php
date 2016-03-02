@@ -1,12 +1,12 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Resource;
+namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 
 use Doctrine\Common\Util\Inflector;
 use Fludio\RestApiGeneratorBundle\Form\DynamicFormType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ResourceOptions
+class ConfigurationProcessor
 {
     public static $allActions = [
         'index', 'show', 'create', 'update', 'delete', 'batch_delete', 'batch_update'
@@ -61,8 +61,12 @@ class ResourceOptions
         return $underscored;
     }
 
-    public static function getActionSecurity($options)
+    public static function getActionSecurity($options, $actionName)
     {
+        if (empty($options['secure'])) {
+            return [];
+        }
+
         $secure = $options['secure'];
 
         $defaultSecurity = isset($secure['default']) ? $secure['default'] : [];
@@ -78,6 +82,6 @@ class ResourceOptions
             }
         }
 
-        return $security;
+        return $security[$actionName];
     }
 }

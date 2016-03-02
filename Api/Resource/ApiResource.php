@@ -4,7 +4,7 @@ namespace Fludio\RestApiGeneratorBundle\Api\Resource;
 
 use Fludio\RestApiGeneratorBundle\Api\Actions\Action;
 use Fludio\RestApiGeneratorBundle\Api\Actions\ActionList;
-use Fludio\RestApiGeneratorBundle\Resource\ResourceOptions;
+use Fludio\RestApiGeneratorBundle\DependencyInjection\ConfigurationProcessor;
 use Fludio\RestApiGeneratorBundle\Api\Resource\Traits\ServiceNames;
 
 class ApiResource
@@ -52,7 +52,7 @@ class ApiResource
 
     public function __construct($entity, array $options = [])
     {
-        $options = ResourceOptions::resolve($entity, $options);
+        $options = \Fludio\RestApiGeneratorBundle\DependencyInjection\ConfigurationProcessor::resolve($entity, $options);
         $this->actions = new ActionList();
         $this->name = $options['resource_name'];
         $this->entity = $entity;
