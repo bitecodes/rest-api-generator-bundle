@@ -61,7 +61,7 @@ class RestApiControllerWithPaginationTest extends TestCase
     /** @test */
     public function it_returns_null_for_previous_if_there_is_no_previous_page()
     {
-        $url = $this->generateUrl('fludio.rest_api_generator.posts.index', ['page' => 1, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.index', ['page' => 1, 'limit' => 2]);
 
         $this
             ->get($url)
@@ -78,7 +78,7 @@ class RestApiControllerWithPaginationTest extends TestCase
     /** @test */
     public function it_returns_null_for_next_if_there_is_no_next_page()
     {
-        $url = $this->generateUrl('fludio.rest_api_generator.posts.index', ['page' => 3, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.index', ['page' => 3, 'limit' => 2]);
 
         $this
             ->get($url)
@@ -90,5 +90,21 @@ class RestApiControllerWithPaginationTest extends TestCase
             ->seeNotInJson(['title' => 'Post 4'])
             ->seeInJson(['title' => 'Post 5'])
             ->seeInJson(['next' => null]);
+    }
+
+    /** @test */
+    public function it_uses_default_values_if_not_given_in_query()
+    {
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.index');
+
+        $this
+            ->get($url)
+            ->seeJsonResponse()
+            ->seeStatusCode(200)
+            ->seeInJson(['title' => 'Post 1'])
+            ->seeInJson(['title' => 'Post 2'])
+            ->seeInJson(['title' => 'Post 3'])
+            ->seeInJson(['title' => 'Post 4'])
+            ->seeInJson(['title' => 'Post 5']);
     }
 }
