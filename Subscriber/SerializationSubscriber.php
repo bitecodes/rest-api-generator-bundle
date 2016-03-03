@@ -5,6 +5,7 @@ namespace Fludio\RestApiGeneratorBundle\Subscriber;
 use Fludio\RestApiGeneratorBundle\Api\Response\ApiResponse;
 use Fludio\RestApiGeneratorBundle\Controller\RestApiController;
 use Fludio\RestApiGeneratorBundle\Services\MetadataStorage\ResponseData;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -71,7 +72,10 @@ class SerializationSubscriber implements EventSubscriberInterface
 
             $data = array_filter($data);
 
-            $json = $this->serializer->serialize($data, 'json');
+            $context = new SerializationContext();
+            $context->setSerializeNull(true);
+
+            $json = $this->serializer->serialize($data, 'json', $context);
             $response = new Response($json, 200, [
                 'Content-Type' => 'application/json'
             ]);
