@@ -27,20 +27,28 @@ class DateTimeFormatterSubscriberTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_a_single_post()
+    public function it_serializes_date_times()
     {
-        $post = $this->factory->create(Post::class, [
-            'title' => 'My Post',
+        $this->factory->create(Post::class, [
+            'title' => 'My Post 1',
             'content' => 'bla',
             'createdAt' => new \DateTime('2016-02-01 20:00:00')
         ]);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.posts.show', ['id' => $post->getId()]);
+        $this->factory->create(Post::class, [
+            'title' => 'My Post 2',
+            'content' => 'bla',
+            'createdAt' => new \DateTime('2016-02-02 20:00:00')
+        ]);
+
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.index');
 
         $this
             ->get($url)
             ->seeJsonResponse()
             ->seeStatusCode(200)
-            ->seeInJson(['created_at' => '1454356800']);
+            ->seeInJson(['created_at' => '1454356800'])
+            ->seeInJson(['created_at' => '1454443200']);
+
     }
 }

@@ -2,13 +2,10 @@
 
 namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
 
-use Doctrine\Common\Inflector\Inflector;
-use Fludio\RestApiGeneratorBundle\DependencyInjection\ConfigurationProcessor;
+use DateTime;
 use Fludio\RestApiGeneratorBundle\Subscriber\DateTimeFormatterSubscriber;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
-use Fludio\RestApiGeneratorBundle\Resource\Convention;
-use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
@@ -59,10 +56,13 @@ class FludioRestApiGeneratorExtension extends Extension
     {
         if (!empty($listeners['datetime'])) {
             $definition = new Definition(DateTimeFormatterSubscriber::class);
-            $namingStrategyClass = $container->getParameter('jms_serializer.camel_case_naming_strategy.class');
             $format = $listeners['datetime'];
-            $definition->setArguments([$namingStrategyClass, $format]);
-            $definition->addTag('jms_serializer.event_subscriber');
+            $definition->setArguments([$format]);
+            $definition->addTag('jms_serializer.subscribing_handler', [
+                'type' => DateTime::class,
+                'format' => 'json',
+                'method' => 'serializeDateTimeToJson'
+            ]);
             $container->setDefinition('fludio_rest_api_generator.listener.date_time_formatter_listener', $definition);
         }
     }
