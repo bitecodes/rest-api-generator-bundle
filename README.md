@@ -114,6 +114,8 @@ Et voilà, now you have a fully working api. This will result in the following e
   - [ ] Security section
   - [ ] DateTimeFormatListener
 - [ ] Provide endpoint for batch create (?)
+- [ ] Pagination should keep query params
+- [ ] Set default pagination values in config
 
 Bugs:
 - BetweenFilterType for ApiDoc
