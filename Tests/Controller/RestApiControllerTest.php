@@ -193,4 +193,16 @@ class RestApiControllerTest extends TestCase
             ->seeInDatabase(Post::class, ['id' => 4])
             ->seeInDatabase(Post::class, ['id' => 5]);
     }
+
+    /** @test */
+    public function data_field_can_be_empty()
+    {
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.index');
+
+        $this
+            ->get($url)
+            ->seeJsonResponse()
+            ->seeStatusCode(200)
+            ->seeInJson(['data' => []]);
+    }
 }

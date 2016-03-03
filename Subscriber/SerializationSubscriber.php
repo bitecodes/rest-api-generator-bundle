@@ -68,9 +68,13 @@ class SerializationSubscriber implements EventSubscriberInterface
             $data = $event->getControllerResult();
 
             $apiResponse = new ApiResponse(200, $data);
-            $data = array_merge($apiResponse->toArray(), $this->data->all());
 
+            $data = array_merge($apiResponse->toArray(), $this->data->all());
             $data = array_filter($data);
+
+            if (!isset($data['data'])) {
+                $data['data'] = [];
+            }
 
             $context = new SerializationContext();
             $context->setSerializeNull(true);
