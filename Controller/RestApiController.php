@@ -234,12 +234,21 @@ class RestApiController extends Controller
         $data = $this->get('fludio_rest_api_generator.services.response_data');
         $router = $this->get('router');
 
-        $data->addLink('first', $router->generate($route, ['page' => 1, 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL));
-        $data->addLink('prev', $router->generate($route, ['page' => $paginator->getPreviousPage(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL));
-        $data->addLink('current', $router->generate($route, ['page' => $paginator->getCurrentPage(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL));
-        $data->addLink('next', $router->generate($route, ['page' => $paginator->getNextPage(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL));
-        $data->addLink('last', $router->generate($route, ['page' => $paginator->getNbPages(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL));
+        $first = $router->generate($route, ['page' => 1, 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL);
+        $prev = $paginator->hasPreviousPage()
+            ? $router->generate($route, ['page' => $paginator->getPreviousPage(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL)
+            : null;
+        $current = $router->generate($route, ['page' => $paginator->getCurrentPage(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL);
+        $next = $paginator->hasNextPage()
+            ? $router->generate($route, ['page' => $paginator->getNextPage(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL)
+            : null;
+        $last = $router->generate($route, ['page' => $paginator->getNbPages(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL);
 
+        $data->addLink('first', $first);
+        $data->addLink('prev', $prev);
+        $data->addLink('current', $current);
+        $data->addLink('next', $next);
+        $data->addLink('last', $last);
         $data->addMeta('total', $paginator->getNbResults());
     }
 
