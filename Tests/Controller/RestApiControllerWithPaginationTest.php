@@ -6,6 +6,7 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
 use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Fludio\TestBundle\Test\TestCase;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RestApiControllerWithPaginationTest extends TestCase
 {
@@ -35,7 +36,9 @@ class RestApiControllerWithPaginationTest extends TestCase
         $this->factory->create(Post::class, ['title' => 'Post 4', 'content' => 'Last one']);
         $this->factory->create(Post::class, ['title' => 'Post 5', 'content' => 'Last one']);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.posts.index', ['page' => 2, 'limit' => 2]);
+        $url = $this->generateUrl('fludio.rest_api_generator.posts.index', ['page' => 2, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL);
+        $first = $prev = $this->generateUrl('fludio.rest_api_generator.posts.index', ['page' => 1, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL);
+        $last = $next = $this->generateUrl('fludio.rest_api_generator.posts.index', ['page' => 3, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL);
 
         $this
             ->get($url)
@@ -47,6 +50,11 @@ class RestApiControllerWithPaginationTest extends TestCase
             ->seeInJson(['title' => 'Post 4'])
             ->seeNotInJson(['title' => 'Post 5'])
             ->seeInJson(['meta' => ['total' => 5]])
-            ->seeJsonHas('links', 5);
+            ->seeJsonHas('links', 5)
+            ->seeInJson(['first' => $first])
+            ->seeInJson(['prev' => $prev])
+            ->seeInJson(['current' => $url])
+            ->seeInJson(['next' => $next])
+            ->seeInJson(['last' => $last]);
     }
 }

@@ -234,7 +234,7 @@ class RestApiController extends Controller
         $data = $this->get('fludio_rest_api_generator.services.response_data');
         $router = $this->get('router');
 
-        $data->addLink('first', $router->generate($route, ['page' => 1, 'limit' => $limit], UrlGeneratorInterface::NETWORK_PATH));
+        $data->addLink('first', $router->generate($route, ['page' => 1, 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL));
         $data->addLink('prev', $router->generate($route, ['page' => $paginator->getPreviousPage(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL));
         $data->addLink('current', $router->generate($route, ['page' => $paginator->getCurrentPage(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL));
         $data->addLink('next', $router->generate($route, ['page' => $paginator->getNextPage(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL));
