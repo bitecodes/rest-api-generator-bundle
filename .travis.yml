@@ -18,8 +18,8 @@ matrix:
   include:
     - php: 5.5
       env: SYMFONY_VERSION=3.0.*@dev
-    - php: 5.5
-      env: COMPOSER_FLAGS="--prefer-lowest"
+#    - php: 5.5
+#      env: COMPOSER_FLAGS="--prefer-lowest"
   allow_failures:
     - php: hhvm
 
