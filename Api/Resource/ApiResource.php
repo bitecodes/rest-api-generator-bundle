@@ -52,7 +52,7 @@ class ApiResource
 
     public function __construct($entity, array $options = [])
     {
-        $options = \Fludio\RestApiGeneratorBundle\DependencyInjection\ConfigurationProcessor::resolve($entity, $options);
+        $options = ConfigurationProcessor::resolve($entity, $options);
         $this->actions = new ActionList();
         $this->name = $options['resource_name'];
         $this->entity = $entity;
