@@ -3,6 +3,8 @@
 namespace Fludio\RestApiGeneratorBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
+use Fludio\RestApiGeneratorBundle\Api\Events\ApiControllerDataEvent;
+use Fludio\RestApiGeneratorBundle\Api\Events\ApiEvents;
 use Fludio\RestApiGeneratorBundle\Api\Response\ApiProblem;
 use Fludio\RestApiGeneratorBundle\Exception\ApiProblemException;
 use Fludio\RestApiGeneratorBundle\Handler\BaseHandler;
@@ -11,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDoc;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RestApiController extends Controller
@@ -45,6 +48,13 @@ class RestApiController extends Controller
         if ($paginator instanceof Pagerfanta) {
             $this->addLinksToMetadata($paginator, $request->get('_route'), $limit);
         }
+
+        $this
+            ->getEventDispatcher()
+            ->dispatch(
+                ApiEvents::POST_INDEX,
+                new ApiControllerDataEvent($result)
+            );
 
         return $result;
     }
@@ -260,5 +270,13 @@ class RestApiController extends Controller
     {
         $identifier = $request->get('_identifier');
         return $request->get($identifier);
+    }
+
+    /**
+     * @return \Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher
+     */
+    protected function getEventDispatcher()
+    {
+        return $this->get('event_dispatcher');
     }
 }
