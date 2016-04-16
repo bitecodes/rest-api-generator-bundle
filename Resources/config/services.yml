@@ -1,45 +1,45 @@
 services:
-    fludio_rest_api_generator.serialization_subscriber:
-        class: Fludio\RestApiGeneratorBundle\Subscriber\SerializationSubscriber
+    bite_codes_rest_api_generator.serialization_subscriber:
+        class: BiteCodes\RestApiGeneratorBundle\Subscriber\SerializationSubscriber
         arguments:
             - '@jms_serializer'
-            - '@fludio_rest_api_generator.services.response_data'
+            - '@bite_codes_rest_api_generator.services.response_data'
         tags:
             - { name: kernel.event_subscriber }
 
-    fludio_rest_api_generator.json_content_subscriber:
-        class: Fludio\RestApiGeneratorBundle\Subscriber\JsonContentSubscriber
+    bite_codes_rest_api_generator.json_content_subscriber:
+        class: BiteCodes\RestApiGeneratorBundle\Subscriber\JsonContentSubscriber
         tags:
             - { name: kernel.event_subscriber }
 
-    fludio_rest_api_generator.subscriber.api_exception_subscriber:
-        class: Fludio\RestApiGeneratorBundle\Subscriber\ApiExceptionSubscriber
+    bite_codes_rest_api_generator.subscriber.api_exception_subscriber:
+        class: BiteCodes\RestApiGeneratorBundle\Subscriber\ApiExceptionSubscriber
         arguments:
             - '%kernel.debug%'
         tags:
             - { name: kernel.event_subscriber }
 
     app.routing_loader:
-        class: Fludio\RestApiGeneratorBundle\RouteLoader\RouteLoader
+        class: BiteCodes\RestApiGeneratorBundle\RouteLoader\RouteLoader
         arguments:
-            - '@fludio.rest_api_generator.endpoint_manager'
+            - '@bite_codes.rest_api_generator.endpoint_manager'
         tags:
             - { name: routing.loader }
 
-    fludio_rest_api_generator.form.dynamic_form_type:
-        class: Fludio\RestApiGeneratorBundle\Form\DynamicFormType
+    bite_codes_rest_api_generator.form.dynamic_form_type:
+        class: BiteCodes\RestApiGeneratorBundle\Form\DynamicFormType
         arguments:
             - '@doctrine.orm.entity_manager'
         tags:
-            - { name: form.type, alias: Fludio\RestApiGeneratorBundle\Form\DynamicFormType }
+            - { name: form.type, alias: BiteCodes\RestApiGeneratorBundle\Form\DynamicFormType }
 
-    fludio_rest_api_generator.annotation.generate_api_doc_handler:
-        class: Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler
+    bite_codes_rest_api_generator.annotation.generate_api_doc_handler:
+        class: BiteCodes\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler
         arguments:
-            - '@fludio.rest_api_generator.endpoint_manager'
+            - '@bite_codes.rest_api_generator.endpoint_manager'
             - '@doctrine.orm.entity_manager'
         tags:
             - { name: nelmio_api_doc.extractor.handler }
 
-    fludio_rest_api_generator.services.response_data:
-        class: Fludio\RestApiGeneratorBundle\Services\MetadataStorage\ResponseData
+    bite_codes_rest_api_generator.services.response_data:
+        class: BiteCodes\RestApiGeneratorBundle\Services\MetadataStorage\ResponseData

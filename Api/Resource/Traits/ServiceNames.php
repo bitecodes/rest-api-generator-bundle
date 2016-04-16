@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Api\Resource\Traits;
+namespace BiteCodes\RestApiGeneratorBundle\Api\Resource\Traits;
 
 trait ServiceNames
 {

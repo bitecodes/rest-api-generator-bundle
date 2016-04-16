@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Services\MetadataStorage;
+namespace BiteCodes\RestApiGeneratorBundle\Services\MetadataStorage;
 
 class ResponseData
 {

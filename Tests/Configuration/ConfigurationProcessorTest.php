@@ -1,8 +1,8 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Configuration;
+namespace BiteCodes\RestApiGeneratorBundle\Tests\Configuration;
 
-use Fludio\RestApiGeneratorBundle\DependencyInjection\ConfigurationProcessor;
+use BiteCodes\RestApiGeneratorBundle\DependencyInjection\ConfigurationProcessor;
 
 class ConfigurationProcessorTest extends \PHPUnit_Framework_TestCase
 {

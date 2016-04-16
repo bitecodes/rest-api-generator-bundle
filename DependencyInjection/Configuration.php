@@ -1,8 +1,8 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
+namespace BiteCodes\RestApiGeneratorBundle\DependencyInjection;
 
-use Fludio\RestApiGeneratorBundle\Form\DynamicFormType;
+use BiteCodes\RestApiGeneratorBundle\Form\DynamicFormType;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\BooleanNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\ScalarNodeDefinition;
@@ -22,25 +22,25 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('fludio_rest_api_generator');
+        $rootNode = $treeBuilder->root('bite_codes_rest_api_generator');
 
         $rootNode
             ->children()
-                ->append($this->getListenerNode())
-                ->arrayNode('entities')
-                    ->prototype('array')
-                        ->children()
-                            ->append($this->getOnlyNode())
-                            ->append($this->getExceptNode())
-                            ->append($this->getResourceNameNode())
-                            ->append($this->getIdentifierNode())
-                            ->append($this->getSecureNode())
-                            ->append($this->getFilterNode())
-                            ->append($this->getFormTypeNode())
-                            ->append($this->getPaginationNode())
-                        ->end()
-                    ->end()
-                ->end()
+            ->append($this->getListenerNode())
+            ->arrayNode('entities')
+            ->prototype('array')
+            ->children()
+            ->append($this->getOnlyNode())
+            ->append($this->getExceptNode())
+            ->append($this->getResourceNameNode())
+            ->append($this->getIdentifierNode())
+            ->append($this->getSecureNode())
+            ->append($this->getFilterNode())
+            ->append($this->getFormTypeNode())
+            ->append($this->getPaginationNode())
+            ->end()
+            ->end()
+            ->end()
             ->end();
 
         return $treeBuilder;
@@ -60,7 +60,7 @@ class Configuration implements ConfigurationInterface
             ->prototype('scalar')
             ->validate()
             ->ifNotInArray(['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete'])
-                ->thenInvalid('Invalid action for only: "%s"')
+            ->thenInvalid('Invalid action for only: "%s"')
             ->end();
 
         return $node;
@@ -80,7 +80,7 @@ class Configuration implements ConfigurationInterface
             ->prototype('scalar')
             ->validate()
             ->ifNotInArray(['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete'])
-                ->thenInvalid('Invalid action for except: "%s"')
+            ->thenInvalid('Invalid action for except: "%s"')
             ->end();
 
         return $node;
@@ -115,59 +115,59 @@ class Configuration implements ConfigurationInterface
 
         $routesNode
             ->children()
-                ->arrayNode('index')
-                    ->prototype('scalar')->end()
-                ->end()
-                ->arrayNode('show')
-                    ->prototype('scalar')->end()
-                ->end()
-                ->arrayNode('create')
-                    ->prototype('scalar')->end()
-                ->end()
-                ->arrayNode('update')
-                    ->prototype('scalar')->end()
-                ->end()
-                ->arrayNode('batch_update')
-                    ->prototype('scalar')->end()
-                ->end()
-                ->arrayNode('delete')
-                    ->prototype('scalar')->end()
-                ->end()
-                ->arrayNode('batch_delete')
-                    ->prototype('scalar')->end()
-                ->end()
+            ->arrayNode('index')
+            ->prototype('scalar')->end()
+            ->end()
+            ->arrayNode('show')
+            ->prototype('scalar')->end()
+            ->end()
+            ->arrayNode('create')
+            ->prototype('scalar')->end()
+            ->end()
+            ->arrayNode('update')
+            ->prototype('scalar')->end()
+            ->end()
+            ->arrayNode('batch_update')
+            ->prototype('scalar')->end()
+            ->end()
+            ->arrayNode('delete')
+            ->prototype('scalar')->end()
+            ->end()
+            ->arrayNode('batch_delete')
+            ->prototype('scalar')->end()
+            ->end()
             ->end();
 
         $node
             ->children()
-                ->arrayNode('default')
-                    ->prototype('scalar')->end()
-                ->end()
-                ->append($routesNode)
+            ->arrayNode('default')
+            ->prototype('scalar')->end()
+            ->end()
+            ->append($routesNode)
             ->end();
 
         $routesNode
             ->beforeNormalization()
-                ->always(function($val) {
-                    foreach(ConfigurationProcessor::$allActions as $action) {
-                        if(!isset($val[$action])) {
-                            $val[$action] = ['MY', 'EMPTY', 'ARRAY'];
-                        }
+            ->always(function ($val) {
+                foreach (ConfigurationProcessor::$allActions as $action) {
+                    if (!isset($val[$action])) {
+                        $val[$action] = ['MY', 'EMPTY', 'ARRAY'];
                     }
+                }
 
-                    return $val;
-                })
+                return $val;
+            })
             ->end()
             ->validate()
-                ->always(function($val) {
-                    foreach(ConfigurationProcessor::$allActions as $action) {
-                        if (!empty($val[$action]) && $val[$action] == ['MY', 'EMPTY', 'ARRAY']) {
-                            unset($val[$action]);
-                        }
+            ->always(function ($val) {
+                foreach (ConfigurationProcessor::$allActions as $action) {
+                    if (!empty($val[$action]) && $val[$action] == ['MY', 'EMPTY', 'ARRAY']) {
+                        unset($val[$action]);
                     }
+                }
 
-                    return $val;
-                })
+                return $val;
+            })
             ->end();
 
         return $node;
@@ -185,7 +185,7 @@ class Configuration implements ConfigurationInterface
         $node
             ->addDefaultsIfNotSet()
             ->children()
-                ->scalarNode('datetime')->defaultFalse()->end()
+            ->scalarNode('datetime')->defaultFalse()->end()
             ->end();
 
         return $node;

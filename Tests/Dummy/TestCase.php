@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Dummy;
+namespace BiteCodes\RestApiGeneratorBundle\Tests\Dummy;
 
 use Doctrine\ORM\EntityManager;
 
@@ -25,7 +25,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $this->testDb = new TestDb(
             $here . '/TestEntity',
             $here . '/TestProxy',
-            'Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity'
+            'BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity'
         );
 
         $this->em = $this->testDb->createEntityManager();

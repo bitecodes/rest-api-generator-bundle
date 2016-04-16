@@ -1,10 +1,10 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Controller;
+namespace BiteCodes\RestApiGeneratorBundle\Tests\Controller;
 
 use Doctrine\ORM\Tools\SchemaTool;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Fludio\TestBundle\Test\TestCase;
 
 class RestApiControllerWithFilterTest extends TestCase
@@ -32,7 +32,7 @@ class RestApiControllerWithFilterTest extends TestCase
         $this->factory->create(Post::class, ['title' => 'Post 1', 'content' => 'My post content']);
         $this->factory->create(Post::class, ['title' => 'Post 2', 'content' => 'Something else']);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.posts.index', ['title' => 'Post 2']);
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.index', ['title' => 'Post 2']);
 
         $this
             ->get($url)

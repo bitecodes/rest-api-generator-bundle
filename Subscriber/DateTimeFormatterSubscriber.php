@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Subscriber;
+namespace BiteCodes\RestApiGeneratorBundle\Subscriber;
 
 use DateTime;
 use JMS\Serializer\Context;

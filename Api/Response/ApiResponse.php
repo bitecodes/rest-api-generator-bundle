@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Api\Response;
+namespace BiteCodes\RestApiGeneratorBundle\Api\Response;
 
 class ApiResponse
 {

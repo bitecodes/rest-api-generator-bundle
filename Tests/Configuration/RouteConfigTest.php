@@ -1,8 +1,8 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Configuration;
+namespace BiteCodes\RestApiGeneratorBundle\Tests\Configuration;
 
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
 use Fludio\TestBundle\Test\TestCase;
 
 class RouteConfigTest extends TestCase
@@ -30,9 +30,9 @@ class RouteConfigTest extends TestCase
         }
 
         $this->assertEquals($routeNames, [
-            'fludio.rest_api_generator.posts.index',
-            'fludio.rest_api_generator.posts.show',
-            'fludio.rest_api_generator.posts.create',
+            'bite_codes.rest_api_generator.posts.index',
+            'bite_codes.rest_api_generator.posts.show',
+            'bite_codes.rest_api_generator.posts.create',
         ]);
     }
 }

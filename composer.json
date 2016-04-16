@@ -1,5 +1,5 @@
 {
-  "name": "fludio/rest-api-generator-bundle",
+  "name": "bitecodes/rest-api-generator-bundle",
   "authors": [
     {
       "name": "Thomas Uhlmann",
@@ -29,10 +29,10 @@
   },
   "autoload": {
     "psr-0": {
-      "Fludio\\RestApiGeneratorBundle\\": ""
+      "BiteCodes\\RestApiGeneratorBundle\\": ""
     }
   },
-  "target-dir": "Fludio/RestApiGeneratorBundle",
+  "target-dir": "BiteCodes/RestApiGeneratorBundle",
   "repositories": [
     {
       "type": "vcs",

@@ -1,10 +1,10 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Handler;
+namespace BiteCodes\RestApiGeneratorBundle\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Fludio\RestApiGeneratorBundle\Api\Response\ApiProblem;
-use Fludio\RestApiGeneratorBundle\Exception\ApiProblemException;
+use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiProblem;
+use BiteCodes\RestApiGeneratorBundle\Exception\ApiProblemException;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 

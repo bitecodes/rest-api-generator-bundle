@@ -1,9 +1,9 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Api\Actions;
+namespace BiteCodes\RestApiGeneratorBundle\Api\Actions;
 
 use Doctrine\Common\Inflector\Inflector;
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Symfony\Component\Routing\Router;
 
 abstract class Action

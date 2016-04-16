@@ -1,11 +1,11 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
+namespace BiteCodes\RestApiGeneratorBundle\DependencyInjection;
 
 use DateTime;
-use Fludio\RestApiGeneratorBundle\Subscriber\DateTimeFormatterSubscriber;
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
+use BiteCodes\RestApiGeneratorBundle\Subscriber\DateTimeFormatterSubscriber;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * @link http://symfony.com/doc/current/cookbook/bundles/extension.html
  */
-class FludioRestApiGeneratorExtension extends Extension
+class BiteCodesRestApiGeneratorExtension extends Extension
 {
     /**
      * {@inheritdoc}
@@ -27,7 +27,7 @@ class FludioRestApiGeneratorExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('fludio.rest_api_generator.config', $config);
+        $container->setParameter('bite_codes.rest_api_generator.config', $config);
 
         $this->registerApiResources($container, $config['entities']);
         $this->registerListeners($container, $config['listener']);
@@ -44,7 +44,7 @@ class FludioRestApiGeneratorExtension extends Extension
     {
         // Register ApiManager
         $apiManager = new Definition(ApiManager::class);
-        $container->setDefinition('fludio.rest_api_generator.endpoint_manager', $apiManager);
+        $container->setDefinition('bite_codes.rest_api_generator.endpoint_manager', $apiManager);
 
         foreach ($endpointConfig as $entity => $options) {
             $definition = $this->newApiResourceDefinition($container, $entity, $options);
@@ -63,7 +63,7 @@ class FludioRestApiGeneratorExtension extends Extension
                 'format' => 'json',
                 'method' => 'serializeDateTimeToJson'
             ]);
-            $container->setDefinition('fludio_rest_api_generator.listener.date_time_formatter_listener', $definition);
+            $container->setDefinition('bite_codes_rest_api_generator.listener.date_time_formatter_listener', $definition);
         }
     }
 
@@ -78,7 +78,7 @@ class FludioRestApiGeneratorExtension extends Extension
         $definition = new Definition(ApiResource::class);
         $definition->setArguments([$entity, $options]);
         $definition->setPublic(false);
-        $container->setDefinition('fludio.rest_api_generator.' . ConfigurationProcessor::getDefaultResourceName($entity), $definition);
+        $container->setDefinition('bite_codes.rest_api_generator.' . ConfigurationProcessor::getDefaultResourceName($entity), $definition);
         return $definition;
     }
 }

@@ -1,11 +1,12 @@
 <?php
 
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Dummy\app;
+namespace BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app;
 
+use BiteCodes\RestApiGeneratorBundle\BiteCodesRestApiGeneratorBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Fludio\FactrineBundle\FludioFactrineBundle;
-use Fludio\RestApiGeneratorBundle\FludioRestApiGeneratorBundle;
+use BiteCodes\RestApiGeneratorBundle\FludioRestApiGeneratorBundle;
 use JMS\SerializerBundle\JMSSerializerBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
@@ -24,7 +25,7 @@ class AppKernel extends Kernel
             new DoctrineBundle(),
             new JMSSerializerBundle(),
             new FludioFactrineBundle(),
-            new FludioRestApiGeneratorBundle()
+            new BiteCodesRestApiGeneratorBundle()
         ];
 
         return $bundles;

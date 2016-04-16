@@ -1,10 +1,10 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Controller;
+namespace BiteCodes\RestApiGeneratorBundle\Tests\Controller;
 
 use Doctrine\ORM\Tools\SchemaTool;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Fludio\TestBundle\Test\TestCase;
 
 class RestApiControllerWithNonStandardIdentifierTest extends TestCase
@@ -32,7 +32,7 @@ class RestApiControllerWithNonStandardIdentifierTest extends TestCase
         $this->factory->create(Post::class, ['title' => 'Post_1', 'content' => 'My post content']);
         $this->factory->create(Post::class, ['title' => 'Post_2', 'content' => 'Something else']);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.posts.show', ['title' => 'Post_1']);
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.show', ['title' => 'Post_1']);
 
         $this
             ->get($url)
@@ -46,7 +46,7 @@ class RestApiControllerWithNonStandardIdentifierTest extends TestCase
     {
         $this->factory->create(Post::class, ['title' => 'Post_1', 'content' => 'My post content']);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.posts.update', ['title' => 'Post_1']);
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.update', ['title' => 'Post_1']);
 
         $this
             ->patch($url, ['content' => 'Updated content'])
@@ -61,7 +61,7 @@ class RestApiControllerWithNonStandardIdentifierTest extends TestCase
     {
         $this->factory->create(Post::class, ['title' => 'Post_1', 'content' => 'My post content']);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.posts.delete', ['title' => 'Post_1']);
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.delete', ['title' => 'Post_1']);
 
         $this
             ->delete($url)

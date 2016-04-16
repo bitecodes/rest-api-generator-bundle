@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Api\Resource;
+namespace BiteCodes\RestApiGeneratorBundle\Api\Resource;
 
 class ApiManager
 {
@@ -54,6 +54,6 @@ class ApiManager
      */
     public function getBundlePrefix()
     {
-        return 'fludio.rest_api_generator';
+        return 'bite_codes.rest_api_generator';
     }
 }

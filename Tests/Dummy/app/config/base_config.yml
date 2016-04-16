@@ -26,5 +26,5 @@ doctrine:
                 mapping: true
                 type: annotation
                 dir: %kernel.root_dir%/../TestEntity
-                prefix: Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity
+                prefix: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity
                 is_bundle: false

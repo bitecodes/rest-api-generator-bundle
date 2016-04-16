@@ -1,14 +1,14 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle;
+namespace BiteCodes\RestApiGeneratorBundle;
 
-use Fludio\RestApiGeneratorBundle\DependencyInjection\ApiResourceCompilePass;
-use Fludio\RestApiGeneratorBundle\DependencyInjection\EndpointControllerCompilePass;
-use Fludio\RestApiGeneratorBundle\DependencyInjection\EndpointManagerCompilePass;
+use BiteCodes\RestApiGeneratorBundle\DependencyInjection\ApiResourceCompilePass;
+use BiteCodes\RestApiGeneratorBundle\DependencyInjection\EndpointControllerCompilePass;
+use BiteCodes\RestApiGeneratorBundle\DependencyInjection\EndpointManagerCompilePass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class FludioRestApiGeneratorBundle extends Bundle
+class BiteCodesRestApiGeneratorBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {

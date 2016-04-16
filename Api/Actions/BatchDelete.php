@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Api\Actions;
+namespace BiteCodes\RestApiGeneratorBundle\Api\Actions;
 
 class BatchDelete extends Action
 {

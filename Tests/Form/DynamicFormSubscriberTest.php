@@ -1,10 +1,10 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Form;
+namespace BiteCodes\RestApiGeneratorBundle\Tests\Form;
 
-use Fludio\RestApiGeneratorBundle\Form\DynamicFormSubscriber;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestCase;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
+use BiteCodes\RestApiGeneratorBundle\Form\DynamicFormSubscriber;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestCase;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormEvent;

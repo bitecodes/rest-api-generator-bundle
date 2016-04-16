@@ -1,12 +1,12 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Handler;
+namespace BiteCodes\RestApiGeneratorBundle\Handler;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Fludio\DoctrineFilter\FilterInterface;
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
-use Fludio\RestApiGeneratorBundle\Repository\RepositoryDecorator;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
+use BiteCodes\RestApiGeneratorBundle\Repository\RepositoryDecorator;
 
 class BaseHandler
 {

@@ -1,14 +1,12 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
+namespace BiteCodes\RestApiGeneratorBundle\DependencyInjection;
 
-use Doctrine\ORM\EntityRepository;
-use Fludio\RestApiGeneratorBundle\Form\DynamicFormType;
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
-use Fludio\RestApiGeneratorBundle\Controller\RestApiController;
-use Fludio\RestApiGeneratorBundle\Handler\BaseHandler;
-use Fludio\RestApiGeneratorBundle\Handler\FormHandler;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
+use BiteCodes\RestApiGeneratorBundle\Controller\RestApiController;
+use BiteCodes\RestApiGeneratorBundle\Handler\BaseHandler;
+use BiteCodes\RestApiGeneratorBundle\Handler\FormHandler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -19,7 +17,7 @@ class EndpointControllerCompilePass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         /** @var ApiManager $manager */
-        $manager = $container->get('fludio.rest_api_generator.endpoint_manager');
+        $manager = $container->get('bite_codes.rest_api_generator.endpoint_manager');
 
         foreach ($manager->getResources() as $entity => $config) {
             $this->setupEntity($config, $container);

@@ -1,21 +1,21 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Api\Resource;
+namespace BiteCodes\RestApiGeneratorBundle\Tests\Api\Resource;
 
 use Doctrine\Common\Util\Inflector;
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
-use Fludio\RestApiGeneratorBundle\Api\Actions\Create;
-use Fludio\RestApiGeneratorBundle\Api\Actions\Delete;
-use Fludio\RestApiGeneratorBundle\Api\Actions\Index;
-use Fludio\RestApiGeneratorBundle\Api\Actions\Show;
-use Fludio\RestApiGeneratorBundle\Api\Actions\Update;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\Create;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\Delete;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\Index;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\Show;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\Update;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Symfony\Component\Routing\Router;
 
 class ResourceTest extends \PHPUnit_Framework_TestCase
 {
-    protected $bundlePrefix = 'fludio.rest_api_generator';
+    protected $bundlePrefix = 'bite_codes.rest_api_generator';
     /**
      * @var ApiResource
      */

@@ -1,10 +1,10 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Controller;
+namespace BiteCodes\RestApiGeneratorBundle\Tests\Controller;
 
 use Doctrine\ORM\Tools\SchemaTool;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Fludio\TestBundle\Test\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -36,9 +36,9 @@ class RestApiControllerWithPaginationTest extends TestCase
     /** @test */
     public function it_paginates_posts()
     {
-        $url = $this->generateUrl('fludio.rest_api_generator.posts.index', ['page' => 2, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL);
-        $first = $prev = $this->generateUrl('fludio.rest_api_generator.posts.index', ['page' => 1, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL);
-        $last = $next = $this->generateUrl('fludio.rest_api_generator.posts.index', ['page' => 3, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.index', ['page' => 2, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL);
+        $first = $prev = $this->generateUrl('bite_codes.rest_api_generator.posts.index', ['page' => 1, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL);
+        $last = $next = $this->generateUrl('bite_codes.rest_api_generator.posts.index', ['page' => 3, 'limit' => 2], UrlGeneratorInterface::ABSOLUTE_URL);
 
         $this
             ->get($url)
@@ -61,7 +61,7 @@ class RestApiControllerWithPaginationTest extends TestCase
     /** @test */
     public function it_returns_null_for_previous_if_there_is_no_previous_page()
     {
-        $url = $this->generateUrl('fludio.rest_api_generator.posts.index', ['page' => 1, 'limit' => 2]);
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.index', ['page' => 1, 'limit' => 2]);
 
         $this
             ->get($url)
@@ -78,7 +78,7 @@ class RestApiControllerWithPaginationTest extends TestCase
     /** @test */
     public function it_returns_null_for_next_if_there_is_no_next_page()
     {
-        $url = $this->generateUrl('fludio.rest_api_generator.posts.index', ['page' => 3, 'limit' => 2]);
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.index', ['page' => 3, 'limit' => 2]);
 
         $this
             ->get($url)
@@ -95,7 +95,7 @@ class RestApiControllerWithPaginationTest extends TestCase
     /** @test */
     public function it_uses_default_values_if_not_given_in_query()
     {
-        $url = $this->generateUrl('fludio.rest_api_generator.posts.index');
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.index');
 
         $this
             ->get($url)

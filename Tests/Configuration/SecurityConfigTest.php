@@ -1,10 +1,10 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Configuration;
+namespace BiteCodes\RestApiGeneratorBundle\Tests\Configuration;
 
 use Doctrine\ORM\Tools\SchemaTool;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Fludio\TestBundle\Test\TestCase;
 
 class SecurityConfigTest extends TestCase
@@ -31,7 +31,7 @@ class SecurityConfigTest extends TestCase
     {
         $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->getUrl('fludio.rest_api_generator.posts.show', ['id' => 1]);
+        $url = $this->getUrl('bite_codes.rest_api_generator.posts.show', ['id' => 1]);
 
         $this
             ->get($url)
@@ -43,7 +43,7 @@ class SecurityConfigTest extends TestCase
     {
         $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->getUrl('fludio.rest_api_generator.posts.show', ['id' => 1]);
+        $url = $this->getUrl('bite_codes.rest_api_generator.posts.show', ['id' => 1]);
 
         $this
             ->get($url, [
@@ -60,7 +60,7 @@ class SecurityConfigTest extends TestCase
     {
         $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->getUrl('fludio.rest_api_generator.posts.delete', ['id' => 1]);
+        $url = $this->getUrl('bite_codes.rest_api_generator.posts.delete', ['id' => 1]);
 
         $this
             ->delete($url, [], [
@@ -75,7 +75,7 @@ class SecurityConfigTest extends TestCase
     {
         $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
 
-        $url = $this->getUrl('fludio.rest_api_generator.posts.delete', ['id' => 1]);
+        $url = $this->getUrl('bite_codes.rest_api_generator.posts.delete', ['id' => 1]);
 
         $this
             ->delete($url, [], [
@@ -88,7 +88,7 @@ class SecurityConfigTest extends TestCase
     /** @test */
     public function it_does_not_require_any_roles_if_route_is_not_secured()
     {
-        $url = $this->getUrl('fludio.rest_api_generator.posts.index');
+        $url = $this->getUrl('bite_codes.rest_api_generator.posts.index');
 
         $this
             ->get($url, [

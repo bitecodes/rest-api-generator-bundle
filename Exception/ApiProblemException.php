@@ -1,8 +1,8 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Exception;
+namespace BiteCodes\RestApiGeneratorBundle\Exception;
 
-use Fludio\RestApiGeneratorBundle\Api\Response\ApiProblem;
+use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiProblem;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ApiProblemException extends HttpException
@@ -15,7 +15,7 @@ class ApiProblemException extends HttpException
     /**
      * ApiProblemException constructor.
      *
-     * @param \Fludio\RestApiGeneratorBundle\Api\Response\ApiProblem $apiProblem
+     * @param \BiteCodes\RestApiGeneratorBundle\Api\Response\ApiProblem $apiProblem
      * @param \Exception|null $previous
      * @param array $headers
      * @param int $code
@@ -30,7 +30,7 @@ class ApiProblemException extends HttpException
     }
 
     /**
-     * @return \Fludio\RestApiGeneratorBundle\Api\Response\ApiProblem
+     * @return \BiteCodes\RestApiGeneratorBundle\Api\Response\ApiProblem
      */
     public function getApiProblem()
     {

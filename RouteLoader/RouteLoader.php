@@ -1,11 +1,11 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\RouteLoader;
+namespace BiteCodes\RestApiGeneratorBundle\RouteLoader;
 
-use Fludio\RestApiGeneratorBundle\Api\Actions\Index;
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
-use Fludio\RestApiGeneratorBundle\Resource\Convention;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\Index;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
+use BiteCodes\RestApiGeneratorBundle\Resource\Convention;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;

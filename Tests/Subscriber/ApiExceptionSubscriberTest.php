@@ -1,10 +1,10 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Subscriber;
+namespace BiteCodes\RestApiGeneratorBundle\Tests\Subscriber;
 
 use Doctrine\ORM\Tools\SchemaTool;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Fludio\TestBundle\Test\TestCase;
 
 class ApiExceptionSubscriberTest extends TestCase
@@ -40,7 +40,7 @@ class ApiExceptionSubscriberTest extends TestCase
     /** @test */
     public function it_catches_entity_not_found_errors()
     {
-        $url = $this->generateUrl('fludio.rest_api_generator.posts.show', ['id' => 1]);
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.show', ['id' => 1]);
 
         $this
             ->get($url)
@@ -53,7 +53,7 @@ class ApiExceptionSubscriberTest extends TestCase
     /** @test */
     public function it_catches_invalid_json()
     {
-        $url = $this->generateUrl('fludio.rest_api_generator.posts.create');
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.create');
 
         $invalidBody = <<<EOF
 {
@@ -72,7 +72,7 @@ EOF;
     /** @test */
     public function it_catches_validation_errors()
     {
-        $url = $this->generateUrl('fludio.rest_api_generator.posts.create');
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.create');
 
         $data = ['content' => 'My Post Content'];
 

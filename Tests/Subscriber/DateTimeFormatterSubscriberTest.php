@@ -1,10 +1,10 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Subscriber;
+namespace BiteCodes\RestApiGeneratorBundle\Tests\Subscriber;
 
 use Doctrine\ORM\Tools\SchemaTool;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Fludio\TestBundle\Test\TestCase;
 
 class DateTimeFormatterSubscriberTest extends TestCase
@@ -41,7 +41,7 @@ class DateTimeFormatterSubscriberTest extends TestCase
             'createdAt' => new \DateTime('2016-02-02 20:00:00')
         ]);
 
-        $url = $this->generateUrl('fludio.rest_api_generator.posts.index');
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.index');
 
         $this
             ->get($url)

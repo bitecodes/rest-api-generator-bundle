@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Annotation;
+namespace BiteCodes\RestApiGeneratorBundle\Annotation;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 

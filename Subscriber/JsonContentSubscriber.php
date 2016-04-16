@@ -1,9 +1,9 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Subscriber;
+namespace BiteCodes\RestApiGeneratorBundle\Subscriber;
 
-use Fludio\RestApiGeneratorBundle\Api\Response\ApiProblem;
-use Fludio\RestApiGeneratorBundle\Exception\ApiProblemException;
+use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiProblem;
+use BiteCodes\RestApiGeneratorBundle\Exception\ApiProblemException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Subscriber;
+namespace BiteCodes\RestApiGeneratorBundle\Subscriber;
 
-use Fludio\RestApiGeneratorBundle\Api\Response\ApiResponse;
-use Fludio\RestApiGeneratorBundle\Controller\RestApiController;
-use Fludio\RestApiGeneratorBundle\Services\MetadataStorage\ResponseData;
+use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiResponse;
+use BiteCodes\RestApiGeneratorBundle\Controller\RestApiController;
+use BiteCodes\RestApiGeneratorBundle\Services\MetadataStorage\ResponseData;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

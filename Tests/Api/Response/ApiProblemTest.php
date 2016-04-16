@@ -1,8 +1,8 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Api\Response;
+namespace BiteCodes\RestApiGeneratorBundle\Tests\Api\Response;
 
-use Fludio\RestApiGeneratorBundle\Api\Response\ApiProblem;
+use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiProblem;
 
 class ApiProblemTest extends \PHPUnit_Framework_TestCase
 {

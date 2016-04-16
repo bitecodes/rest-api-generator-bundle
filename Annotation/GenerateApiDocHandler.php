@@ -1,22 +1,22 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Annotation;
+namespace BiteCodes\RestApiGeneratorBundle\Annotation;
 
 use Doctrine\Common\Inflector\Inflector;
 use Doctrine\ORM\EntityManager;
 use Fludio\DoctrineFilter\FilterBuilder;
 use Fludio\DoctrineFilter\FilterInterface;
-use Fludio\RestApiGeneratorBundle\Api\Actions\BatchDelete;
-use Fludio\RestApiGeneratorBundle\Api\Actions\BatchUpdate;
-use Fludio\RestApiGeneratorBundle\Api\Actions\Create;
-use Fludio\RestApiGeneratorBundle\Api\Actions\Delete;
-use Fludio\RestApiGeneratorBundle\Api\Actions\Index;
-use Fludio\RestApiGeneratorBundle\Api\Actions\Show;
-use Fludio\RestApiGeneratorBundle\Api\Actions\Update;
-use Fludio\RestApiGeneratorBundle\Form\DynamicFormSubscriber;
-use Fludio\RestApiGeneratorBundle\Form\DynamicFormType;
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\BatchDelete;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\BatchUpdate;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\Create;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\Delete;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\Index;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\Show;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\Update;
+use BiteCodes\RestApiGeneratorBundle\Form\DynamicFormSubscriber;
+use BiteCodes\RestApiGeneratorBundle\Form\DynamicFormType;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Nelmio\ApiDocBundle\Extractor\HandlerInterface;
 use Symfony\Component\Routing\Route;
@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Route;
 class GenerateApiDocHandler implements HandlerInterface
 {
     /**
-     * @var \Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager
+     * @var \BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager
      */
     private $manager;
     /**

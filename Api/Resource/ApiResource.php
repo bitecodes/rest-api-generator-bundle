@@ -1,11 +1,11 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Api\Resource;
+namespace BiteCodes\RestApiGeneratorBundle\Api\Resource;
 
-use Fludio\RestApiGeneratorBundle\Api\Actions\Action;
-use Fludio\RestApiGeneratorBundle\Api\Actions\ActionList;
-use Fludio\RestApiGeneratorBundle\DependencyInjection\ConfigurationProcessor;
-use Fludio\RestApiGeneratorBundle\Api\Resource\Traits\ServiceNames;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\Action;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\ActionList;
+use BiteCodes\RestApiGeneratorBundle\DependencyInjection\ConfigurationProcessor;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\Traits\ServiceNames;
 
 class ApiResource
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Dummy\Filter;
+namespace BiteCodes\RestApiGeneratorBundle\Tests\Dummy\Filter;
 
 use Fludio\DoctrineFilter\FilterBuilder;
 use Fludio\DoctrineFilter\FilterInterface;

@@ -1,15 +1,15 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Tests\Annotation;
+namespace BiteCodes\RestApiGeneratorBundle\Tests\Annotation;
 
-use Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDoc;
-use Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler;
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiResource;
-use Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager;
-use Fludio\RestApiGeneratorBundle\Api\Actions\Index;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\Filter\PostFilter;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestCase;
-use Fludio\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
+use BiteCodes\RestApiGeneratorBundle\Annotation\GenerateApiDoc;
+use BiteCodes\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\Index;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\Filter\PostFilter;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestCase;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\Router;
@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Router;
 class GenerateApiDocHandlerTest extends TestCase
 {
     /**
-     * @var \Fludio\RestApiGeneratorBundle\Api\Resource\ApiManager
+     * @var \BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager
      */
     protected $manager;
 

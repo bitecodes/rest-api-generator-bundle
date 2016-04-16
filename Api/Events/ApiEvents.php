@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Api\Events;
+namespace BiteCodes\RestApiGeneratorBundle\Api\Events;
 
 final class ApiEvents
 {

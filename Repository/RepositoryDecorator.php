@@ -1,6 +1,6 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Repository;
+namespace BiteCodes\RestApiGeneratorBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Fludio\DoctrineFilter\Traits\EntityFilterTrait;

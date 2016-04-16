@@ -1,18 +1,18 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\Controller;
+namespace BiteCodes\RestApiGeneratorBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
-use Fludio\RestApiGeneratorBundle\Api\Events\ApiControllerDataEvent;
-use Fludio\RestApiGeneratorBundle\Api\Events\ApiEvents;
-use Fludio\RestApiGeneratorBundle\Api\Response\ApiProblem;
-use Fludio\RestApiGeneratorBundle\Exception\ApiProblemException;
-use Fludio\RestApiGeneratorBundle\Handler\BaseHandler;
+use BiteCodes\RestApiGeneratorBundle\Api\Events\ApiControllerDataEvent;
+use BiteCodes\RestApiGeneratorBundle\Api\Events\ApiEvents;
+use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiProblem;
+use BiteCodes\RestApiGeneratorBundle\Exception\ApiProblemException;
+use BiteCodes\RestApiGeneratorBundle\Handler\BaseHandler;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Fludio\RestApiGeneratorBundle\Annotation\GenerateApiDoc;
+use BiteCodes\RestApiGeneratorBundle\Annotation\GenerateApiDoc;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -241,7 +241,7 @@ class RestApiController extends Controller
      */
     protected function addLinksToMetadata(Pagerfanta $paginator, $route, $limit)
     {
-        $data = $this->get('fludio_rest_api_generator.services.response_data');
+        $data = $this->get('bite_codes_rest_api_generator.services.response_data');
         $router = $this->get('router');
 
         $first = $router->generate($route, ['page' => 1, 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL);

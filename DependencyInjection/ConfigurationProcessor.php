@@ -1,9 +1,9 @@
 <?php
 
-namespace Fludio\RestApiGeneratorBundle\DependencyInjection;
+namespace BiteCodes\RestApiGeneratorBundle\DependencyInjection;
 
 use Doctrine\Common\Util\Inflector;
-use Fludio\RestApiGeneratorBundle\Form\DynamicFormType;
+use BiteCodes\RestApiGeneratorBundle\Form\DynamicFormType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ConfigurationProcessor
