@@ -88,7 +88,7 @@ Et voilà, now you have a fully working api. This will result in the following e
   - [x] Add metadata (pagination links, total)
 - [x] Sort via query
 - [ ] Expose via query
-- [ ] Nested Resources
+- [x] Nested Resources
 - [x] Access entities by something else than the id
 - [x] Resource Actions as classes (polymorphic)
 - [ ] Configuration Options
@@ -100,7 +100,6 @@ Et voilà, now you have a fully working api. This will result in the following e
 - [x] NelmioApiDocBundle integration
   - [x] Basic integreation
   - [x] Show security setting
-  - [x] Better description
   - [x] Add Filter Params
   - [x] Add Pagination
   - [ ] Better descriptions 
