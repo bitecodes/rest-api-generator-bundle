@@ -9,7 +9,7 @@ class RouteConfigTest extends TestCase
 {
     protected static function createKernel(array $options = array())
     {
-        $kernel = new AppKernel('testRouteConfigTest', false);
+        $kernel = new AppKernel('testRouteConfig', true);
         $kernel->setConfigFile('config_routes.yml');
         return $kernel;
     }

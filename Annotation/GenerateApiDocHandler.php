@@ -20,6 +20,7 @@ use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Nelmio\ApiDocBundle\Extractor\HandlerInterface;
 use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\Router;
 
 class GenerateApiDocHandler implements HandlerInterface
 {
@@ -31,11 +32,16 @@ class GenerateApiDocHandler implements HandlerInterface
      * @var EntityManager
      */
     private $em;
+    /**
+     * @var Router
+     */
+    private $router;
 
-    public function __construct(ApiManager $manager, EntityManager $em)
+    public function __construct(ApiManager $manager, EntityManager $em, Router $router)
     {
         $this->manager = $manager;
         $this->em = $em;
+        $this->router = $router;
     }
 
     /**
@@ -47,10 +53,12 @@ class GenerateApiDocHandler implements HandlerInterface
     public function handle(ApiDoc $annotation, array $annotations, Route $route, \ReflectionMethod $method)
     {
         $resource = $this->getResource($route);
+        $routeName = $this->router->match($route->getPath())['_route'];
+        $section = $this->getSection($routeName, $resource);
 
         foreach ($annotations as $annot) {
             if ($annot instanceof GenerateApiDoc) {
-                $annotation->setSection(ucwords($resource->getName()));
+                $annotation->setSection($section);
                 if ($this->returnsEntity($route)) {
                     $this->setOutput($annotation, $resource);
                 }
@@ -196,6 +204,9 @@ class GenerateApiDocHandler implements HandlerInterface
             case BatchDelete::class:
                 $description = 'Delete multiple ' . Inflector::pluralize($name);
                 break;
+            default:
+                @trigger_error('Action was not defined');
+                break;
         }
 
         return $description;
@@ -238,5 +249,21 @@ class GenerateApiDocHandler implements HandlerInterface
                 'description' => 'Limit'
             ]);
         }
+    }
+
+    /**
+     * @param $routeName
+     * @param ApiResource $resource
+     * @return string
+     */
+    private function getSection($routeName, ApiResource $resource)
+    {
+        $prefixPos = strlen($resource->getBundlePrefix() . '.');
+        $nextDot = strpos($routeName, '.', $prefixPos);
+
+        $resourceName = substr($routeName, $prefixPos, $nextDot - $prefixPos);
+        $parentResource = $this->manager->getResource($resourceName);
+
+        return ucwords($parentResource->getName());
     }
 }

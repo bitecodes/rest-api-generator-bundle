@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Post
  *
- * @ORM\Table(name="post")
+ * @ORM\Table(name="posts")
  * @ORM\Entity()
  */
 class Post

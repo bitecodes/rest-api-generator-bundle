@@ -11,7 +11,7 @@ class ApiExceptionSubscriberTest extends TestCase
 {
     protected static function createKernel(array $options = array())
     {
-        $kernel = new AppKernel('testApiExceptionSubscriber', false);
+        $kernel = new AppKernel('testApiExceptionSubscriber', true);
         $kernel->setConfigFile('config_simple.yml');
         return $kernel;
     }

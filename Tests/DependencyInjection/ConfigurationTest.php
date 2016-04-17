@@ -44,7 +44,9 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                         'identifier' => 'id',
                         'filter' => null,
                         'form_type' => DynamicFormType::class,
-                        'paginate' => false
+                        'paginate' => false,
+                        'is_main_resource' => true,
+                        'sub_resources' => []
                     ]
                 ]
             ], 'resources');

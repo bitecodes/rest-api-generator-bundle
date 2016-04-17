@@ -11,7 +11,7 @@ class RestApiControllerTest extends TestCase
 {
     protected static function createKernel(array $options = array())
     {
-        $kernel = new AppKernel('testRestApiController', false);
+        $kernel = new AppKernel('testRestApiController', true);
         $kernel->setConfigFile('config_simple.yml');
         return $kernel;
     }

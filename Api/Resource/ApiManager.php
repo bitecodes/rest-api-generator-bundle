@@ -14,7 +14,7 @@ class ApiManager
      */
     public function addResource(ApiResource $config)
     {
-        $this->resources[$config->getEntityClass()] = $config;
+        $this->resources[$config->getName()] = $config;
         $config->setManager($this);
     }
 
@@ -52,7 +52,6 @@ class ApiManager
     /**
      * @param $entityClass
      * @return bool|ApiResource
-     * TODO: Fix it
      */
     public function getResourceForEntity($entityClass)
     {

@@ -7,9 +7,10 @@ use BiteCodes\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use BiteCodes\RestApiGeneratorBundle\Api\Actions\Index;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\Filter\PostFilter;
-use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestCase;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
+use BiteCodes\TestBundle\Test\TestCase;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\Router;
@@ -20,6 +21,17 @@ class GenerateApiDocHandlerTest extends TestCase
      * @var \BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager
      */
     protected $manager;
+    /**
+     * @var Router|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $router;
+
+    protected static function createKernel(array $options = array())
+    {
+        $kernel = new AppKernel('testGenerateApiDocHandler', true);
+        $kernel->setConfigFile('config_simple.yml');
+        return $kernel;
+    }
 
     public function setUp()
     {
@@ -31,11 +43,9 @@ class GenerateApiDocHandlerTest extends TestCase
             'paginate' => true
         ]);
 
-        $router = $this->getMockBuilder(Router::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->router = $this->client->getContainer()->get('router');
 
-        $resource->addAction(new Index($router));
+        $resource->addAction(new Index($this->router));
 
         $this->manager = new ApiManager();
         $this->manager->addResource($resource);
@@ -54,7 +64,7 @@ class GenerateApiDocHandlerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $handler = new GenerateApiDocHandler($this->manager, $this->em);
+        $handler = new GenerateApiDocHandler($this->manager, $this->em, $this->router);
         $handler->handle($apiDoc, [$generateApiDocAnnotation], $route, $method);
 
         $this->assertNull($apiDoc->getInput());
@@ -78,7 +88,7 @@ class GenerateApiDocHandlerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $handler = new GenerateApiDocHandler($this->manager, $this->em);
+        $handler = new GenerateApiDocHandler($this->manager, $this->em, $this->router);
         $handler->handle($apiDoc, [$generateApiDocAnnotation], $route, $method);
 
         $this->assertCount(3, $apiDoc->getParameters());

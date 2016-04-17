@@ -11,7 +11,7 @@ class DateTimeFormatterSubscriberTest extends TestCase
 {
     protected static function createKernel(array $options = array())
     {
-        $kernel = new AppKernel('testDateTimeFormatterListener', false);
+        $kernel = new AppKernel('testDateTimeFormatterSubscriber', true);
         $kernel->setConfigFile('config_listener.yml');
         return $kernel;
     }

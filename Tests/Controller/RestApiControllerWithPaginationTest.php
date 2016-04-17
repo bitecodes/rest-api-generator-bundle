@@ -12,7 +12,7 @@ class RestApiControllerWithPaginationTest extends TestCase
 {
     protected static function createKernel(array $options = array())
     {
-        $kernel = new AppKernel('testRestApiControllerWithPagination', false);
+        $kernel = new AppKernel('testRestApiControllerWithPagination', true);
         $kernel->setConfigFile('config_pagination.yml');
         return $kernel;
     }

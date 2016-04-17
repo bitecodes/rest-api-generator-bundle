@@ -81,7 +81,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_returns_the_base_url_for_this_entity()
     {
-        $this->assertEquals('/posts', $this->config->getResourceBaseUrl());
+        $this->assertEquals('/posts', $this->config->getResourceCollectionUrl());
     }
 
     /**

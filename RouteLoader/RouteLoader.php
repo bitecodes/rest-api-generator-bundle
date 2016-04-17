@@ -2,6 +2,7 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\RouteLoader;
 
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\Action;
 use BiteCodes\RestApiGeneratorBundle\Api\Actions\Index;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
@@ -49,11 +50,17 @@ class RouteLoader extends Loader
     /**
      * @param ApiResource $apiResource
      * @param RouteCollection $routes
+     * @param ApiResource $parentResource
      */
-    private function addRoute(ApiResource $apiResource, RouteCollection $routes)
+    private function addRoute(ApiResource $apiResource, RouteCollection $routes, $parentResource = null)
     {
         foreach ($apiResource->getActions() as $action) {
-            $route = new Route($action->getUrlSchema());
+
+            if (!$parentResource && !$apiResource->isMainResource()) {
+                continue;
+            }
+
+            $route = new Route($this->getUrl($action, $parentResource));
             $route
                 ->setDefault('_controller', $action->getControllerAction())
                 ->setDefault('_entity', $apiResource->getEntityClass())
@@ -65,7 +72,25 @@ class RouteLoader extends Loader
                 $route->setDefault('_indexGetterMethod', $action->getResourceGetterMethod());
             }
 
-            $routes->add($action->getRouteName(), $route);
+            $routes->add($action->getRouteName($parentResource), $route);
         }
+
+
+        foreach ($apiResource->getSubResources() as $subResourceName) {
+            $subResource = $this->manager->getResource($subResourceName);
+            $this->addRoute($subResource, $routes, $apiResource);
+        }
+    }
+
+    /**
+     * @param Action $action
+     * @param ApiResource $parentResource
+     * @return mixed
+     */
+    private function getUrl(Action $action, ApiResource $parentResource = null)
+    {
+        $parent = $parentResource ? $parentResource->getResourceSingleElementUrl() : '';
+
+        return $parent . $action->getUrlSchema();
     }
 }

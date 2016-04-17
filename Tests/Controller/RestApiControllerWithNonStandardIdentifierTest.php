@@ -11,7 +11,7 @@ class RestApiControllerWithNonStandardIdentifierTest extends TestCase
 {
     protected static function createKernel(array $options = array())
     {
-        $kernel = new AppKernel('testRestApiControllerWithNonStandardIdentifier', false);
+        $kernel = new AppKernel('testRestApiControllerWithNonStandardIdentifier', true);
         $kernel->setConfigFile('config_identifier.yml');
         return $kernel;
     }

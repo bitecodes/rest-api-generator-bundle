@@ -10,6 +10,7 @@ abstract class Action
 {
     const URL_TYPE_ELEMENT = 'element';
     const URL_TYPE_COLLECTION = 'collection';
+
     /**
      * @var array
      */
@@ -63,7 +64,7 @@ abstract class Action
         if ($this->urlType == self::URL_TYPE_COLLECTION) {
             return '/' . $this->apiResource->getName();
         } elseif ($this->urlType == self::URL_TYPE_ELEMENT) {
-            return '/' . $this->apiResource->getName() . '/' . '{' . $this->apiResource->getIdentifier() . '}';
+            return '/' . $this->apiResource->getName() . '/{' . $this->apiResource->getIdentifier() . '}';
         }
     }
 
@@ -102,11 +103,14 @@ abstract class Action
     /**
      * Get the name of a route action
      *
+     * @param ApiResource $parentResource
      * @return string
      */
-    public function getRouteName()
+    public function getRouteName(ApiResource $parentResource = null)
     {
-        return $this->apiResource->getBundlePrefix() . '.' . $this->apiResource->getName() . '.' . $this->action;
+        $parentResourceName = $parentResource ? '.' . $parentResource->getName() : '';
+
+        return $this->apiResource->getBundlePrefix() . $parentResourceName . '.' . $this->apiResource->getName() . '.' . $this->action;
     }
 
     /**

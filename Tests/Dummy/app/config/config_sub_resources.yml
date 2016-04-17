@@ -1,0 +1,14 @@
+imports:
+    - { resource: base_config.yml }
+
+bite_codes_rest_api_generator:
+    resources:
+        categories:
+            entity: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Category
+            sub_resources:
+                - posts
+        posts:
+            entity: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post
+            is_main_resource: false
+            identifier: postId
+

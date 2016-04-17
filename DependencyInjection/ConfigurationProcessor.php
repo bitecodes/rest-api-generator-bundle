@@ -30,7 +30,9 @@ class ConfigurationProcessor
                 'default' => []
             ],
             'filter' => null,
-            'paginate' => false
+            'paginate' => false,
+            'sub_resources' => [],
+            'is_main_resource' => true
         ]);
 
         $resolver->setRequired('entity');

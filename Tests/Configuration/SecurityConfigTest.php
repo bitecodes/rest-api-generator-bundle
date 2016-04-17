@@ -11,7 +11,7 @@ class SecurityConfigTest extends TestCase
 {
     protected static function createKernel(array $options = array())
     {
-        $kernel = new AppKernel('testSecurityConfigTest', true);
+        $kernel = new AppKernel('testSecurityConfig', true);
         $kernel->setConfigFile('config_security.yml');
         return $kernel;
     }

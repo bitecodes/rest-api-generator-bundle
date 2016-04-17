@@ -11,7 +11,7 @@ class RestApiControllerWithFilterTest extends TestCase
 {
     protected static function createKernel(array $options = array())
     {
-        $kernel = new AppKernel('testRestApiControllerWithFilter', false);
+        $kernel = new AppKernel('testRestApiControllerWithFilter', true);
         $kernel->setConfigFile('config_filter.yml');
         return $kernel;
     }

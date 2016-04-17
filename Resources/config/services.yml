@@ -38,6 +38,7 @@ services:
         arguments:
             - '@bite_codes.rest_api_generator.endpoint_manager'
             - '@doctrine.orm.entity_manager'
+            - '@router'
         tags:
             - { name: nelmio_api_doc.extractor.handler }
 

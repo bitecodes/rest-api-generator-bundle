@@ -1,0 +1,2 @@
+BiteCodes\RestApiGeneratorBundle\Entity\Category:
+    name: faker.word

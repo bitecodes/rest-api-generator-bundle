@@ -49,6 +49,14 @@ class ApiResource
      * @var ServiceNames
      */
     protected $services;
+    /**
+     * @var array
+     */
+    protected $subResources;
+    /**
+     * @var boolean
+     */
+    protected $isMainResource;
 
     public function __construct($resourceName, array $options = [])
     {
@@ -60,11 +68,24 @@ class ApiResource
         $this->paginate = $options['paginate'];
         $this->formTypeClass = $options['form_type'];
         $this->identifier = $options['identifier'];
+        $this->subResources = $options['sub_resources'];
+        $this->isMainResource = $options['is_main_resource'];
     }
 
-    public function getResourceBaseUrl()
+    /**
+     * @return string
+     */
+    public function getResourceCollectionUrl()
     {
         return '/' . $this->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getResourceSingleElementUrl()
+    {
+        return $this->getResourceCollectionUrl() . '/{' . $this->getIdentifier() . '}';
     }
 
     /**
@@ -159,5 +180,29 @@ class ApiResource
     public function getBundlePrefix()
     {
         return $this->manager->getBundlePrefix();
+    }
+
+    /**
+     * @return array
+     */
+    public function getSubResources()
+    {
+        return $this->subResources;
+    }
+
+    /**
+     * @param $resource
+     */
+    public function addSubResource($resource)
+    {
+        $this->subResources[] = $resource;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isMainResource()
+    {
+        return $this->isMainResource;
     }
 }

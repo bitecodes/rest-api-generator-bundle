@@ -38,6 +38,8 @@ class Configuration implements ConfigurationInterface
                             ->append($this->getFilterNode())
                             ->append($this->getFormTypeNode())
                             ->append($this->getPaginationNode())
+                            ->append($this->getIsMainResourceNode())
+                            ->append($this->getSubResourcesNode())
                         ->end()
                     ->end()
                 ->end()
@@ -217,6 +219,9 @@ class Configuration implements ConfigurationInterface
         return $node;
     }
 
+    /**
+     * @return ScalarNodeDefinition
+     */
     private function getFormTypeNode()
     {
         $node = new ScalarNodeDefinition('form_type');
@@ -227,12 +232,40 @@ class Configuration implements ConfigurationInterface
         return $node;
     }
 
+    /**
+     * @return ScalarNodeDefinition
+     */
     private function getIdentifierNode()
     {
         $node = new ScalarNodeDefinition('identifier');
 
         $node
             ->defaultValue('id');
+
+        return $node;
+    }
+
+    /**
+     * @return BooleanNodeDefinition
+     */
+    private function getIsMainResourceNode()
+    {
+        $node = new BooleanNodeDefinition('is_main_resource');
+
+        $node
+            ->defaultTrue();
+
+        return $node;
+    }
+
+    /**
+     * @return ArrayNodeDefinition
+     */
+    private function getSubResourcesNode()
+    {
+        $node = new ArrayNodeDefinition('sub_resources');
+
+        $node->prototype('scalar')->end();
 
         return $node;
     }
