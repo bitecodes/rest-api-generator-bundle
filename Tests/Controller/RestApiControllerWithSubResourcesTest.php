@@ -132,4 +132,19 @@ class RestApiControllerWithSubResourcesTest extends TestCase
             ->seeInJson(['name' => 'coding'])
             ->seeInDatabase(Post::class, $params);
     }
+
+    /** @test */
+    public function it_returns_404_if_parent_resource_does_not_exist()
+    {
+        $params = [
+            'title' => 'Learn programming',
+            'content' => 'the text'
+        ];
+
+        $this
+            ->post('/categories/1/posts', $params)
+            ->seeJsonResponse()
+            ->seeStatusCode(422)
+            ->seeNotInDatabase(Post::class, []);
+    }
 }
