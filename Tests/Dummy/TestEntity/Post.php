@@ -3,7 +3,6 @@
 namespace BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity;
 
 use Doctrine\ORM\Mapping as ORM;
-
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -38,6 +37,14 @@ class Post
      * @Assert\NotBlank
      */
     private $content;
+
+    /**
+     * @var Category
+     *
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="posts")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    private $category;
 
     /**
      * @var DateTime
@@ -102,6 +109,22 @@ class Post
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * @return Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function setCategory(Category $category)
+    {
+        $this->category = $category;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\Handler;
 
+use BiteCodes\RestApiGeneratorBundle\Filter\FilterDecorator;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use BiteCodes\DoctrineFilter\FilterInterface;
@@ -26,6 +27,10 @@ class BaseHandler
      * @var ApiResource
      */
     private $apiResource;
+    /**
+     * @var ApiResource[]
+     */
+    private $parentResources;
 
     /**
      * @param EntityManager $em
@@ -43,11 +48,27 @@ class BaseHandler
     }
 
     /**
+     * @return ApiResource[]
+     */
+    public function getParentResources()
+    {
+        return $this->parentResources;
+    }
+
+    /**
+     * @param ApiResource[] $parentResources
+     */
+    public function setParentResources($parentResources)
+    {
+        $this->parentResources = $parentResources;
+    }
+
+    /**
      * @return array
      */
     public function all()
     {
-        return $this->repository->findAll();
+        return $this->repository->filter($this->getFilter(), $this->getParams());
     }
 
     /**
@@ -68,6 +89,7 @@ class BaseHandler
      */
     public function paginate($params, $page, $perPage = 20, &$paginator = null)
     {
+        // TODO make configurable
         $page = $page ?: 1;
         $perPage = $perPage ?: 10;
 
@@ -80,7 +102,27 @@ class BaseHandler
      */
     public function get($id)
     {
-        return $this->repository->findOneBy($this->getCriteria($id));
+        $criteria = $this->getCriteria($id);
+
+        $result = $this->repository->filter(
+            $this->getFilter($criteria),
+            $this->getParams($criteria)
+        );
+
+        switch (count($result)) {
+            case 0:
+                $result = null;
+                break;
+            case 1:
+                $result = $result[0];
+                break;
+            default:
+                // TODO provide a more meaningful message
+                throw new \LogicException('Something\'s fishy');
+                break;
+        }
+
+        return $result;
     }
 
     /**
@@ -99,7 +141,7 @@ class BaseHandler
     public function post($params)
     {
         $className = $this->repository->getClassName();
-        return $this->formHandler->processForm(new $className, $params, 'POST');
+        return $this->formHandler->processForm(new $className, $this->getParams($params, true), 'POST');
     }
 
     /**
@@ -164,5 +206,27 @@ class BaseHandler
         return [
             $this->apiResource->getIdentifier() => $id
         ];
+    }
+
+    /**
+     * @param array $critiera
+     * @return FilterDecorator
+     */
+    protected function getFilter($critiera = [])
+    {
+        return new FilterDecorator($this->parentResources, $critiera, $this->filter);
+    }
+
+    private function getParams($searchParams = [], $public = false)
+    {
+        foreach ($this->parentResources as $id => $resource) {
+            $s = $resource->getSubResources();
+
+            $key = $public ? $s[$this->apiResource->getName()]['assoc_parent'] : FilterDecorator::getFilterName($resource);
+
+            $searchParams[$key] = $id;
+        }
+
+        return $searchParams;
     }
 }

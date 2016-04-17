@@ -76,7 +76,7 @@ class RouteLoader extends Loader
         }
 
 
-        foreach ($apiResource->getSubResources() as $subResourceName) {
+        foreach ($apiResource->getSubResources() as $subResourceName => $config) {
             $subResource = $this->manager->getResource($subResourceName);
             $this->addRoute($subResource, $routes, $apiResource);
         }

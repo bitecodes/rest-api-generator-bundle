@@ -6,9 +6,10 @@ bite_codes_rest_api_generator:
         categories:
             entity: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Category
             sub_resources:
-                - posts
+                posts:
+                    assoc_parent: category
+                    assoc_sub: post
         posts:
             entity: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post
             is_main_resource: false
-            identifier: postId
 

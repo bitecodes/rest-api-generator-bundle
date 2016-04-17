@@ -91,7 +91,7 @@ class GenerateApiDocHandlerTest extends TestCase
         $handler = new GenerateApiDocHandler($this->manager, $this->em, $this->router);
         $handler->handle($apiDoc, [$generateApiDocAnnotation], $route, $method);
 
-        $this->assertCount(3, $apiDoc->getParameters());
+        $this->assertCount(4, $apiDoc->getParameters());
         $this->assertEquals(Post::class, $apiDoc->getOutput());
     }
 }

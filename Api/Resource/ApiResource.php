@@ -85,7 +85,7 @@ class ApiResource
      */
     public function getResourceSingleElementUrl()
     {
-        return $this->getResourceCollectionUrl() . '/{' . $this->getIdentifier() . '}';
+        return $this->getResourceCollectionUrl() . '/{' . $this->getRoutePlaceholder() . '}';
     }
 
     /**
@@ -164,6 +164,14 @@ class ApiResource
     public function getIdentifier()
     {
         return $this->identifier;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRoutePlaceholder()
+    {
+        return $this->getName() . ucwords($this->identifier);
     }
 
     /**

@@ -265,7 +265,13 @@ class Configuration implements ConfigurationInterface
     {
         $node = new ArrayNodeDefinition('sub_resources');
 
-        $node->prototype('scalar')->end();
+        $node
+            ->prototype('array')
+                ->children()
+                    ->scalarNode('assoc_parent')->end()
+                    ->scalarNode('assoc_sub')->end()
+                ->end()
+            ->end();
 
         return $node;
     }

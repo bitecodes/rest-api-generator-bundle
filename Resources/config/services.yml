@@ -19,6 +19,14 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    bite_codes_rest_api_generator.subscriber.nested_resource_subscriber:
+        class: BiteCodes\RestApiGeneratorBundle\Subscriber\NestedResourceSubscriber
+        arguments:
+            - '@bite_codes.rest_api_generator.endpoint_manager'
+            - '@router'
+        tags:
+            - { name: kernel.event_subscriber }
+
     app.routing_loader:
         class: BiteCodes\RestApiGeneratorBundle\RouteLoader\RouteLoader
         arguments:

@@ -16,6 +16,12 @@ use BiteCodes\RestApiGeneratorBundle\Annotation\GenerateApiDoc;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Class RestApiController
+ * @package BiteCodes\RestApiGeneratorBundle\Controller
+ *
+ * TODO create SecurityVoter to check for access
+ */
 class RestApiController extends Controller
 {
     /**
@@ -209,7 +215,7 @@ class RestApiController extends Controller
     /**
      * @return BaseHandler
      */
-    protected function getHandler()
+    public function getHandler()
     {
         return $this->handler;
     }
