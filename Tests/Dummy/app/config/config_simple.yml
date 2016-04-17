@@ -1,5 +1,6 @@
 imports:
     - { resource: base_config.yml }
+    - { resource: security_none.yml }
 
 bite_codes_rest_api_generator:
     resources:

@@ -27,6 +27,13 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    bite_codes_rest_api_generator.subscriber.security_roles_subscriber:
+        class: BiteCodes\RestApiGeneratorBundle\Subscriber\SecurityRolesSubscriber
+        arguments:
+            - '@security.token_storage'
+        tags:
+            - { name: kernel.event_subscriber }
+
     app.routing_loader:
         class: BiteCodes\RestApiGeneratorBundle\RouteLoader\RouteLoader
         arguments:

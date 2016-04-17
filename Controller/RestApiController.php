@@ -41,8 +41,6 @@ class RestApiController extends Controller
      */
     public function indexAction(Request $request, $_indexGetterMethod)
     {
-        $this->checkForAccess();
-
         $params = $request->query->all();
 
         $page = !empty($params['page']) ? $params['page'] : null;
@@ -76,8 +74,6 @@ class RestApiController extends Controller
      */
     public function showAction(Request $request)
     {
-        $this->checkForAccess();
-
         return $this->getEntityOrThrowException($request);
     }
 
@@ -92,8 +88,6 @@ class RestApiController extends Controller
      */
     public function createAction(Request $request)
     {
-        $this->checkForAccess();
-
         return $this->getHandler()->post($request->request->all());
     }
 
@@ -108,8 +102,6 @@ class RestApiController extends Controller
      */
     public function updateAction(Request $request)
     {
-        $this->checkForAccess();
-
         $entity = $this->getEntityOrThrowException($request);
         return $this->getHandler()->update($entity, $request->request->all(), $request->getMethod());
     }
@@ -126,8 +118,6 @@ class RestApiController extends Controller
      */
     public function batch_updateAction(Request $request)
     {
-        $this->checkForAccess();
-
         $entities = $this->getEntitiesOrThrowException($request->get('id'));
 
         $this->getHandler()->batchUpdate($entities, $request->request->all(), $request->getMethod());
@@ -146,8 +136,6 @@ class RestApiController extends Controller
      */
     public function deleteAction(Request $request)
     {
-        $this->checkForAccess();
-
         $entity = $this->getEntityOrThrowException($request);
 
         $this->getHandler()->delete($entity);
@@ -166,8 +154,6 @@ class RestApiController extends Controller
      */
     public function batch_deleteAction(Request $request)
     {
-        $this->checkForAccess();
-
         $this->getHandler()->batchDelete($request->get('id'));
 
         return [];
@@ -226,18 +212,6 @@ class RestApiController extends Controller
     public function setHandler($handler)
     {
         $this->handler = $handler;
-    }
-
-    /**
-     * Check if user has permission to access action
-     */
-    protected function checkForAccess()
-    {
-        $roles = $this->get('request_stack')->getCurrentRequest()->get('_roles');
-
-        if ($roles) {
-            $this->denyAccessUnlessGranted($roles);
-        }
     }
 
     /**
