@@ -30,9 +30,9 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('resources')
                     ->prototype('array')
                         ->children()
+                            ->append($this->getEntityNode())
                             ->append($this->getOnlyNode())
                             ->append($this->getExceptNode())
-                            ->append($this->getResourceNameNode())
                             ->append($this->getIdentifierNode())
                             ->append($this->getSecureNode())
                             ->append($this->getFilterNode())
@@ -44,6 +44,18 @@ class Configuration implements ConfigurationInterface
             ->end();
 
         return $treeBuilder;
+    }
+
+    private function getEntityNode()
+    {
+        $node = new ScalarNodeDefinition('entity');
+
+        $node
+            ->isRequired()
+            ->cannotBeEmpty()
+            ->end();
+
+        return $node;
     }
 
     /**
@@ -81,22 +93,6 @@ class Configuration implements ConfigurationInterface
             ->validate()
             ->ifNotInArray(['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete'])
                 ->thenInvalid('Invalid action for except: "%s"')
-            ->end();
-
-        return $node;
-    }
-
-    /**
-     * Node for resource name
-     *
-     * @return ScalarNodeDefinition
-     */
-    private function getResourceNameNode()
-    {
-        $node = new ScalarNodeDefinition('resource_name');
-
-        $node
-            ->cannotBeEmpty()
             ->end();
 
         return $node;

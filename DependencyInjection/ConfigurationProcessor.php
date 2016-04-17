@@ -13,17 +13,17 @@ class ConfigurationProcessor
     ];
 
     /**
-     * @param $entity
+     * @param $resourceName
      * @param $options
      * @return array
      */
-    public static function resolve($entity, $options)
+    public static function resolve($resourceName, $options)
     {
         $resolver = new OptionsResolver();
         $resolver->setDefaults([
             'only' => [],
             'except' => [],
-            'resource_name' => self::getDefaultResourceName($entity),
+            'resource_name' => $resourceName,
             'identifier' => 'id',
             'form_type' => DynamicFormType::class,
             'secure' => [
@@ -32,6 +32,8 @@ class ConfigurationProcessor
             'filter' => null,
             'paginate' => false
         ]);
+
+        $resolver->setRequired('entity');
 
         return $resolver->resolve($options);
     }

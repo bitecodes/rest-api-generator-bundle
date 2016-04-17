@@ -50,12 +50,12 @@ class ApiResource
      */
     protected $services;
 
-    public function __construct($entity, array $options = [])
+    public function __construct($resourceName, array $options = [])
     {
-        $options = ConfigurationProcessor::resolve($entity, $options);
+        $options = ConfigurationProcessor::resolve($resourceName, $options);
         $this->actions = new ActionList();
         $this->name = $options['resource_name'];
-        $this->entity = $entity;
+        $this->entity = $options['entity'];
         $this->filterClass = $options['filter'];
         $this->paginate = $options['paginate'];
         $this->formTypeClass = $options['form_type'];

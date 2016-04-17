@@ -5,4 +5,5 @@ bite_codes_rest_api_generator:
     listener:
         datetime: unix
     resources:
-        BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post:
+        posts:
+            entity: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post

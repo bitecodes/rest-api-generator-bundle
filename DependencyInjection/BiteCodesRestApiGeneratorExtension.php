@@ -46,8 +46,8 @@ class BiteCodesRestApiGeneratorExtension extends Extension
         $apiManager = new Definition(ApiManager::class);
         $container->setDefinition('bite_codes.rest_api_generator.endpoint_manager', $apiManager);
 
-        foreach ($endpointConfig as $entity => $options) {
-            $definition = $this->newApiResourceDefinition($container, $entity, $options);
+        foreach ($endpointConfig as $resourceName => $options) {
+            $definition = $this->newApiResourceDefinition($container, $resourceName, $options);
             $apiManager->addMethodCall('addResource', [$definition]);
         }
     }
@@ -69,16 +69,16 @@ class BiteCodesRestApiGeneratorExtension extends Extension
 
     /**
      * @param ContainerBuilder $container
-     * @param $entity
+     * @param $resourceName
      * @param $options
      * @return Definition
      */
-    private function newApiResourceDefinition(ContainerBuilder $container, $entity, $options)
+    private function newApiResourceDefinition(ContainerBuilder $container, $resourceName, $options)
     {
         $definition = new Definition(ApiResource::class);
-        $definition->setArguments([$entity, $options]);
+        $definition->setArguments([$resourceName, $options]);
         $definition->setPublic(false);
-        $container->setDefinition('bite_codes.rest_api_generator.' . ConfigurationProcessor::getDefaultResourceName($entity), $definition);
+        $container->setDefinition("bite_codes.rest_api_generator.$resourceName", $definition);
         return $definition;
     }
 }

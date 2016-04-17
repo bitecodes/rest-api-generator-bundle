@@ -29,13 +29,16 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     'resources' => [
-                        Post::class => []
+                        'posts' => [
+                            'entity' => Post::class,
+                        ]
                     ]
                 ]
             ],
             [
                 'resources' => [
-                    Post::class => [
+                    'posts' => [
+                        'entity' => Post::class,
                         'only' => ['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete'],
                         'except' => [],
                         'identifier' => 'id',
@@ -53,7 +56,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertConfigurationIsValid([
             [
                 'resources' => [
-                    Post::class => [
+                    'posts' => [
+                        'entity' => Post::class,
                         'only' => ['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete']
                     ]
                 ]
@@ -67,7 +71,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertConfigurationIsInvalid([
             [
                 'resources' => [
-                    Post::class => [
+                    'posts' => [
+                        'entity' => Post::class,
                         'only' => ['list']
                     ]
                 ]
@@ -81,7 +86,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertConfigurationIsValid([
             [
                 'resources' => [
-                    Post::class => [
+                    'posts' => [
+                        'entity' => Post::class,
                         'except' => ['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete']
                     ]
                 ]
@@ -95,7 +101,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertConfigurationIsInvalid([
             [
                 'resources' => [
-                    Post::class => [
+                    'posts' => [
+                        'entity' => Post::class,
                         'except' => ['list']
                     ]
                 ]
@@ -109,7 +116,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertConfigurationIsInvalid([
             [
                 'resources' => [
-                    Post::class => [
+                    'posts' => [
+                        'entity' => Post::class,
                         'resource_name' => ''
                     ]
                 ]
@@ -123,7 +131,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertConfigurationIsInvalid([
             [
                 'resources' => [
-                    Post::class => [
+                    'posts' => [
+                        'entity' => Post::class,
                         'filter' => ''
                     ]
                 ]
@@ -137,7 +146,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertConfigurationIsInvalid([
             [
                 'resources' => [
-                    Post::class => [
+                    'posts' => [
+                        'entity' => Post::class,
                         'paginate' => 'yes'
                     ]
                 ]

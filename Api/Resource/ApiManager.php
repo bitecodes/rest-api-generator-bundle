@@ -37,16 +37,34 @@ class ApiManager
     }
 
     /**
-     * @param $entityClass
-     * @return bool|ApiResource
+     * @param $name
+     * @return ApiResource|bool
      */
-    public function getResourceForEntity($entityClass)
+    public function getResource($name)
     {
-        if (!isset($this->resources[$entityClass])) {
+        if (!isset($this->resources[$name])) {
             return false;
         }
 
-        return $this->resources[$entityClass];
+        return $this->resources[$name];
+    }
+
+    /**
+     * @param $entityClass
+     * @return bool|ApiResource
+     * TODO: Fix it
+     */
+    public function getResourceForEntity($entityClass)
+    {
+        $resources = array_filter($this->getResources(), function (ApiResource $resource) use ($entityClass) {
+            return $resource->getEntityClass() === $entityClass;
+        });
+
+        if (empty($resources)) {
+            return false;
+        }
+
+        return array_pop($resources);
     }
 
     /**

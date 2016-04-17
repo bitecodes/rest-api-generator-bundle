@@ -25,7 +25,8 @@ class GenerateApiDocHandlerTest extends TestCase
     {
         parent::setUp();
 
-        $resource = new ApiResource(Post::class, [
+        $resource = new ApiResource('posts', [
+            'entity' => Post::class,
             'filter' => PostFilter::class,
             'paginate' => true
         ]);

@@ -3,5 +3,6 @@ imports:
 
 bite_codes_rest_api_generator:
     resources:
-        BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post:
+        posts:
+            entity: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post
             identifier: title

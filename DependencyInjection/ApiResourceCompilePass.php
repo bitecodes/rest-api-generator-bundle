@@ -23,7 +23,7 @@ class ApiResourceCompilePass implements CompilerPassInterface
 
         foreach ($manager->getResources() as $apiResource) {
             $def = $container->getDefinition($apiResource->getResourceServiceName());
-            $options = $config['resources'][$apiResource->getEntityClass()];
+            $options = $config['resources'][$apiResource->getName()];
             $base = !empty($options['only']) ? $options['only'] : self::$allActions;
             $actions = array_diff($base, $options['except']);
 

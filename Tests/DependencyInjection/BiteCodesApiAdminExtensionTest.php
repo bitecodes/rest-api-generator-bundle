@@ -37,7 +37,9 @@ class BiteCodesApiAdminExtensionTest extends AbstractExtensionTestCase
     {
         return [
             'resources' => [
-                Post::class => []
+                'posts' => [
+                    'entity' => Post::class
+                ]
             ]
         ];
     }
