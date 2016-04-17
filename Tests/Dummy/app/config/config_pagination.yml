@@ -2,7 +2,7 @@ imports:
     - { resource: base_config.yml }
 
 bite_codes_rest_api_generator:
-    entities:
+    resources:
         BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post:
             filter: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\Filter\PostFilter
             paginate: true

@@ -36,7 +36,7 @@ class BiteCodesApiAdminExtensionTest extends AbstractExtensionTestCase
     protected function getConfig()
     {
         return [
-            'entities' => [
+            'resources' => [
                 Post::class => []
             ]
         ];

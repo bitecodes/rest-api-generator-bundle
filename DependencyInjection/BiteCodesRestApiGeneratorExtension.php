@@ -29,7 +29,7 @@ class BiteCodesRestApiGeneratorExtension extends Extension
 
         $container->setParameter('bite_codes.rest_api_generator.config', $config);
 
-        $this->registerApiResources($container, $config['entities']);
+        $this->registerApiResources($container, $config['resources']);
         $this->registerListeners($container, $config['listener']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));

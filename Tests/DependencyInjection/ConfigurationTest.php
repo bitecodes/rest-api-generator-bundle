@@ -28,13 +28,13 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertProcessedConfigurationEquals(
             [
                 [
-                    'entities' => [
+                    'resources' => [
                         Post::class => []
                     ]
                 ]
             ],
             [
-                'entities' => [
+                'resources' => [
                     Post::class => [
                         'only' => ['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete'],
                         'except' => [],
@@ -44,7 +44,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                         'paginate' => false
                     ]
                 ]
-            ], 'entities');
+            ], 'resources');
     }
 
     /** @test */
@@ -52,13 +52,13 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertConfigurationIsValid([
             [
-                'entities' => [
+                'resources' => [
                     Post::class => [
                         'only' => ['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete']
                     ]
                 ]
             ]
-        ], 'entities');
+        ], 'resources');
     }
 
     /** @test */
@@ -66,13 +66,13 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertConfigurationIsInvalid([
             [
-                'entities' => [
+                'resources' => [
                     Post::class => [
                         'only' => ['list']
                     ]
                 ]
             ]
-        ], 'entities');
+        ], 'resources');
     }
 
     /** @test */
@@ -80,13 +80,13 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertConfigurationIsValid([
             [
-                'entities' => [
+                'resources' => [
                     Post::class => [
                         'except' => ['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete']
                     ]
                 ]
             ]
-        ], 'entities');
+        ], 'resources');
     }
 
     /** @test */
@@ -94,13 +94,13 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertConfigurationIsInvalid([
             [
-                'entities' => [
+                'resources' => [
                     Post::class => [
                         'except' => ['list']
                     ]
                 ]
             ]
-        ], 'entities');
+        ], 'resources');
     }
 
     /** @test */
@@ -108,13 +108,13 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertConfigurationIsInvalid([
             [
-                'entities' => [
+                'resources' => [
                     Post::class => [
                         'resource_name' => ''
                     ]
                 ]
             ]
-        ], 'entities');
+        ], 'resources');
     }
 
     /** @test */
@@ -122,13 +122,13 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertConfigurationIsInvalid([
             [
-                'entities' => [
+                'resources' => [
                     Post::class => [
                         'filter' => ''
                     ]
                 ]
             ]
-        ], 'entities');
+        ], 'resources');
     }
 
     /** @test */
@@ -136,12 +136,12 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertConfigurationIsInvalid([
             [
-                'entities' => [
+                'resources' => [
                     Post::class => [
                         'paginate' => 'yes'
                     ]
                 ]
             ]
-        ], 'entities');
+        ], 'resources');
     }
 }
