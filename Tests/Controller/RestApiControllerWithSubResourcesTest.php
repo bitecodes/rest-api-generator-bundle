@@ -134,7 +134,7 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_404_if_parent_resource_does_not_exist()
+    public function it_returns_422_if_parent_resource_does_not_exist_on_create()
     {
         $params = [
             'title' => 'Learn programming',
@@ -144,7 +144,113 @@ class RestApiControllerWithSubResourcesTest extends TestCase
         $this
             ->post('/categories/1/posts', $params)
             ->seeJsonResponse()
+            // TODO 404 might be better
             ->seeStatusCode(422)
             ->seeNotInDatabase(Post::class, []);
+    }
+
+    /** @test */
+    public function it_updates_a_sub_resource()
+    {
+        $category = $this->factory->create(Category::class, ['name' => 'coding']);
+        $this->factory->create(Post::class, [
+            'title' => 'Learn to code',
+            'content' => 'some content',
+            'category' => $category
+        ]);
+
+        $this
+            ->patch('/categories/1/posts/1', ['title' => 'Pro coder'])
+            ->seeJsonResponse()
+            ->seeInJson(['title' => 'Pro coder'])
+            ->seeStatusCode(200);
+    }
+
+    /** @test */
+    public function it_returns_404_if_parent_resource_can_not_be_found_on_update()
+    {
+        $category = $this->factory->create(Category::class, ['name' => 'coding']);
+        $this->factory->create(Post::class, [
+            'title' => 'Learn to code',
+            'content' => 'some content',
+            'category' => $category
+        ]);
+
+        $this
+            ->patch('/categories/2/posts/1', ['title' => 'Pro coder'])
+            ->seeJsonResponse()
+            ->seeInJson(['data' => []])
+            ->seeStatusCode(404);
+    }
+
+    /** @test */
+    public function it_returns_404_if_sub_resource_can_not_be_found_on_update()
+    {
+        $category = $this->factory->create(Category::class, ['name' => 'coding']);
+        $this->factory->create(Post::class, [
+            'title' => 'Learn to code',
+            'content' => 'some content',
+            'category' => $category
+        ]);
+
+        $this
+            ->patch('/categories/1/posts/2', ['title' => 'Pro coder'])
+            ->seeJsonResponse()
+            ->seeInJson(['data' => []])
+            ->seeStatusCode(404);
+    }
+
+    /** @test */
+    public function it_deletes_a_sub_resource()
+    {
+        $category = $this->factory->create(Category::class, ['name' => 'coding']);
+        $this->factory->create(Post::class, [
+            'title' => 'Learn to code',
+            'content' => 'some content',
+            'category' => $category
+        ]);
+
+        $this
+            ->delete('/categories/1/posts/1')
+            ->seeJsonResponse()
+            ->seeStatusCode(200)
+            ->seeInJson(['data' => []])
+            ->seeNotInDatabase(Post::class, []);
+    }
+
+    /** @test */
+    public function it_returns_404_if_sub_resource_can_not_be_found_on_delete()
+    {
+        $category = $this->factory->create(Category::class, ['name' => 'coding']);
+        $this->factory->create(Post::class, [
+            'title' => 'Learn to code',
+            'content' => 'some content',
+            'category' => $category
+        ]);
+
+        $this
+            ->delete('/categories/1/posts/2')
+            ->seeJsonResponse()
+            ->seeStatusCode(404)
+            ->seeInJson(['data' => []])
+            ->seeInDatabase(Post::class, []);
+    }
+
+    /** @test */
+    public function it_returns_404_if_parent_resource_can_not_be_found_on_delete()
+    {
+        $category = $this->factory->create(Category::class, ['name' => 'coding']);
+        $this->factory->create(Post::class, [
+            'title' => 'Learn to code',
+            'content' => 'some content',
+            'category' => $category
+        ]);
+
+        $this
+            ->delete('/categories/2/posts/1')
+            ->seeJsonResponse()
+            ->seeStatusCode(404)
+            ->seeInJson(['data' => []])
+            ->seeInDatabase(Post::class, []);
     }
 }
