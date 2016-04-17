@@ -1,7 +1,7 @@
 # RestApiGeneratorBundle
 
-[![Build Status](https://travis-ci.org/fludio/rest-api-generator-bundle.svg?branch=master)](https://travis-ci.org/fludio/rest-api-generator-bundle)
-[![Coverage Status](https://coveralls.io/repos/github/fludio/rest-api-generator-bundle/badge.svg?branch=master)](https://coveralls.io/github/fludio/rest-api-generator-bundle?branch=master)
+[![Build Status](https://travis-ci.org/bitecodes/rest-api-generator-bundle.svg?branch=master)](https://travis-ci.org/bitecodes/rest-api-generator-bundle)
+[![Coverage Status](https://coveralls.io/repos/github/bitecodes/rest-api-generator-bundle/badge.svg?branch=master)](https://coveralls.io/github/bitecodes/rest-api-generator-bundle?branch=master)
 
 An easy way to provide a restful API with CRUD endpoints.
 
@@ -48,29 +48,31 @@ some endpoints for these entities.
 ``` yaml
 // app/config/config.yml
 
-fludio_rest_api_generator:
+bitecodes_rest_api_generator:
     entities:
-        MyBundle\Entity\Post: ~
-        MyBundle\Entity\Comment: ~
+        posts:
+            entity: MyBundle\Entity\Post
+        comments:
+            entity: MyBundle\Entity\Comment
 ```
 Et voilà, now you have a fully working api. This will result in the following endpoints:
 
-| Name                                             | Method            | Scheme | Host | Path            |
-|--------------------------------------------------|-------------------|--------|------|-----------------|
-| fludio.rest_api_generator.post.index             | GET               | ANY    | ANY  | /posts          |
-| fludio.rest_api_generator.post.show              | GET               | ANY    | ANY  | /posts/{id}     |
-| fludio.rest_api_generator.post.create            | POST              | ANY    | ANY  | /posts          |
-| fludio.rest_api_generator.post.update            | PUT &#124; PATCH  | ANY    | ANY  | /posts/{id}     |
-| fludio.rest_api_generator.post.batch\_update     | PUT &#124; PATCH  | ANY    | ANY  | /posts          |
-| fludio.rest_api_generator.post.delete            | DELETE            | ANY    | ANY  | /posts/{id}     |
-| fludio.rest_api_generator.post.batch\_delete     | DELETE            | ANY    | ANY  | /posts          |
-| fludio.rest_api_generator.comment.index          | GET               | ANY    | ANY  | /comments       |
-| fludio.rest_api_generator.comment.show           | GET               | ANY    | ANY  | /comments/{id}  |
-| fludio.rest_api_generator.comment.create         | POST              | ANY    | ANY  | /comments       |
-| fludio.rest_api_generator.comment.update         | PUT &#124;  PATCH | ANY    | ANY  | /comments/{id}  |
-| fludio.rest_api_generator.comment.batch\_update  | PUT &#124;  PATCH | ANY    | ANY  | /comments       |
-| fludio.rest_api_generator.comment.delete         | DELETE            | ANY    | ANY  | /comments/{id}  |
-| fludio.rest_api_generator.comment.batch\_delete  | DELETE            | ANY    | ANY  | /comments       |
+| Name                                                 | Method            | Scheme | Host | Path            |
+|------------------------------------------------------|-------------------|--------|------|-----------------|
+| bite_codes.rest_api_generator.post.index             | GET               | ANY    | ANY  | /posts          |
+| bite_codes.rest_api_generator.post.show              | GET               | ANY    | ANY  | /posts/{id}     |
+| bite_codes.rest_api_generator.post.create            | POST              | ANY    | ANY  | /posts          |
+| bite_codes.rest_api_generator.post.update            | PUT &#124; PATCH  | ANY    | ANY  | /posts/{id}     |
+| bite_codes.rest_api_generator.post.batch\_update     | PUT &#124; PATCH  | ANY    | ANY  | /posts          |
+| bite_codes.rest_api_generator.post.delete            | DELETE            | ANY    | ANY  | /posts/{id}     |
+| bite_codes.rest_api_generator.post.batch\_delete     | DELETE            | ANY    | ANY  | /posts          |
+| bite_codes.rest_api_generator.comment.index          | GET               | ANY    | ANY  | /comments       |
+| bite_codes.rest_api_generator.comment.show           | GET               | ANY    | ANY  | /comments/{id}  |
+| bite_codes.rest_api_generator.comment.create         | POST              | ANY    | ANY  | /comments       |
+| bite_codes.rest_api_generator.comment.update         | PUT &#124;  PATCH | ANY    | ANY  | /comments/{id}  |
+| bite_codes.rest_api_generator.comment.batch\_update  | PUT &#124;  PATCH | ANY    | ANY  | /comments       |
+| bite_codes.rest_api_generator.comment.delete         | DELETE            | ANY    | ANY  | /comments/{id}  |
+| bite_codes.rest_api_generator.comment.batch\_delete  | DELETE            | ANY    | ANY  | /comments       |
 
 
 ## TODO
@@ -88,7 +90,8 @@ Et voilà, now you have a fully working api. This will result in the following e
   - [x] Add metadata (pagination links, total)
 - [x] Sort via query
 - [ ] Expose via query
-- [x] Nested Resources
+- [x] Nested resources
+- [ ] Deeply nested resources
 - [x] Access entities by something else than the id
 - [x] Resource Actions as classes (polymorphic)
 - [ ] Configuration Options
