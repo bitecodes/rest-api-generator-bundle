@@ -5,7 +5,7 @@ namespace BiteCodes\RestApiGeneratorBundle\Tests\Controller;
 use Doctrine\ORM\Tools\SchemaTool;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
-use Fludio\TestBundle\Test\TestCase;
+use BiteCodes\TestBundle\Test\TestCase;
 
 class RestApiControllerWithFilterTest extends TestCase
 {

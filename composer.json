@@ -8,7 +8,7 @@
   ],
   "require": {
     "doctrine/inflector": "^1.1",
-    "fludio/doctrine-filter": "dev-master",
+    "bitecodes/doctrine-filter": "dev-master",
     "jms/serializer-bundle": "^1.1",
     "nelmio/api-doc-bundle": "^2.11",
     "symfony/dependency-injection": "^2.8|^3.0",
@@ -21,7 +21,7 @@
     "symfony/validator": "^2.8|^3.0"
   },
   "require-dev": {
-    "fludio/test-bundle": "dev-master",
+    "bitecodes/test-bundle": "dev-master",
     "matthiasnoback/symfony-dependency-injection-test": "^0.7.6",
     "matthiasnoback/symfony-config-test": "^1.4",
     "phpunit/phpunit": "^4.8",
@@ -36,11 +36,11 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/fludio/test-bundle.git"
+      "url": "https://github.com/bitecodes/test-bundle.git"
     },
     {
       "type": "vcs",
-      "url": "https://github.com/fludio/doctrine-filter.git"
+      "url": "https://github.com/bitecodes/doctrine-filter.git"
     }
   ]
 }

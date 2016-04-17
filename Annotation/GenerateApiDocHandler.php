@@ -4,8 +4,8 @@ namespace BiteCodes\RestApiGeneratorBundle\Annotation;
 
 use Doctrine\Common\Inflector\Inflector;
 use Doctrine\ORM\EntityManager;
-use Fludio\DoctrineFilter\FilterBuilder;
-use Fludio\DoctrineFilter\FilterInterface;
+use BiteCodes\DoctrineFilter\FilterBuilder;
+use BiteCodes\DoctrineFilter\FilterInterface;
 use BiteCodes\RestApiGeneratorBundle\Api\Actions\BatchDelete;
 use BiteCodes\RestApiGeneratorBundle\Api\Actions\BatchUpdate;
 use BiteCodes\RestApiGeneratorBundle\Api\Actions\Create;

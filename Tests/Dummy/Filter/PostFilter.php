@@ -2,10 +2,10 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\Tests\Dummy\Filter;
 
-use Fludio\DoctrineFilter\FilterBuilder;
-use Fludio\DoctrineFilter\FilterInterface;
-use Fludio\DoctrineFilter\Type\BetweenFilterType;
-use Fludio\DoctrineFilter\Type\LikeFilterType;
+use BiteCodes\DoctrineFilter\FilterBuilder;
+use BiteCodes\DoctrineFilter\FilterInterface;
+use BiteCodes\DoctrineFilter\Type\BetweenFilterType;
+use BiteCodes\DoctrineFilter\Type\LikeFilterType;
 
 class PostFilter implements FilterInterface
 {

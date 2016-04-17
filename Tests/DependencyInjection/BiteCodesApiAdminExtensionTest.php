@@ -5,11 +5,10 @@ namespace BiteCodes\RestApiGeneratorBundle\Tests\DependencyInjection;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use BiteCodes\RestApiGeneratorBundle\DependencyInjection\BiteCodesRestApiGeneratorExtension;
-use BiteCodes\RestApiGeneratorBundle\DependencyInjection\FludioRestApiGeneratorExtension;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 
-class FludioApiAdminExtensionTest extends AbstractExtensionTestCase
+class BiteCodesApiAdminExtensionTest extends AbstractExtensionTestCase
 {
     protected function getContainerExtensions()
     {

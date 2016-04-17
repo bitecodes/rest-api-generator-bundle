@@ -7,7 +7,7 @@ use Symfony\Component\Routing\Route;
 /**
  * Class ActionList
  *
- * @package Fludio\RestApiGeneratorBundle\Api\Actions
+ * @package BiteCodes\RestApiGeneratorBundle\Api\Actions
  */
 class ActionList implements \IteratorAggregate
 {

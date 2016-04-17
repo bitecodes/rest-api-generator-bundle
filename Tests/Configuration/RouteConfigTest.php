@@ -3,7 +3,7 @@
 namespace BiteCodes\RestApiGeneratorBundle\Tests\Configuration;
 
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
-use Fludio\TestBundle\Test\TestCase;
+use BiteCodes\TestBundle\Test\TestCase;
 
 class RouteConfigTest extends TestCase
 {

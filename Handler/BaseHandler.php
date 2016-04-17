@@ -4,7 +4,7 @@ namespace BiteCodes\RestApiGeneratorBundle\Handler;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Fludio\DoctrineFilter\FilterInterface;
+use BiteCodes\DoctrineFilter\FilterInterface;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use BiteCodes\RestApiGeneratorBundle\Repository\RepositoryDecorator;
 

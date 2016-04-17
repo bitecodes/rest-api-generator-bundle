@@ -1,4 +1,4 @@
-Fludio\RestApiGeneratorBundle\Entity\Post:
+BiteCodes\RestApiGeneratorBundle\Entity\Post:
     title: faker.sentence
     content: faker.text(500)
     createdAt: faker.dateTimebetween

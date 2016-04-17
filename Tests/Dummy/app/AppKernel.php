@@ -3,10 +3,9 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app;
 
+use BiteCodes\FactrineBundle\BiteCodesFactrineBundle;
 use BiteCodes\RestApiGeneratorBundle\BiteCodesRestApiGeneratorBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
-use Fludio\FactrineBundle\FludioFactrineBundle;
-use BiteCodes\RestApiGeneratorBundle\FludioRestApiGeneratorBundle;
 use JMS\SerializerBundle\JMSSerializerBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
@@ -24,7 +23,7 @@ class AppKernel extends Kernel
             new SecurityBundle(),
             new DoctrineBundle(),
             new JMSSerializerBundle(),
-            new FludioFactrineBundle(),
+            new BiteCodesFactrineBundle(),
             new BiteCodesRestApiGeneratorBundle()
         ];
 

@@ -21,7 +21,7 @@ public function registerBundles()
 {
     $bundles = [
         // ...
-        new Fludio\RestApiGeneratorBundle\FludioRestApiGeneratorBundle(),
+        new BiteCodes\RestApiGeneratorBundle\BiteCodesRestApiGeneratorBundle(),
         // ...
     ];
     
@@ -34,7 +34,7 @@ And finally, add this to your routing configuration.
 // app/config/routing.yml
 
 rest_api_generator:
-    resource: "@FludioRestApiGeneratorBundle/Resources/config/routing.yml"
+    resource: "@BiteCodesRestApiGeneratorBundle/Resources/config/routing.yml"
 ```
 
 With these basic steps the bundle is ready to be used. Now you can generate your entities as you are used to.

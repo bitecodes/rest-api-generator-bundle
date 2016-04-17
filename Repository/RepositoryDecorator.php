@@ -3,7 +3,7 @@
 namespace BiteCodes\RestApiGeneratorBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Fludio\DoctrineFilter\Traits\EntityFilterTrait;
+use BiteCodes\DoctrineFilter\Traits\EntityFilterTrait;
 
 class RepositoryDecorator
 {
