@@ -6,6 +6,7 @@ use BiteCodes\DoctrineFilter\FilterBuilder;
 use BiteCodes\DoctrineFilter\FilterInterface;
 use BiteCodes\DoctrineFilter\Type\EqualFilterType;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 
 class FilterDecorator implements FilterInterface
@@ -15,23 +16,33 @@ class FilterDecorator implements FilterInterface
      */
     private $filter;
     /**
-     * @var ApiResource[]
+     * @var ApiResource
      */
-    private $parentResources;
+    private $apiResource;
     /**
      * @var array
      */
     private $criteria;
+    /**
+     * @var EntityManager
+     */
+    protected $em;
 
-    public function __construct($parentResources, $criteria = [], $filter = null)
+    /**
+     * FilterDecorator constructor.
+     * @param ApiResource $apiResource
+     * @param array $criteria
+     * @param null $filter
+     */
+    public function __construct(ApiResource $apiResource, $criteria = [], $filter = null)
     {
         if (!$filter) {
             $filter = new EmptyFilter();
         }
 
-        $this->filter = $filter;
-        $this->parentResources = $parentResources ?: [];
+        $this->apiResource = $apiResource;
         $this->criteria = $criteria;
+        $this->filter = $filter;
     }
 
     public static function getFilterName(ApiResource $resource)
@@ -53,22 +64,13 @@ class FilterDecorator implements FilterInterface
     protected function addFiltersForParentResources(FilterBuilder $builder)
     {
         $qb = $builder->getQueryBuilder();
-        $em = $qb->getEntityManager();
+        $this->em = $qb->getEntityManager();
         $rootEntity = $qb->getRootEntities()[0];
 
-        $meta = $em->getClassMetadata($rootEntity);
+        $meta = $this->em->getClassMetadata($rootEntity);
 
-        foreach ($this->parentResources as $resource) {
-            $mappings = $this->getAssociationMappings($meta, $resource->getEntityClass());
-
-            $fields = array_map(function ($mapping) use ($resource) {
-                $values = array_values($mapping['sourceToTargetKeyColumns']);
-                return $mapping['fieldName'] . '.' . $values[0];
-            }, $mappings);
-
-            $builder->add(self::getFilterName($resource), EqualFilterType::class, [
-                'fields' => array_values($fields)
-            ]);
+        if ($parentResource = $this->apiResource->getParentResource()) {
+            $this->addFilterForParent($builder, $meta, $parentResource);
         }
     }
 
@@ -92,5 +94,29 @@ class FilterDecorator implements FilterInterface
         return array_filter($meta->associationMappings, function ($mapping) use ($entityClass) {
             return $mapping['targetEntity'] == $entityClass;
         });
+    }
+
+    /**
+     * @param FilterBuilder $builder
+     * @param $meta
+     * @param $parentResource
+     */
+    protected function addFilterForParent(FilterBuilder $builder, $meta, ApiResource $parentResource, $prefix = '')
+    {
+        $mappings = $this->getAssociationMappings($meta, $parentResource->getEntityClass());
+
+        $fields = array_map(function ($mapping) use ($prefix) {
+            $values = array_values($mapping['sourceToTargetKeyColumns']);
+            return $prefix . $mapping['fieldName'] . '.' . $values[0];
+        }, $mappings);
+
+        $builder->add(self::getFilterName($parentResource), EqualFilterType::class, [
+            'fields' => array_values($fields)
+        ]);
+
+        if ($parentsParent = $parentResource->getParentResource()) {
+            $meta = $this->em->getClassMetadata($parentResource->getEntityClass());
+            $this->addFilterForParent($builder, $meta, $parentsParent, $parentResource->getAssocSubResource() . '.');
+        }
     }
 }

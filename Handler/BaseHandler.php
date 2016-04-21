@@ -2,6 +2,7 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\Handler;
 
+use BiteCodes\DoctrineFilter\FilterBuilder;
 use BiteCodes\RestApiGeneratorBundle\Filter\FilterDecorator;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -44,6 +45,21 @@ class BaseHandler
         $this->repository = new RepositoryDecorator($repository);
         $this->formHandler = $formHandler;
         $this->filter = $filter;
+    }
+
+    /**
+     * @return ApiResource
+     */
+    public function getApiResource()
+    {
+        return $this->apiResource;
+    }
+
+    /**
+     * @param ApiResource $apiResource
+     */
+    public function setApiResource($apiResource)
+    {
         $this->apiResource = $apiResource;
     }
 
@@ -68,7 +84,7 @@ class BaseHandler
      */
     public function all()
     {
-        return $this->repository->filter($this->getFilter(), $this->getParams());
+        return $this->repository->filter($this->getFilter(), $this->getParams($this->apiResource));
     }
 
     /**
@@ -106,7 +122,7 @@ class BaseHandler
 
         $result = $this->repository->filter(
             $this->getFilter($criteria),
-            $this->getParams($criteria)
+            $this->getParams($this->apiResource, $criteria)
         );
 
         switch (count($result)) {
@@ -141,7 +157,10 @@ class BaseHandler
     public function post($params)
     {
         $className = $this->repository->getClassName();
-        return $this->formHandler->processForm(new $className, $this->getParams($params, true), 'POST');
+//        var_dump($this->getParams($this->apiResource, $params, true));
+//        die();
+
+        return $this->formHandler->processForm(new $className, $this->getParams($this->apiResource, $params, true), 'POST');
     }
 
     /**
@@ -214,19 +233,36 @@ class BaseHandler
      */
     protected function getFilter($critiera = [])
     {
-        return new FilterDecorator($this->parentResources, $critiera, $this->filter);
+        return new FilterDecorator($this->apiResource, $critiera, $this->filter);
     }
 
-    private function getParams($searchParams = [], $public = false)
+    /**
+     * @param ApiResource $apiResource
+     * @param array $searchParams
+     * @param bool $public
+     * @return array
+     */
+    private function getParams(ApiResource $apiResource, $searchParams = [], $public = false)
     {
-        foreach ($this->parentResources as $id => $resource) {
-            $s = $resource->getSubResources();
+        if ($parentResource = $apiResource->getParentResource()) {
+            $key = $public ? $apiResource->getAssocParent() : FilterDecorator::getFilterName($parentResource);
 
-            $key = $public ? $s[$this->apiResource->getName()]['assoc_parent'] : FilterDecorator::getFilterName($resource);
+            $searchParams[$key] = $parentResource->getIdentifierValue();
 
-            $searchParams[$key] = $id;
+            $searchParams = array_merge($searchParams, $this->getParams($parentResource, $searchParams, $public));
         }
 
         return $searchParams;
+
+
+//        foreach ($this->parentResources as $resource) {
+//            $s = $resource->getSubResources();
+//
+//            var_dump(array_keys($s), $this->apiResource->getConfigName());
+//
+//            $key = $public ? $s[$this->apiResource->getConfigName()]->getAssocParent() : FilterDecorator::getFilterName($resource);
+//
+//            $searchParams[$key] = $resource->getIdentifierValue();
+//        }
     }
 }

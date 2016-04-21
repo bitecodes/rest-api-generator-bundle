@@ -25,17 +25,17 @@ class EndpointControllerCompilePass implements CompilerPassInterface
     }
 
     /**
-     * @param ApiResource $entityConfig
+     * @param ApiResource $apiResource
      * @param ContainerBuilder $container
      */
-    protected function setupEntity(ApiResource $entityConfig, ContainerBuilder $container)
+    protected function setupEntity(ApiResource $apiResource, ContainerBuilder $container)
     {
-        $apiResourceServiceName = $entityConfig->getResourceServiceName();
-        $formHandlerServiceName = $entityConfig->getFormHandlerServiceName();
-        $entityHandlerServiceName = $entityConfig->getEntityHandlerServiceName();
-        $controllerServiceName = $entityConfig->getControllerServiceName();
-        $filterServiceName = $entityConfig->getFilterServiceName();
-        $filterClass = $entityConfig->getFilterClass();
+        $apiResourceServiceName = $apiResource->getResourceServiceName();
+        $formHandlerServiceName = $apiResource->getFormHandlerServiceName();
+        $entityHandlerServiceName = $apiResource->getEntityHandlerServiceName();
+        $controllerServiceName = $apiResource->getControllerServiceName();
+        $filterServiceName = $apiResource->getFilterServiceName();
+        $filterClass = $apiResource->getFilterClass();
 
         // Filter
         if ($filterClass) {
@@ -47,7 +47,7 @@ class EndpointControllerCompilePass implements CompilerPassInterface
         $formHandler = new Definition(FormHandler::class);
         $formHandler->addArgument(new Reference('doctrine.orm.entity_manager'));
         $formHandler->addArgument(new Reference('form.factory'));
-        $formHandler->addArgument($entityConfig->getFormTypeClass());
+        $formHandler->addArgument($apiResource->getFormTypeClass());
         $container->setDefinition($formHandlerServiceName, $formHandler);
 
         // Handler

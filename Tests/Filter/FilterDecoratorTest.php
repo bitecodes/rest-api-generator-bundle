@@ -49,12 +49,10 @@ class FilterDecoratorTest extends TestCase
 
         $categoryResource = new ApiResource('categories', ['entity' => Category::class]);
         $categoryResource->setManager($manager);
+        $postResource = new ApiResource('posts', ['entity' => Post::class]);
+        $postResource->setParentResource($categoryResource);
 
-        $parentResources = [
-            1 => $categoryResource
-        ];
-
-        $filter = new FilterDecorator($parentResources);
+        $filter = new FilterDecorator($postResource);
         $builder = new FilterBuilder();
         $builder->setQueryBuilder($qb);
 

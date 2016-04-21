@@ -10,21 +10,21 @@ class ApiManager
     protected $resources = [];
 
     /**
-     * @param ApiResource $config
+     * @param ApiResource $apiResource
      */
-    public function addResource(ApiResource $config)
+    public function addResource(ApiResource $apiResource)
     {
-        $this->resources[$config->getName()] = $config;
-        $config->setManager($this);
+        $this->resources[$apiResource->getName()] = $apiResource;
+        $apiResource->setManager($this);
     }
 
     /**
-     * @param ApiResource[] $configs
+     * @param ApiResource[] $apiResources
      */
-    public function setResources(array $configs)
+    public function setResources(array $apiResources)
     {
-        foreach ($configs as $config) {
-            $this->addResource($config);
+        foreach ($apiResources as $apiResource) {
+            $this->addResource($apiResource);
         }
     }
 

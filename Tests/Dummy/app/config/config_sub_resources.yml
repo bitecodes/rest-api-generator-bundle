@@ -13,4 +13,10 @@ bite_codes_rest_api_generator:
         posts:
             entity: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post
             is_main_resource: false
-
+            sub_resources:
+                comments:
+                    assoc_parent: post
+                    assoc_sub: comments
+        comments:
+            entity: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Comment
+            is_main_resource: false

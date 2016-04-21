@@ -47,8 +47,18 @@ class BiteCodesRestApiGeneratorExtension extends Extension
         $container->setDefinition('bite_codes.rest_api_generator.endpoint_manager', $apiManager);
 
         foreach ($endpointConfig as $resourceName => $options) {
-            $definition = $this->newApiResourceDefinition($container, $resourceName, $options);
-            $apiManager->addMethodCall('addResource', [$definition]);
+            if ($options['is_main_resource']) {
+                $definition = $this->newApiResourceDefinition($container, $resourceName, $resourceName, $options);
+                $apiManager->addMethodCall('addResource', [$definition]);
+
+                foreach ($options['sub_resources'] as $subResourceName => $subResourceConfig) {
+                    $subDef = $this->addSubResource($container, $endpointConfig, $resourceName, $subResourceName, $apiManager);
+                    $subDef->addMethodCall('setAssocParent', [$subResourceConfig['assoc_parent']]);
+                    $subDef->addMethodCall('setAssocSubResource', [$subResourceConfig['assoc_sub']]);
+                    $subDef->addMethodCall('setParentResource', [$definition]);
+                }
+                $container->setDefinition("bite_codes.rest_api_generator.$resourceName", $definition);
+            }
         }
     }
 
@@ -70,15 +80,47 @@ class BiteCodesRestApiGeneratorExtension extends Extension
     /**
      * @param ContainerBuilder $container
      * @param $resourceName
+     * @param $configName
      * @param $options
+     * @param bool $isSubResource
      * @return Definition
      */
-    private function newApiResourceDefinition(ContainerBuilder $container, $resourceName, $options)
+    private function newApiResourceDefinition(ContainerBuilder $container, $resourceName, $configName, $options, $isSubResource = false)
     {
         $definition = new Definition(ApiResource::class);
         $definition->setArguments([$resourceName, $options]);
         $definition->setPublic(false);
-        $container->setDefinition("bite_codes.rest_api_generator.$resourceName", $definition);
+        $definition->addMethodCall('setConfigName', [$configName]);
+        if ($isSubResource) {
+            $definition->addMethodCall('setType', [ApiResource::SUB_RESOURCE]);
+        }
+        return $definition;
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param $endpointConfig
+     * @param $resourceName
+     * @param $subResourceName
+     * @param $apiManager
+     * @return Definition
+     */
+    protected function addSubResource(ContainerBuilder $container, $endpointConfig, $resourceName, $subResourceName, $apiManager)
+    {
+        $name = $resourceName . '_' . $subResourceName;
+        $subResourceOptions = $endpointConfig[$subResourceName];
+        $definition = $this->newApiResourceDefinition($container, $name, $subResourceName, $subResourceOptions, true);
+        $apiManager->addMethodCall('addResource', [$definition]);
+
+        foreach ($subResourceOptions['sub_resources'] as $subSubResourceName => $options) {
+            $subDef = $this->addSubResource($container, $endpointConfig, $name, $subSubResourceName, $apiManager);
+            $subDef->addMethodCall('setAssocParent', [$options['assoc_parent']]);
+            $subDef->addMethodCall('setAssocSubResource', [$options['assoc_sub']]);
+            $subDef->addMethodCall('setParentResource', [$definition]);
+        }
+
+        $container->setDefinition("bite_codes.rest_api_generator.$name", $definition);
+
         return $definition;
     }
 }

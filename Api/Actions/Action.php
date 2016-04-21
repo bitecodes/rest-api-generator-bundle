@@ -62,9 +62,9 @@ abstract class Action
     public function getUrlSchema()
     {
         if ($this->urlType == self::URL_TYPE_COLLECTION) {
-            return '/' . $this->apiResource->getName();
+            return '/' . $this->apiResource->getConfigName();
         } elseif ($this->urlType == self::URL_TYPE_ELEMENT) {
-            return '/' . $this->apiResource->getName() . '/{' . $this->apiResource->getIdentifier() . '}';
+            return '/' . $this->apiResource->getConfigName() . '/{' . $this->apiResource->getIdentifier() . '}';
         }
     }
 

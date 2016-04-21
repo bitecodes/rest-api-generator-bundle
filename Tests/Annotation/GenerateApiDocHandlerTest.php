@@ -43,6 +43,8 @@ class GenerateApiDocHandlerTest extends TestCase
             'paginate' => true
         ]);
 
+        $resource->setConfigName('posts');
+
         $this->router = $this->client->getContainer()->get('router');
 
         $resource->addAction(new Index($this->router));

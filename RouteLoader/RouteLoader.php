@@ -62,6 +62,7 @@ class RouteLoader extends Loader
 
             $route = new Route($this->getUrl($action, $parentResource));
             $route
+                ->setDefault('_api_resource', $apiResource->getName())
                 ->setDefault('_controller', $action->getControllerAction())
                 ->setDefault('_entity', $apiResource->getEntityClass())
                 ->setDefault('_roles', $action->getRoles())
@@ -75,9 +76,7 @@ class RouteLoader extends Loader
             $routes->add($action->getRouteName($parentResource), $route);
         }
 
-
-        foreach ($apiResource->getSubResources() as $subResourceName => $config) {
-            $subResource = $this->manager->getResource($subResourceName);
+        foreach ($apiResource->getSubResources() as $subResource) {
             $this->addRoute($subResource, $routes, $apiResource);
         }
     }

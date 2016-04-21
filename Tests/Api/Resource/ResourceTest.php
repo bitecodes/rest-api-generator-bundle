@@ -27,7 +27,8 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->config = new ApiResource('posts', ['entity' => Post::class]);
+        $this->config = new ApiResource('posts', ['entity' => Post::class,]);
+        $this->config->setConfigName('posts');
         $this->config->addAction(new Index($router));
         $this->config->addAction(new Create($router));
         $this->config->addAction(new Show($router));

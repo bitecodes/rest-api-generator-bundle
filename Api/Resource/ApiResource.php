@@ -11,6 +11,9 @@ class ApiResource
 {
     use ServiceNames;
 
+    const MAIN_RESOURCE = 'main';
+    const SUB_RESOURCE = 'sub';
+
     /**
      * @var ApiManager
      */
@@ -21,6 +24,12 @@ class ApiResource
      * @var string
      */
     protected $name;
+    /**
+     * The config name
+     *
+     * @var string
+     */
+    protected $configName;
     /**
      * @var string
      */
@@ -38,6 +47,10 @@ class ApiResource
      */
     protected $identifier;
     /**
+     * @var mixed
+     */
+    protected $identifierValue;
+    /**
      * @var string
      */
     private $entity;
@@ -50,13 +63,25 @@ class ApiResource
      */
     protected $services;
     /**
-     * @var array
+     * @var ApiResource|null
      */
-    protected $subResources;
+    protected $parentResource;
     /**
-     * @var boolean
+     * @var ApiResource[]
      */
-    protected $isMainResource;
+    protected $subResources = [];
+    /**
+     * @var string
+     */
+    protected $type = self::MAIN_RESOURCE;
+    /**
+     * @var string
+     */
+    protected $assocParent;
+    /**
+     * @var string
+     */
+    protected $assocSubResource;
 
     public function __construct($resourceName, array $options = [])
     {
@@ -68,8 +93,6 @@ class ApiResource
         $this->paginate = $options['paginate'];
         $this->formTypeClass = $options['form_type'];
         $this->identifier = $options['identifier'];
-        $this->subResources = $options['sub_resources'];
-        $this->isMainResource = $options['is_main_resource'];
     }
 
     /**
@@ -77,7 +100,7 @@ class ApiResource
      */
     public function getResourceCollectionUrl()
     {
-        return '/' . $this->getName();
+        return '/' . $this->getConfigName();
     }
 
     /**
@@ -85,7 +108,11 @@ class ApiResource
      */
     public function getResourceSingleElementUrl()
     {
-        return $this->getResourceCollectionUrl() . '/{' . $this->getRoutePlaceholder() . '}';
+        $parent = $this->parentResource
+            ? $this->parentResource->getResourceSingleElementUrl()
+            : '';
+
+        return $parent . $this->getResourceCollectionUrl() . '/{' . $this->getRoutePlaceholder() . '}';
     }
 
     /**
@@ -143,6 +170,32 @@ class ApiResource
     }
 
     /**
+     * Set the resource name
+     *
+     * @param $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConfigName()
+    {
+        return $this->configName;
+    }
+
+    /**
+     * @param string $configName
+     */
+    public function setConfigName($configName)
+    {
+        $this->configName = $configName;
+    }
+
+    /**
      * @return string
      */
     public function getFilterClass()
@@ -164,6 +217,22 @@ class ApiResource
     public function getIdentifier()
     {
         return $this->identifier;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdentifierValue()
+    {
+        return $this->identifierValue;
+    }
+
+    /**
+     * @param mixed $identifierValue
+     */
+    public function setIdentifierValue($identifierValue)
+    {
+        $this->identifierValue = $identifierValue;
     }
 
     /**
@@ -191,7 +260,32 @@ class ApiResource
     }
 
     /**
-     * @return array
+     * @return bool
+     */
+    public function hasParentResource()
+    {
+        return !!$this->parentResource;
+    }
+
+    /**
+     * @return ApiResource|null
+     */
+    public function getParentResource()
+    {
+        return $this->parentResource;
+    }
+
+    /**
+     * @param ApiResource $parentResource
+     */
+    public function setParentResource(ApiResource $parentResource)
+    {
+        $this->parentResource = $parentResource;
+        $parentResource->addSubResource($this);
+    }
+
+    /**
+     * @return ApiResource[]
      */
     public function getSubResources()
     {
@@ -199,18 +293,78 @@ class ApiResource
     }
 
     /**
-     * @param $resource
+     * @param ApiResource $subResource
      */
-    public function addSubResource($resource)
+    public function addSubResource(ApiResource $subResource)
     {
-        $this->subResources[] = $resource;
+        $this->subResources[$subResource->getConfigName()] = $subResource;
     }
 
     /**
-     * @return boolean
+     * @param $type
+     */
+    public function setType($type)
+    {
+        if (!in_array($type, [self::MAIN_RESOURCE, self::SUB_RESOURCE])) {
+            throw new \InvalidArgumentException("$type is not a valid resource type");
+        }
+
+        $this->type = $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return bool
      */
     public function isMainResource()
     {
-        return $this->isMainResource;
+        return $this->type === self::MAIN_RESOURCE;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSubResource()
+    {
+        return $this->type === self::SUB_RESOURCE;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAssocParent()
+    {
+        return $this->assocParent;
+    }
+
+    /**
+     * @param string $assocParent
+     */
+    public function setAssocParent($assocParent)
+    {
+        $this->assocParent = $assocParent;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAssocSubResource()
+    {
+        return $this->assocSubResource;
+    }
+
+    /**
+     * @param string $assocSubResource
+     */
+    public function setAssocSubResource($assocSubResource)
+    {
+        $this->assocSubResource = $assocSubResource;
     }
 }

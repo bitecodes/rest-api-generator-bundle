@@ -3,9 +3,11 @@
 namespace BiteCodes\RestApiGeneratorBundle\Subscriber;
 
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use BiteCodes\RestApiGeneratorBundle\Controller\RestApiController;
 use BiteCodes\RestApiGeneratorBundle\Util\ResourceNamesFromRouteParser;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Router;
@@ -39,30 +41,54 @@ class NestedResourceSubscriber implements EventSubscriberInterface
      */
     public function resolveParentResources(FilterControllerEvent $event)
     {
+        $request = $event->getRequest();
         $controller = $event->getController()[0];
 
         if (!$controller instanceof RestApiController) {
             return;
         }
 
-        $request = $event->getRequest();
-        $path = $request->getPathInfo();
 
-        $routeName = $this->router->match($path)['_route'];
-        $bundlePrefix = $this->manager->getBundlePrefix();
+        if ($resource = $this->getApiResource($request)) {
+            $controller->getHandler()->setApiResource($resource);
+            $parents = $this->getParentResources($resource, $request);
 
-        $subResources = ResourceNamesFromRouteParser::getSubResourceNames($routeName, $bundlePrefix);
-
-        $parentResources = [];
-
-        foreach ($subResources as $subResourceName) {
-            $subResource = $this->manager->getResource($subResourceName);
-            $id = $request->attributes->get($subResource->getRoutePlaceholder());
-            $parentResources[$id] = $subResource;
+            $request->attributes->set('parentResources', $parents);
+            $controller->getHandler()->setParentResources($parents);
         }
-
-        $request->attributes->set('parentResources', $parentResources);
-        $controller->getHandler()->setParentResources($parentResources);
     }
 
+    /**
+     * @param Request $request
+     * @return ApiResource|bool
+     */
+    protected function getApiResource(Request $request)
+    {
+        $apiResourceName = $request->attributes->get('_api_resource');
+
+        return $this->manager->getResource($apiResourceName);
+    }
+
+    /**
+     * @param ApiResource $apiResource
+     * @param Request $request
+     * @return ApiResource[]
+     */
+    protected function getParentResources(ApiResource $apiResource, Request $request)
+    {
+        $parents = [];
+
+        if ($parentResource = $apiResource->getParentResource()) {
+            $id = $request->attributes->get($parentResource->getRoutePlaceholder());
+            $parentResource->setIdentifierValue($id);
+            $parents[] = $parentResource;
+            foreach ($this->getParentResources($parentResource, $request) as $parentsParent) {
+                $id = $request->attributes->get($parentsParent->getRoutePlaceholder());
+                $parentsParent->setIdentifierValue($id);
+                $parents[] = $parentsParent;
+            }
+        }
+
+        return $parents;
+    }
 }

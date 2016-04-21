@@ -36,8 +36,8 @@ class NestedResourceSubscriberTest extends TestCase
         $request = $this->client->getRequest();
 
         $this->assertCount(1, $request->attributes->get('parentResources'));
-        $this->assertTrue(isset($request->attributes->get('parentResources')[1]));
-        $categoryResource = $request->attributes->get('parentResources')[1];
+        $this->assertTrue(!empty($request->attributes->get('parentResources')));
+        $categoryResource = $request->attributes->get('parentResources')[0];
         $this->assertEquals('categories', $categoryResource->getName());
     }
 }

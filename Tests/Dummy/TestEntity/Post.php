@@ -47,6 +47,13 @@ class Post
     private $category;
 
     /**
+     * @var Comment[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post")
+     */
+    private $comments;
+
+    /**
      * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
@@ -125,6 +132,36 @@ class Post
     public function setCategory(Category $category)
     {
         $this->category = $category;
+    }
+
+    /**
+     * @param Comment $comment
+     * @return $this
+     */
+    public function addComment(Comment $comment)
+    {
+        $this->comments->add($comment);
+
+        return $this;
+    }
+
+    /**
+     * @param Comment $comment
+     * @return $this
+     */
+    public function removeComment(Comment $comment)
+    {
+        $this->comments->remove($comment);
+
+        return $this;
+    }
+
+    /**
+     * @return Comment[]|ArrayCollection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 
     /**
