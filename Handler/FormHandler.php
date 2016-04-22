@@ -2,7 +2,7 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\Handler;
 
-use BiteCodes\RestApiGeneratorBundle\Form\DynamicFormSubscriber;
+use BiteCodes\RestApiGeneratorBundle\Form\DynamicFormType;
 use Doctrine\Common\Persistence\ObjectManager;
 use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiProblem;
 use BiteCodes\RestApiGeneratorBundle\Exception\ApiProblemException;
@@ -115,10 +115,11 @@ class FormHandler
             'csrf_protection' => false,
         ];
 
-        if ($this->formType instanceof DynamicFormSubscriber) {
+
+        if (DynamicFormType::class === $this->formType) {
             $options['object'] = $object;
-            return $options;
         }
+
         return $options;
     }
 }
