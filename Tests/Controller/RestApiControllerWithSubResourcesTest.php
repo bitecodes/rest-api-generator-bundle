@@ -412,4 +412,38 @@ class RestApiControllerWithSubResourcesTest extends TestCase
             ->seeInJson(['title' => 'Learn to code'])
             ->seeInDatabase(Comment::class, $params);
     }
+
+    /** @test */
+    public function it_updates_a_nested_sub_resource()
+    {
+        $category = $this->factory->create(Category::class, ['name' => 'coding']);
+        $post = $this->factory->create(Post::class, [
+            'title' => 'Learn to code',
+            'content' => 'some content',
+            'category' => $category
+        ]);
+        $this->factory->create(Comment::class, [
+            'body' => 'old comment',
+            'post' => $post
+        ]);
+
+        $params = [
+            'body' => 'updated comment',
+        ];
+
+        $this
+            ->seeInDatabase(Comment::class, [
+                'body' => 'old comment',
+                'post' => $post
+            ])
+            ->patch('/categories/1/posts/1/comments/1', $params)
+            ->seeJsonResponse()
+            ->seeStatusCode(200)
+            ->seeInJson($params)
+            ->seeInJson(['title' => 'Learn to code'])
+            ->seeInDatabase(Comment::class, [
+                'body' => 'updated comment',
+                'post' => $post
+            ]);
+    }
 }
