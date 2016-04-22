@@ -2,6 +2,7 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\Handler;
 
+use BiteCodes\RestApiGeneratorBundle\Form\DynamicFormSubscriber;
 use Doctrine\Common\Persistence\ObjectManager;
 use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiProblem;
 use BiteCodes\RestApiGeneratorBundle\Exception\ApiProblemException;
@@ -27,11 +28,11 @@ class FormHandler
 
     public function processForm($object, array $parameters, $method)
     {
-        $form = $this->formFactory->create($this->formType, $object, array(
-            'method' => $method,
-            'csrf_protection' => false,
-            'object' => $object
-        ));
+        $form = $this->formFactory->create(
+            $this->formType,
+            $object,
+            $this->getOptions($object, $method)
+        );
 
         $form->submit($parameters, 'PATCH' !== $method);
 
@@ -100,5 +101,24 @@ class FormHandler
             }
         }
         return $errors;
+    }
+
+    /**
+     * @param $object
+     * @param $method
+     * @return array
+     */
+    protected function getOptions($object, $method)
+    {
+        $options = [
+            'method' => $method,
+            'csrf_protection' => false,
+        ];
+
+        if ($this->formType instanceof DynamicFormSubscriber) {
+            $options['object'] = $object;
+            return $options;
+        }
+        return $options;
     }
 }
