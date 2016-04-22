@@ -157,10 +157,9 @@ class BaseHandler
     public function post($params)
     {
         $className = $this->repository->getClassName();
-//        var_dump($this->getParams($this->apiResource, $params, true));
-//        die();
+        $params = $this->getParams($this->apiResource, $params, true);
 
-        return $this->formHandler->processForm(new $className, $this->getParams($this->apiResource, $params, true), 'POST');
+        return $this->formHandler->processForm(new $className, $params, 'POST');
     }
 
     /**
@@ -171,6 +170,8 @@ class BaseHandler
      */
     public function update($entity, $params, $method)
     {
+        $params = $this->getParams($this->apiResource, $params, true);
+
         return $this->formHandler->processForm($entity, $params, $method);
     }
 
@@ -253,16 +254,5 @@ class BaseHandler
         }
 
         return $searchParams;
-
-
-//        foreach ($this->parentResources as $resource) {
-//            $s = $resource->getSubResources();
-//
-//            var_dump(array_keys($s), $this->apiResource->getConfigName());
-//
-//            $key = $public ? $s[$this->apiResource->getConfigName()]->getAssocParent() : FilterDecorator::getFilterName($resource);
-//
-//            $searchParams[$key] = $resource->getIdentifierValue();
-//        }
     }
 }

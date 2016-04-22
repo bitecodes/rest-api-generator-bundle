@@ -23,10 +23,6 @@ class FilterDecorator implements FilterInterface
      * @var array
      */
     private $criteria;
-    /**
-     * @var EntityManager
-     */
-    protected $em;
 
     /**
      * FilterDecorator constructor.
@@ -45,6 +41,10 @@ class FilterDecorator implements FilterInterface
         $this->filter = $filter;
     }
 
+    /**
+     * @param ApiResource $resource
+     * @return string
+     */
     public static function getFilterName(ApiResource $resource)
     {
         return $resource->getBundlePrefix() . '_' . $resource->getName();
@@ -61,19 +61,6 @@ class FilterDecorator implements FilterInterface
         $this->filter->buildFilter($builder);
     }
 
-    protected function addFiltersForParentResources(FilterBuilder $builder)
-    {
-        $qb = $builder->getQueryBuilder();
-        $this->em = $qb->getEntityManager();
-        $rootEntity = $qb->getRootEntities()[0];
-
-        $meta = $this->em->getClassMetadata($rootEntity);
-
-        if ($parentResource = $this->apiResource->getParentResource()) {
-            $this->addFilterForParent($builder, $meta, $parentResource);
-        }
-    }
-
     /**
      * @param FilterBuilder $builder
      */
@@ -85,6 +72,46 @@ class FilterDecorator implements FilterInterface
     }
 
     /**
+     * Add Filters for parent resource
+     *
+     * @param FilterBuilder $builder
+     */
+    protected function addFiltersForParentResources(FilterBuilder $builder)
+    {
+        if ($parentResource = $this->apiResource->getParentResource()) {
+            $qb = $builder->getQueryBuilder();
+            $em = $qb->getEntityManager();
+            $rootEntity = $qb->getRootEntities()[0];
+
+            $this->addFilterForParent($builder, $rootEntity, $em, $parentResource);
+        }
+    }
+
+    /**
+     * @param FilterBuilder $builder
+     * @param $entity
+     * @param EntityManager $em
+     * @param ApiResource $parentResource
+     * @param string $prefix
+     */
+    protected function addFilterForParent(FilterBuilder $builder, $entity, EntityManager $em, ApiResource $parentResource, $prefix = '')
+    {
+        $meta = $em->getClassMetadata($entity);
+
+        $mappings = $this->getAssociationMappings($meta, $parentResource->getEntityClass());
+
+        $builder->add(self::getFilterName($parentResource), EqualFilterType::class, [
+            'fields' => $this->getFields($prefix, $mappings)
+        ]);
+
+        if ($parentsParent = $parentResource->getParentResource()) {
+            $this->addFilterForParent($builder, $parentResource->getEntityClass(), $em, $parentsParent, $parentResource->getAssocSubResource() . '.');
+        }
+    }
+
+    /**
+     * Returns the mappings that are related to the given class
+     *
      * @param $meta
      * @param $entityClass
      * @return array
@@ -97,26 +124,19 @@ class FilterDecorator implements FilterInterface
     }
 
     /**
-     * @param FilterBuilder $builder
-     * @param $meta
-     * @param $parentResource
+     * Returns the fields to perform the query on
+     *
+     * @param $prefix
+     * @param $mappings
+     * @return array
      */
-    protected function addFilterForParent(FilterBuilder $builder, $meta, ApiResource $parentResource, $prefix = '')
+    protected function getFields($prefix, $mappings)
     {
-        $mappings = $this->getAssociationMappings($meta, $parentResource->getEntityClass());
-
         $fields = array_map(function ($mapping) use ($prefix) {
             $values = array_values($mapping['sourceToTargetKeyColumns']);
             return $prefix . $mapping['fieldName'] . '.' . $values[0];
         }, $mappings);
 
-        $builder->add(self::getFilterName($parentResource), EqualFilterType::class, [
-            'fields' => array_values($fields)
-        ]);
-
-        if ($parentsParent = $parentResource->getParentResource()) {
-            $meta = $this->em->getClassMetadata($parentResource->getEntityClass());
-            $this->addFilterForParent($builder, $meta, $parentsParent, $parentResource->getAssocSubResource() . '.');
-        }
+        return array_values($fields);
     }
 }
