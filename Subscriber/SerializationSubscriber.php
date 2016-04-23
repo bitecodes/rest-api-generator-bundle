@@ -3,6 +3,7 @@
 namespace BiteCodes\RestApiGeneratorBundle\Subscriber;
 
 use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiResponse;
+use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiSerialization;
 use BiteCodes\RestApiGeneratorBundle\Controller\RestApiController;
 use BiteCodes\RestApiGeneratorBundle\Services\MetadataStorage\ResponseData;
 use JMS\Serializer\SerializationContext;
@@ -56,7 +57,7 @@ class SerializationSubscriber implements EventSubscriberInterface
     public function checkForControllerType(FilterControllerEvent $event)
     {
         $controller = $event->getController()[0];
-        $this->isRestController = $controller instanceof RestApiController;
+        $this->isRestController = $controller instanceof ApiSerialization;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\Controller;
 
+use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiSerialization;
 use Doctrine\ORM\EntityNotFoundException;
 use BiteCodes\RestApiGeneratorBundle\Api\Events\ApiControllerDataEvent;
 use BiteCodes\RestApiGeneratorBundle\Api\Events\ApiEvents;
@@ -22,7 +23,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  *
  * TODO create SecurityVoter to check for access
  */
-class RestApiController extends Controller
+class RestApiController extends Controller implements ApiSerialization
 {
     /**
      * @var BaseHandler
