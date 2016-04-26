@@ -73,35 +73,45 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             ], 'resources');
     }
 
-//    /** @test */
-//    public function node_only_accepts_7_actions()
-//    {
-//        $this->assertConfigurationIsValid([
-//            [
-//                'resources' => [
-//                    'posts' => [
-//                        'entity' => Post::class,
-//                        'only' => ['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete']
-//                    ]
-//                ]
-//            ]
-//        ], 'resources');
-//    }
+    /** @test */
+    public function node_only_accepts_7_actions()
+    {
+        $this->assertConfigurationIsValid([
+            [
+                'resources' => [
+                    'posts' => [
+                        'entity' => Post::class,
+                        'routes' => [
+                            'index' => [],
+                            'show' => [],
+                            'create' => [],
+                            'update' => [],
+                            'batch_update' => [],
+                            'delete' => [],
+                            'batch_delete' => []
+                        ]
+                    ]
+                ]
+            ]
+        ], 'resources');
+    }
 
-//    /** @test */
-//    public function node_only_raises_exception_for_other_values()
-//    {
-//        $this->assertConfigurationIsInvalid([
-//            [
-//                'resources' => [
-//                    'posts' => [
-//                        'entity' => Post::class,
-//                        'only' => ['list']
-//                    ]
-//                ]
-//            ]
-//        ], 'resources');
-//    }
+    /** @test */
+    public function node_only_raises_exception_for_other_values()
+    {
+        $this->assertConfigurationIsInvalid([
+            [
+                'resources' => [
+                    'posts' => [
+                        'entity' => Post::class,
+                        'routes' => [
+                            'list' => [],
+                        ]
+                    ]
+                ]
+            ]
+        ], 'resources');
+    }
 
     /** @test */
     public function node_resource_name_can_not_be_empty()

@@ -16,6 +16,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+    protected $allRoutes = ['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete'];
+
     /**
      * {@inheritdoc}
      */
@@ -40,23 +42,37 @@ class Configuration implements ConfigurationInterface
                             ->append($this->getIsMainResourceNode())
                             ->append($this->getSubResourcesNode())
                         ->end()
-                            ->beforeNormalization()
-                                ->ifTrue(function($v) {
-                                    return !isset($v['routes']);
-                                })
-                                ->then(function($v) {
-                                    $v['routes'] = [
-                                        'index' => [],
-                                        'show' => [],
-                                        'create' => [],
-                                        'update' => [],
-                                        'batch_update' => [],
-                                        'delete' => [],
-                                        'batch_delete' => [],
-                                    ];
-                                    return $v;
-                                })
-                            ->end()
+                        ->validate()
+                            ->ifTrue(function($v) {
+                                if(!isset($v['routes'])) {
+                                    return false;
+                                }
+
+                                $routes = array_keys($v['routes']);
+
+                                return count(array_diff($routes, $this->allRoutes)) > 0;
+                            })
+                            ->thenInvalid(sprintf('Invalid route name. Only %s allowed', join(', ', array_map(function($r) {
+                                return "'$r'";
+                            }, $this->allRoutes))))
+                        ->end()
+                        ->beforeNormalization()
+                            ->ifTrue(function($v) {
+                                return !isset($v['routes']);
+                            })
+                            ->then(function($v) {
+                                $v['routes'] = [
+                                    'index' => [],
+                                    'show' => [],
+                                    'create' => [],
+                                    'update' => [],
+                                    'batch_update' => [],
+                                    'delete' => [],
+                                    'batch_delete' => [],
+                                ];
+                                return $v;
+                            })
+                        ->end()
                     ->end()
                 ->end()
             ->end();
