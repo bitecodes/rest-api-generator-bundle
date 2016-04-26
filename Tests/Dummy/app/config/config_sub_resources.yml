@@ -6,24 +6,12 @@ bite_codes_rest_api_generator:
     resources:
         categories:
             entity: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Category
-            routes:
-                index: ~
-                show: ~
-                create: ~
-                update: ~
-                delete: ~
             sub_resources:
                 posts:
                     assoc_parent: category
                     assoc_sub: post
         posts:
             entity: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post
-            routes:
-                index: ~
-                show: ~
-                create: ~
-                update: ~
-                delete: ~
             is_main_resource: false
             sub_resources:
                 comments:
@@ -31,10 +19,4 @@ bite_codes_rest_api_generator:
                     assoc_sub: comments
         comments:
             entity: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Comment
-            routes:
-                index: ~
-                show: ~
-                create: ~
-                update: ~
-                delete: ~
             is_main_resource: false

@@ -40,6 +40,23 @@ class Configuration implements ConfigurationInterface
                             ->append($this->getIsMainResourceNode())
                             ->append($this->getSubResourcesNode())
                         ->end()
+                            ->beforeNormalization()
+                                ->ifTrue(function($v) {
+                                    return !isset($v['routes']);
+                                })
+                                ->then(function($v) {
+                                    $v['routes'] = [
+                                        'index' => [],
+                                        'show' => [],
+                                        'create' => [],
+                                        'update' => [],
+                                        'batch_update' => [],
+                                        'delete' => [],
+                                        'batch_delete' => [],
+                                    ];
+                                    return $v;
+                                })
+                            ->end()
                     ->end()
                 ->end()
             ->end();

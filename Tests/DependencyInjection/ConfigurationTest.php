@@ -39,7 +39,29 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 'resources' => [
                     'posts' => [
                         'entity' => Post::class,
-                        'routes' => [],
+                        'routes' => [
+                            'index' => [
+                                'roles' => []
+                            ],
+                            'show' => [
+                                'roles' => []
+                            ],
+                            'create' => [
+                                'roles' => []
+                            ],
+                            'update' => [
+                                'roles' => []
+                            ],
+                            'batch_update' => [
+                                'roles' => []
+                            ],
+                            'delete' => [
+                                'roles' => []
+                            ],
+                            'batch_delete' => [
+                                'roles' => []
+                            ],
+                        ],
                         'identifier' => 'id',
                         'filter' => null,
                         'form_type' => DynamicFormType::class,

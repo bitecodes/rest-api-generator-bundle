@@ -6,11 +6,3 @@ bite_codes_rest_api_generator:
     resources:
         posts:
             entity: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post
-            routes:
-                index: ~
-                show: ~
-                create: ~
-                update: ~
-                batch_update: ~
-                delete: ~
-                batch_delete: ~
