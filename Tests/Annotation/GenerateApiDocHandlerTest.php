@@ -40,7 +40,7 @@ class GenerateApiDocHandlerTest extends TestCase
         $resource = new ApiResource('posts', [
             'entity' => Post::class,
             'filter' => PostFilter::class,
-            'paginate' => true
+            'paginate' => true,
         ]);
 
         $resource->setConfigName('posts');

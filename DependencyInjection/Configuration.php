@@ -2,6 +2,7 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\DependencyInjection;
 
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\Actions;
 use BiteCodes\RestApiGeneratorBundle\Form\DynamicFormType;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\BooleanNodeDefinition;
@@ -177,7 +178,7 @@ class Configuration implements ConfigurationInterface
         $routesNode
             ->beforeNormalization()
                 ->always(function($val) {
-                    foreach(ConfigurationProcessor::$allActions as $action) {
+                    foreach(Actions::$all as $action) {
                         if(!isset($val[$action])) {
                             $val[$action] = ['MY', 'EMPTY', 'ARRAY'];
                         }
@@ -188,7 +189,7 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->validate()
                 ->always(function($val) {
-                    foreach(ConfigurationProcessor::$allActions as $action) {
+                    foreach(Actions::$all as $action) {
                         if (!empty($val[$action]) && $val[$action] == ['MY', 'EMPTY', 'ARRAY']) {
                             unset($val[$action]);
                         }

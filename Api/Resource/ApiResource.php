@@ -6,6 +6,7 @@ use BiteCodes\RestApiGeneratorBundle\Api\Actions\Action;
 use BiteCodes\RestApiGeneratorBundle\Api\Actions\ActionList;
 use BiteCodes\RestApiGeneratorBundle\DependencyInjection\ConfigurationProcessor;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\Traits\ServiceNames;
+use BiteCodes\RestApiGeneratorBundle\Form\DynamicFormType;
 
 class ApiResource
 {
@@ -85,14 +86,13 @@ class ApiResource
 
     public function __construct($resourceName, array $options = [])
     {
-        $options = ConfigurationProcessor::resolve($resourceName, $options);
         $this->actions = new ActionList();
-        $this->name = $options['resource_name'];
+        $this->name = $resourceName;
         $this->entity = $options['entity'];
-        $this->filterClass = $options['filter'];
-        $this->paginate = $options['paginate'];
-        $this->formTypeClass = $options['form_type'];
-        $this->identifier = $options['identifier'];
+        $this->filterClass = isset($options['filter']) ? $options['filter'] : null;
+        $this->paginate = isset($options['paginate']) ? $options['paginate'] : false;
+        $this->formTypeClass = isset($options['form_type']) ? $options['form_type'] : DynamicFormType::class;
+        $this->identifier = isset($options['identifier']) ? $options['identifier'] : 'id';
     }
 
     /**
