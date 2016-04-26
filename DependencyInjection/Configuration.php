@@ -31,8 +31,7 @@ class Configuration implements ConfigurationInterface
                     ->prototype('array')
                         ->children()
                             ->append($this->getEntityNode())
-                            ->append($this->getOnlyNode())
-                            ->append($this->getExceptNode())
+                            ->append($this->getRoutesNode())
                             ->append($this->getIdentifierNode())
                             ->append($this->getSecureNode())
                             ->append($this->getFilterNode())
@@ -65,37 +64,35 @@ class Configuration implements ConfigurationInterface
      *
      * @return ArrayNodeDefinition
      */
-    private function getOnlyNode()
+    private function getRoutesNode()
     {
-        $node = new ArrayNodeDefinition('only');
+//        $routes = ['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete'];
+        $node = new ArrayNodeDefinition('routes');
 
         $node
-            ->defaultValue(['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete'])
-            ->prototype('scalar')
-            ->validate()
-            ->ifNotInArray(['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete'])
-                ->thenInvalid('Invalid action for only: "%s"')
+            ->prototype('array')
+                ->children()
+                    ->arrayNode('roles')
+                        ->defaultValue([])
+                        ->prototype('scalar')->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $node;
     }
 
     /**
-     * Node for routing - except
+     * Node for route settings
      *
+     * @param $action
      * @return ArrayNodeDefinition
      */
-    private function getExceptNode()
+    public function getRouteConfigNode($action)
     {
-        $node = new ArrayNodeDefinition('except');
+        $node = new ArrayNodeDefinition($action);
 
-        $node
-            ->defaultValue([])
-            ->prototype('scalar')
-            ->validate()
-            ->ifNotInArray(['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete'])
-                ->thenInvalid('Invalid action for except: "%s"')
-            ->end();
+
 
         return $node;
     }

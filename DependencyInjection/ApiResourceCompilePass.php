@@ -39,12 +39,13 @@ class ApiResourceCompilePass implements CompilerPassInterface
         $options = $this->getOptionsForApiResource($apiResource);
         $def = $this->getDefinitionForApiResource($apiResource);
 
+
         foreach ($this->getActionsForApiResource($apiResource) as $actionName) {
             $class = Inflector::classify($actionName);
             $actionClass = "BiteCodes\\RestApiGeneratorBundle\\Api\\Actions\\$class";
             $action = new Definition($actionClass);
             $action->addArgument(new Reference('router'));
-            $action->addMethodCall('setRoles', [ConfigurationProcessor::getActionSecurity($options, $actionName)]);
+            $action->addMethodCall('setRoles', [$options['routes'][$actionName]['roles']]);
             $this->container->set('bite_codes.rest_api_generator.action.' . $apiResource->getName() . '.' . Inflector::tableize($actionName), $action);
             $def->addMethodCall('addAction', [$action]);
         }
@@ -102,8 +103,7 @@ class ApiResourceCompilePass implements CompilerPassInterface
     protected function getActionsForApiResource(ApiResource $apiResource)
     {
         $options = $this->getOptionsForApiResource($apiResource);
-        $base = !empty($options['only']) ? $options['only'] : self::$allActions;
-        return array_diff($base, $options['except']);
+        return array_keys($options['routes']);
     }
 
     /**

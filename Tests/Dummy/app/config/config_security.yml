@@ -6,9 +6,14 @@ bite_codes_rest_api_generator:
     resources:
         posts:
             entity: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post
+            routes:
+                index:
+                    roles: []
+                show: ~
+                create: ~
+                update:
+                    roles: ['ROLE_ADMIN']
+                delete:
+                    roles: ['ROLE_ADMIN']
             secure:
                 default:    ['ROLE_USER']
-                routes:
-                    index:  []
-                    update: ['ROLE_ADMIN']
-                    delete: ['ROLE_ADMIN']

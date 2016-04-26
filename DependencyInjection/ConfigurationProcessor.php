@@ -21,8 +21,7 @@ class ConfigurationProcessor
     {
         $resolver = new OptionsResolver();
         $resolver->setDefaults([
-            'only' => [],
-            'except' => [],
+            'routes' => [],
             'resource_name' => $resourceName,
             'identifier' => 'id',
             'form_type' => DynamicFormType::class,
@@ -63,29 +62,5 @@ class ConfigurationProcessor
         $underscored = Inflector::tableize($pluralized);
 
         return $underscored;
-    }
-
-    public static function getActionSecurity($options, $actionName)
-    {
-        if (empty($options['secure'])) {
-            return [];
-        }
-
-        $secure = $options['secure'];
-
-        $defaultSecurity = isset($secure['default']) ? $secure['default'] : [];
-
-        $security = array_reduce(self::$allActions, function ($acc, $action) use ($defaultSecurity) {
-            $acc[$action] = $defaultSecurity;
-            return $acc;
-        }, []);
-
-        if (isset($secure['routes'])) {
-            foreach ($secure['routes'] as $action => $roles) {
-                $security[$action] = $roles;
-            }
-        }
-
-        return $security[$actionName];
     }
 }

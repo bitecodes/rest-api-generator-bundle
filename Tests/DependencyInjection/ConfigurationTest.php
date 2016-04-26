@@ -39,8 +39,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 'resources' => [
                     'posts' => [
                         'entity' => Post::class,
-                        'only' => ['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete'],
-                        'except' => [],
+                        'routes' => [],
                         'identifier' => 'id',
                         'filter' => null,
                         'form_type' => DynamicFormType::class,
@@ -52,65 +51,35 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             ], 'resources');
     }
 
-    /** @test */
-    public function node_only_accepts_7_actions()
-    {
-        $this->assertConfigurationIsValid([
-            [
-                'resources' => [
-                    'posts' => [
-                        'entity' => Post::class,
-                        'only' => ['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete']
-                    ]
-                ]
-            ]
-        ], 'resources');
-    }
+//    /** @test */
+//    public function node_only_accepts_7_actions()
+//    {
+//        $this->assertConfigurationIsValid([
+//            [
+//                'resources' => [
+//                    'posts' => [
+//                        'entity' => Post::class,
+//                        'only' => ['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete']
+//                    ]
+//                ]
+//            ]
+//        ], 'resources');
+//    }
 
-    /** @test */
-    public function node_only_raises_exception_for_other_values()
-    {
-        $this->assertConfigurationIsInvalid([
-            [
-                'resources' => [
-                    'posts' => [
-                        'entity' => Post::class,
-                        'only' => ['list']
-                    ]
-                ]
-            ]
-        ], 'resources');
-    }
-
-    /** @test */
-    public function node_except_accepts_7_actions()
-    {
-        $this->assertConfigurationIsValid([
-            [
-                'resources' => [
-                    'posts' => [
-                        'entity' => Post::class,
-                        'except' => ['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete']
-                    ]
-                ]
-            ]
-        ], 'resources');
-    }
-
-    /** @test */
-    public function node_except_raises_exception_for_other_values()
-    {
-        $this->assertConfigurationIsInvalid([
-            [
-                'resources' => [
-                    'posts' => [
-                        'entity' => Post::class,
-                        'except' => ['list']
-                    ]
-                ]
-            ]
-        ], 'resources');
-    }
+//    /** @test */
+//    public function node_only_raises_exception_for_other_values()
+//    {
+//        $this->assertConfigurationIsInvalid([
+//            [
+//                'resources' => [
+//                    'posts' => [
+//                        'entity' => Post::class,
+//                        'only' => ['list']
+//                    ]
+//                ]
+//            ]
+//        ], 'resources');
+//    }
 
     /** @test */
     public function node_resource_name_can_not_be_empty()

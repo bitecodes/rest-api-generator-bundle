@@ -6,5 +6,7 @@ bite_codes_rest_api_generator:
     resources:
         posts:
             entity: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post
-            only: ['index', 'show', 'create', 'delete']
-            except: ['delete']
+            routes:
+                index: ~
+                show: ~
+                create: ~
