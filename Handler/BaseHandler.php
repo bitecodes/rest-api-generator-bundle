@@ -183,13 +183,7 @@ class BaseHandler
      */
     public function batchUpdate($entities, $params, $method)
     {
-        unset($params['id']);
-
-        foreach ($entities as $entity) {
-            $this->update($entity, $params, $method);
-        }
-
-        return true;
+        return $this->formHandler->batchProcessForm($entities, $params, $method);
     }
 
     /**

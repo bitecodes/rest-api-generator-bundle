@@ -158,7 +158,36 @@ class RestApiControllerTest extends TestCase
             ->seeInDatabase(Post::class, ['id' => 2, 'content' => 'some_content'])
             ->seeInDatabase(Post::class, ['id' => 3, 'content' => 'some_content'])
             ->seeInDatabase(Post::class, ['id' => 4, 'content' => $posts[3]->getContent()])
-            ->seeInDatabase(Post::class, ['id' => 5, 'content' => $posts[4]->getContent()]);
+            ->seeInDatabase(Post::class, ['id' => 5, 'content' => $posts[4]->getContent()])
+            ->seeJsonHas('data', 3)
+            ->seeInJson(['id' => 1, 'content' => 'some_content'])
+            ->seeInJson(['id' => 2, 'content' => 'some_content'])
+            ->seeInJson(['id' => 3, 'content' => 'some_content']);
+    }
+
+    /** @test */
+    public function it_returns_validation_errors_for_batch_update()
+    {
+        $posts = $this->factory->times(5)->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
+
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.batch_update');
+
+        $data = [
+            'id' => [1, 2, 3],
+            'content' => '',
+        ];
+
+        $this
+            ->patch($url, $data)
+            ->seeJsonResponse()
+            ->seeStatusCode(422)
+            ->seeNotInDatabase(Post::class, ['id' => 1, 'content' => 'some_content'])
+            ->seeNotInDatabase(Post::class, ['id' => 2, 'content' => 'some_content'])
+            ->seeNotInDatabase(Post::class, ['id' => 3, 'content' => 'some_content'])
+            ->seeJsonHas('errors', 3)
+            ->seeInJson([1 => ['content' => ['This value should not be blank.']]])
+            ->seeInJson([2 => ['content' => ['This value should not be blank.']]])
+            ->seeInJson([3 => ['content' => ['This value should not be blank.']]]);
     }
 
     /** @test */

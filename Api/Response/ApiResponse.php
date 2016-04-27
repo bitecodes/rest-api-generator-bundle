@@ -46,6 +46,20 @@ class ApiResponse
     }
 
     /**
+     * @param $name
+     * @param mixed $default
+     * @return mixed
+     */
+    public function get($name, $default = null)
+    {
+        if (!isset($this->extraData[$name])) {
+            return $default;
+        }
+
+        return $this->extraData[$name];
+    }
+
+    /**
      * @return int
      */
     public function getStatusCode()
