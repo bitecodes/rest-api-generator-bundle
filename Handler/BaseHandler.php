@@ -2,7 +2,6 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\Handler;
 
-use BiteCodes\DoctrineFilter\FilterBuilder;
 use BiteCodes\RestApiGeneratorBundle\Filter\FilterDecorator;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -42,7 +41,7 @@ class BaseHandler
     function __construct(EntityManager $em, ApiResource $apiResource, FormHandler $formHandler, FilterInterface $filter = null)
     {
         $repository = $em->getRepository($apiResource->getEntityClass());
-        $this->repository = new RepositoryDecorator($repository);
+        $this->repository = $this->getRepository($repository);
         $this->formHandler = $formHandler;
         $this->filter = $filter;
     }
@@ -248,5 +247,23 @@ class BaseHandler
         }
 
         return $searchParams;
+    }
+
+    /**
+     * @param EntityRepository $repository
+     * @return RepositoryDecorator|EntityRepository
+     */
+    private function getRepository(EntityRepository $repository)
+    {
+        $filterableEntityRepository = 'BiteCodes\DoctrineFilterBundle\Repository\FilterableEntityRepository';
+        $refl = new \ReflectionClass($repository);
+
+        if (class_exists($filterableEntityRepository)) {
+            $isFilterable = $refl->isSubclassOf($filterableEntityRepository);
+        } else {
+            $isFilterable = false;
+        }
+
+        return $isFilterable ? $repository : new RepositoryDecorator($repository);
     }
 }

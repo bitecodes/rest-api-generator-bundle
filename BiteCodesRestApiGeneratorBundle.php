@@ -17,5 +17,4 @@ class BiteCodesRestApiGeneratorBundle extends Bundle
         $container->addCompilerPass(new ApiResourceCompilePass());
         $container->addCompilerPass(new EndpointControllerCompilePass());
     }
-
 }
