@@ -7,6 +7,7 @@ use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use BiteCodes\RestApiGeneratorBundle\Controller\RestApiController;
 use BiteCodes\RestApiGeneratorBundle\Handler\BaseHandler;
 use BiteCodes\RestApiGeneratorBundle\Handler\FormHandler;
+use CheilBackendBundle\Entity\User;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -35,12 +36,15 @@ class EndpointControllerCompilePass implements CompilerPassInterface
         $entityHandlerServiceName = $apiResource->getEntityHandlerServiceName();
         $controllerServiceName = $apiResource->getControllerServiceName();
         $filterServiceName = $apiResource->getFilterServiceName();
-        $filterClass = $apiResource->getFilterClass();
+        $filter = $apiResource->getFilterClass();
 
         // Filter
-        if ($filterClass) {
-            $filter = new Definition($filterClass);
-            $container->setDefinition($filterServiceName, $filter);
+        if ($container->hasDefinition($filter)) {
+            $filterDefinition = $container->getDefinition($filter);
+            $container->setDefinition($filterServiceName, $filterDefinition);
+        } elseif (class_exists($filter)) {
+            $filterDefinition = new Definition($filter);
+            $container->setDefinition($filterServiceName, $filterDefinition);
         }
 
         // Form Handler
@@ -55,7 +59,7 @@ class EndpointControllerCompilePass implements CompilerPassInterface
         $entityHandler->addArgument(new Reference('doctrine.orm.entity_manager'));
         $entityHandler->addArgument(new Reference($apiResourceServiceName));
         $entityHandler->addArgument(new Reference($formHandlerServiceName));
-        if ($filterClass) {
+        if ($filter) {
             $entityHandler->addArgument(new Reference($filterServiceName));
         }
         $container->setDefinition($entityHandlerServiceName, $entityHandler);
