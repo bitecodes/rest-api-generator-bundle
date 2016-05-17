@@ -36,11 +36,11 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/bitecodes/test-bundle.git"
+      "url": "https://github.com/bitecodes/test-bundle"
     },
     {
       "type": "vcs",
-      "url": "https://github.com/bitecodes/doctrine-filter.git"
+      "url": "https://github.com/bitecodes/doctrine-filter"
     }
   ]
 }
