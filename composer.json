@@ -37,10 +37,6 @@
     {
       "type": "vcs",
       "url": "https://github.com/bitecodes/test-bundle"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/bitecodes/doctrine-filter"
     }
   ]
 }
