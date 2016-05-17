@@ -8,7 +8,7 @@
   ],
   "require": {
     "doctrine/inflector": "^1.1",
-    "bitecodes/doctrine-filter": "dev-master",
+    "bitecodes/doctrine-filter": "0.1.*",
     "jms/serializer-bundle": "^1.1",
     "nelmio/api-doc-bundle": "^2.11",
     "symfony/dependency-injection": "^2.8|^3.0",
