@@ -4,6 +4,7 @@ namespace BiteCodes\RestApiGeneratorBundle\Tests\Annotation;
 
 use BiteCodes\RestApiGeneratorBundle\Annotation\GenerateApiDoc;
 use BiteCodes\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler;
+use BiteCodes\RestApiGeneratorBundle\Api\Actions\Create;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use BiteCodes\RestApiGeneratorBundle\Api\Actions\Index;
@@ -48,6 +49,7 @@ class GenerateApiDocHandlerTest extends TestCase
         $this->router = $this->client->getContainer()->get('router');
 
         $resource->addAction(new Index($this->router));
+        $resource->addAction(new Create($this->router));
 
         $this->manager = new ApiManager();
         $this->manager->addResource($resource);
@@ -66,14 +68,14 @@ class GenerateApiDocHandlerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $handler = new GenerateApiDocHandler($this->manager, $this->em, $this->router);
+        $handler = new GenerateApiDocHandler($this->manager, $this->em, $this->router, $this->client->getContainer());
         $handler->handle($apiDoc, [$generateApiDocAnnotation], $route, $method);
 
         $this->assertNull($apiDoc->getInput());
         $this->assertEquals(Post::class, $apiDoc->getOutput());
         $this->assertTrue($apiDoc->getAuthentication());
         $this->assertEquals(['ROLE_ADMIN'], $apiDoc->getAuthenticationRoles());
-        $this->assertCount(5, $apiDoc->getFilters());
+        $this->assertCount(4, $apiDoc->getFilters());
         $this->assertEquals('Posts', $apiDoc->getSection());
     }
 
@@ -90,7 +92,7 @@ class GenerateApiDocHandlerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $handler = new GenerateApiDocHandler($this->manager, $this->em, $this->router);
+        $handler = new GenerateApiDocHandler($this->manager, $this->em, $this->router, $this->client->getContainer());
         $handler->handle($apiDoc, [$generateApiDocAnnotation], $route, $method);
 
         $this->assertCount(4, $apiDoc->getParameters());

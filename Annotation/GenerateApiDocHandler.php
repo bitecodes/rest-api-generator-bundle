@@ -2,9 +2,9 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\Annotation;
 
+use BiteCodes\DoctrineFilter\FilterBuilder;
 use Doctrine\Common\Inflector\Inflector;
 use Doctrine\ORM\EntityManager;
-use BiteCodes\DoctrineFilter\FilterBuilder;
 use BiteCodes\DoctrineFilter\FilterInterface;
 use BiteCodes\RestApiGeneratorBundle\Api\Actions\BatchDelete;
 use BiteCodes\RestApiGeneratorBundle\Api\Actions\BatchUpdate;
@@ -19,6 +19,8 @@ use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Nelmio\ApiDocBundle\Extractor\HandlerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\Router;
 
@@ -36,12 +38,17 @@ class GenerateApiDocHandler implements HandlerInterface
      * @var Router
      */
     private $router;
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
 
-    public function __construct(ApiManager $manager, EntityManager $em, Router $router)
+    public function __construct(ApiManager $manager, EntityManager $em, Router $router, ContainerInterface $container)
     {
         $this->manager = $manager;
         $this->em = $em;
         $this->router = $router;
+        $this->container = $container;
     }
 
     /**
@@ -53,6 +60,10 @@ class GenerateApiDocHandler implements HandlerInterface
     public function handle(ApiDoc $annotation, array $annotations, Route $route, \ReflectionMethod $method)
     {
         $resource = $this->getResource($route);
+
+        $context = new RequestContext('', $resource->getActions()->getActionForRoute($route)->getMethods()[0]);
+        $this->router->setContext($context);
+
         $routeName = $this->router->match($route->getPath())['_route'];
         $section = $this->getSection($routeName, $resource);
 
@@ -101,7 +112,7 @@ class GenerateApiDocHandler implements HandlerInterface
 
     /**
      * @param ApiDoc $annotation
-     * @param Resource $resource
+     * @param ApiResource $resource
      */
     private function setOutput(ApiDoc $annotation, ApiResource $resource)
     {
@@ -116,7 +127,7 @@ class GenerateApiDocHandler implements HandlerInterface
 
     /**
      * @param ApiDoc $annotation
-     * @param Resource $resource
+     * @param ApiResource $resource
      */
     private function setInput(ApiDoc $annotation, ApiResource $resource)
     {
@@ -219,10 +230,20 @@ class GenerateApiDocHandler implements HandlerInterface
     protected function addFilter(ApiDoc $annotation, ApiResource $resource)
     {
         $filterClass = $resource->getFilterClass();
-        /** @var FilterInterface $filter */
-        if ($filterClass) {
+
+        if (class_exists($filterClass)) {
             $filter = new $filterClass;
-            $builder = new FilterBuilder();
+        } elseif ($this->container->has($filterClass)) {
+            $filter = $this->container->get($filterClass);
+        } else {
+            $filter = null;
+        }
+
+        /** @var FilterInterface $filter */
+        if ($filter) {
+            $builder = $this->container->has('bitecodes.doctrine_filter_builder')
+                ? $this->container->get('bitecodes.doctrine_filter_builder')
+                : new FilterBuilder();
             $filter->buildFilter($builder);
             foreach ($builder->getFilters() as $filterElement) {
                 $name = $filterElement->getName();
@@ -241,12 +262,8 @@ class GenerateApiDocHandler implements HandlerInterface
     protected function addPagination(ApiDoc $annotation, ApiResource $resource)
     {
         if ($resource->hasPagination()) {
-            $annotation->addFilter('offset', [
-                'description' => 'Offset'
-            ]);
-
-            $annotation->addFilter('limit', [
-                'description' => 'Limit'
+            $annotation->addFilter('page', [
+                'description' => 'Page'
             ]);
         }
     }

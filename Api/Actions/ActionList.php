@@ -56,7 +56,8 @@ class ActionList implements \IteratorAggregate
     public function getActionForRoute(Route $route)
     {
         foreach ($this->actions as $action) {
-            $sameSchema = $action->getUrlSchema() == $route->getPath();
+            // TODO this should be improved to be more precise (route prefix)
+            $sameSchema = strpos($route->getPath(), $action->getUrlSchema()) >= 0;
             $sameMethods = $action->getMethods() == $route->getMethods();
 
             if ($sameMethods && $sameSchema) {
