@@ -15,7 +15,7 @@ class EntityResolverSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::CONTROLLER => 'resolveEntity'
+            KernelEvents::CONTROLLER => ['resolveEntity', 16]
         ];
     }
 
@@ -43,6 +43,7 @@ class EntityResolverSubscriber implements EventSubscriberInterface
 
     /**
      * @param Request $request
+     * @param RestApiController $controller
      * @return null|object
      */
     protected function getEntityOrThrowException(Request $request, RestApiController $controller)

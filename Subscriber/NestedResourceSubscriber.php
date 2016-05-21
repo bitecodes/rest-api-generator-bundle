@@ -32,7 +32,7 @@ class NestedResourceSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::CONTROLLER => 'resolveParentResources'
+            KernelEvents::CONTROLLER => ['resolveParentResources', 128]
         ];
     }
 
