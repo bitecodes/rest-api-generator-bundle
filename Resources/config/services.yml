@@ -34,6 +34,11 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    bite_codes_rest_api_generator.subscriber.entity_resolver_subscriber:
+        class: BiteCodes\RestApiGeneratorBundle\Subscriber\EntityResolverSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
+
     app.routing_loader:
         class: BiteCodes\RestApiGeneratorBundle\RouteLoader\RouteLoader
         arguments:

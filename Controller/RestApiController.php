@@ -70,12 +70,12 @@ class RestApiController extends Controller implements ApiSerialization
      * @ApiDoc()
      * @GenerateApiDoc()
      *
-     * @param Request $request
+     * @param $entity
      * @return array
      */
-    public function showAction(Request $request)
+    public function showAction($entity)
     {
-        return $this->getEntityOrThrowException($request);
+        return $entity;
     }
 
     /**
@@ -99,11 +99,11 @@ class RestApiController extends Controller implements ApiSerialization
      * @GenerateApiDoc()
      *
      * @param Request $request the request object
+     * @param $entity
      * @return array
      */
-    public function updateAction(Request $request)
+    public function updateAction(Request $request, $entity)
     {
-        $entity = $this->getEntityOrThrowException($request);
         return $this->getHandler()->update($entity, $request->request->all(), $request->getMethod());
     }
 
@@ -132,13 +132,11 @@ class RestApiController extends Controller implements ApiSerialization
      * @ApiDoc()
      * @GenerateApiDoc()
      *
-     * @param Request $request
+     * @param $entity
      * @return array
      */
-    public function deleteAction(Request $request)
+    public function deleteAction($entity)
     {
-        $entity = $this->getEntityOrThrowException($request);
-
         $this->getHandler()->delete($entity);
 
         return [];
