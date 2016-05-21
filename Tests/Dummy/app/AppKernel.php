@@ -7,6 +7,7 @@ use BiteCodes\FactrineBundle\BiteCodesFactrineBundle;
 use BiteCodes\RestApiGeneratorBundle\BiteCodesRestApiGeneratorBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use JMS\SerializerBundle\JMSSerializerBundle;
+use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -23,6 +24,7 @@ class AppKernel extends Kernel
             new SecurityBundle(),
             new DoctrineBundle(),
             new JMSSerializerBundle(),
+            new SensioFrameworkExtraBundle(),
             new BiteCodesFactrineBundle(),
             new BiteCodesRestApiGeneratorBundle()
         ];

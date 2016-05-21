@@ -133,7 +133,7 @@ class ApiResource
     }
 
     /**
-     * @return ActionList
+     * @return ActionList|Action[]
      */
     public function getActions()
     {

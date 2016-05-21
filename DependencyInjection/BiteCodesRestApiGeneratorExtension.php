@@ -6,6 +6,7 @@ use DateTime;
 use BiteCodes\RestApiGeneratorBundle\Subscriber\DateTimeFormatterSubscriber;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
@@ -28,6 +29,8 @@ class BiteCodesRestApiGeneratorExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('bite_codes.rest_api_generator.config', $config);
+
+        AnnotationRegistry::registerFile(__DIR__ . '/../Annotation/GenerateApiDoc.php');
 
         $this->registerApiResources($container, $config['resources']);
         $this->registerListeners($container, $config['listener']);

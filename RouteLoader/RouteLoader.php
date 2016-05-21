@@ -6,7 +6,7 @@ use BiteCodes\RestApiGeneratorBundle\Api\Actions\Action;
 use BiteCodes\RestApiGeneratorBundle\Api\Actions\Index;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
-use BiteCodes\RestApiGeneratorBundle\Resource\Convention;
+use BiteCodes\RestApiGeneratorBundle\Security\CachableSecurity;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
@@ -65,7 +65,7 @@ class RouteLoader extends Loader
                 ->setDefault('_api_resource', $apiResource->getName())
                 ->setDefault('_controller', $action->getControllerAction())
                 ->setDefault('_entity', $apiResource->getEntityClass())
-                ->setDefault('_roles', $action->getRoles())
+                ->setDefault('_security', $this->expressionsToSecurity($action->getSecurityExpression()))
                 ->setDefault('_identifier', $apiResource->getIdentifier())
                 ->setMethods($action->getMethods());
 
@@ -91,5 +91,18 @@ class RouteLoader extends Loader
         $parent = $parentResource ? $parentResource->getResourceSingleElementUrl() : '';
 
         return $parent . $action->getUrlSchema();
+    }
+
+    /**
+     * @param string $expression
+     * @return CachableSecurity|void
+     */
+    protected function expressionsToSecurity($expression)
+    {
+        if (!$expression) {
+            return;
+        }
+
+        return new CachableSecurity($expression);
     }
 }

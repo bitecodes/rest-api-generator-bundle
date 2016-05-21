@@ -41,25 +41,25 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                         'entity' => Post::class,
                         'routes' => [
                             'index' => [
-                                'roles' => []
+                                'security' => null
                             ],
                             'show' => [
-                                'roles' => []
+                                'security' => null
                             ],
                             'create' => [
-                                'roles' => []
+                                'security' => null
                             ],
                             'update' => [
-                                'roles' => []
+                                'security' => null
                             ],
                             'batch_update' => [
-                                'roles' => []
+                                'security' => null
                             ],
                             'delete' => [
-                                'roles' => []
+                                'security' => null
                             ],
                             'batch_delete' => [
-                                'roles' => []
+                                'security' => null
                             ],
                         ],
                         'identifier' => 'id',

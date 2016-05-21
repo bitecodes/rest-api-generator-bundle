@@ -27,7 +27,6 @@ class ApiResourceCompilePass implements CompilerPassInterface
 
         foreach ($this->getManager()->getResources() as $apiResource) {
             $this->addActions($apiResource);
-//            $this->addSubResources($apiResource);
         }
     }
 
@@ -45,7 +44,7 @@ class ApiResourceCompilePass implements CompilerPassInterface
             $actionClass = "BiteCodes\\RestApiGeneratorBundle\\Api\\Actions\\$class";
             $action = new Definition($actionClass);
             $action->addArgument(new Reference('router'));
-            $action->addMethodCall('setRoles', [$options['routes'][$actionName]['roles']]);
+            $action->addMethodCall('setSecurityExpression', [$options['routes'][$actionName]['security']]);
             $this->container->set('bite_codes.rest_api_generator.action.' . $apiResource->getName() . '.' . Inflector::tableize($actionName), $action);
             $def->addMethodCall('addAction', [$action]);
         }

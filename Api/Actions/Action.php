@@ -32,9 +32,9 @@ abstract class Action
      */
     protected $action;
     /**
-     * @var array
+     * @var string
      */
-    protected $roles;
+    protected $securityExpression;
 
     /**
      * Action constructor.
@@ -85,19 +85,19 @@ abstract class Action
     }
 
     /**
-     * @param array $roles
+     * @return string|null
      */
-    public function setRoles(array $roles)
+    public function getSecurityExpression()
     {
-        $this->roles = $roles;
+        return $this->securityExpression;
     }
 
     /**
-     * @return array
+     * @param string $securityExpression
      */
-    public function getRoles()
+    public function setSecurityExpression($securityExpression)
     {
-        return $this->roles;
+        $this->securityExpression = $securityExpression;
     }
 
     /**

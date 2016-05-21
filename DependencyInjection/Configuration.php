@@ -100,15 +100,13 @@ class Configuration implements ConfigurationInterface
      */
     private function getRoutesNode()
     {
-//        $routes = ['index', 'show', 'create', 'update', 'batch_update', 'delete', 'batch_delete'];
         $node = new ArrayNodeDefinition('routes');
 
         $node
             ->prototype('array')
                 ->children()
-                    ->arrayNode('roles')
-                        ->defaultValue([])
-                        ->prototype('scalar')->end()
+                    ->scalarNode('security')
+                        ->defaultNull()
                     ->end()
                 ->end()
             ->end();
@@ -169,8 +167,9 @@ class Configuration implements ConfigurationInterface
 
         $node
             ->children()
-                ->arrayNode('default')
-                    ->prototype('scalar')->end()
+                ->scalarNode('default')
+                    ->defaultNull()
+                ->end()
                 ->end()
                 ->append($routesNode)
             ->end();
