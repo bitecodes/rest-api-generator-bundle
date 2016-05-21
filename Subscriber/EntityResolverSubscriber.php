@@ -12,10 +12,18 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class EntityResolverSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @var ApiProblemException|null
+     */
+    protected $notFoundException;
+
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::CONTROLLER => ['resolveEntity', 16]
+            KernelEvents::CONTROLLER => [
+                ['resolveEntity', 16],
+                ['throwException', -16]
+            ]
         ];
     }
 
@@ -35,9 +43,16 @@ class EntityResolverSubscriber implements EventSubscriberInterface
             || strpos($controllerName, ':updateAction') > 0
             || strpos($controllerName, ':deleteAction') > 0
         ) {
-            $entity = $this->getEntityOrThrowException($request, $controller);
+            $entity = $this->getEntityOrSetException($request, $controller);
 
             $request->attributes->add(['entity' => $entity]);
+        }
+    }
+
+    public function throwException(FilterControllerEvent $event)
+    {
+        if ($this->notFoundException) {
+            throw $this->notFoundException;
         }
     }
 
@@ -46,7 +61,7 @@ class EntityResolverSubscriber implements EventSubscriberInterface
      * @param RestApiController $controller
      * @return null|object
      */
-    protected function getEntityOrThrowException(Request $request, RestApiController $controller)
+    protected function getEntityOrSetException(Request $request, RestApiController $controller)
     {
         $id = $this->getId($request);
 
@@ -55,7 +70,8 @@ class EntityResolverSubscriber implements EventSubscriberInterface
                 404,
                 ApiProblem::TYPE_ENTITY_NOT_FOUND
             );
-            throw new ApiProblemException($problem);
+
+            $this->notFoundException = new ApiProblemException($problem);
         }
 
         return $entity;
@@ -70,5 +86,4 @@ class EntityResolverSubscriber implements EventSubscriberInterface
         $identifier = $request->get('_identifier');
         return $request->get($identifier);
     }
-
 }
