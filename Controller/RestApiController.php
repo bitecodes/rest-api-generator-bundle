@@ -159,25 +159,6 @@ class RestApiController extends Controller implements ApiSerialization
     }
 
     /**
-     * @param Request $request
-     * @return null|object
-     */
-    protected function getEntityOrThrowException(Request $request)
-    {
-        $id = $this->getId($request);
-
-        if (null === $entity = $this->getHandler()->get($id)) {
-            $problem = new ApiProblem(
-                404,
-                ApiProblem::TYPE_ENTITY_NOT_FOUND
-            );
-            throw new ApiProblemException($problem);
-        }
-
-        return $entity;
-    }
-
-    /**
      * @param $ids
      * @return array
      * @throws EntityNotFoundException
@@ -239,16 +220,6 @@ class RestApiController extends Controller implements ApiSerialization
         $data->addLink('next', $next);
         $data->addLink('last', $last);
         $data->addMeta('total', $paginator->getNbResults());
-    }
-
-    /**
-     * @param Request $request
-     * @return mixed
-     */
-    protected function getId(Request $request)
-    {
-        $identifier = $request->get('_identifier');
-        return $request->get($identifier);
     }
 
     /**
