@@ -2,6 +2,7 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\Form;
 
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

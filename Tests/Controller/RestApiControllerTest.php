@@ -81,6 +81,23 @@ class RestApiControllerTest extends TestCase
     }
 
     /** @test */
+    public function it_batch_creates_new_entities()
+    {
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.create');
+
+        $post1 = $this->factory->values(Post::class, ['title' => 'Post 1', 'content' => 'bla']);
+        $post2 = $this->factory->values(Post::class, ['title' => 'Post 2', 'content' => 'bla']);
+
+        $this
+            ->post($url, [$post1, $post2], ['HTTP_batch' => true])
+            ->seeJsonResponse()
+            ->seeStatusCode(200)
+            ->seeInJson(['title' => 'Post 1'])
+            ->seeInDatabase(Post::class, ['title' => 'Post 1'])
+            ->seeInDatabase(Post::class, ['title' => 'Post 2']);
+    }
+
+    /** @test */
     public function it_updates_posts_with_put()
     {
         $post = $this->factory->create(Post::class, ['title' => 'My Post', 'content' => 'bla']);
@@ -146,8 +163,18 @@ class RestApiControllerTest extends TestCase
         $url = $this->generateUrl('bite_codes.rest_api_generator.posts.batch_update');
 
         $data = [
-            'id' => [1, 2, 3],
-            'content' => 'some_content',
+            [
+                'id' => 1,
+                'content' => 'some_content'
+            ],
+            [
+                'id' => 2,
+                'content' => 'some_content'
+            ],
+            [
+                'id' => 3,
+                'content' => 'some_content'
+            ]
         ];
 
         $this
@@ -173,8 +200,18 @@ class RestApiControllerTest extends TestCase
         $url = $this->generateUrl('bite_codes.rest_api_generator.posts.batch_update');
 
         $data = [
-            'id' => [1, 2, 3],
-            'content' => '',
+            [
+                'id' => 1,
+                'content' => ''
+            ],
+            [
+                'id' => 2,
+                'content' => 'Valid content'
+            ],
+            [
+                'id' => 3,
+                'content' => ''
+            ]
         ];
 
         $this
@@ -184,10 +221,11 @@ class RestApiControllerTest extends TestCase
             ->seeNotInDatabase(Post::class, ['id' => 1, 'content' => 'some_content'])
             ->seeNotInDatabase(Post::class, ['id' => 2, 'content' => 'some_content'])
             ->seeNotInDatabase(Post::class, ['id' => 3, 'content' => 'some_content'])
-            ->seeJsonHas('errors', 3)
-            ->seeInJson([1 => ['content' => ['This value should not be blank.']]])
-            ->seeInJson([2 => ['content' => ['This value should not be blank.']]])
-            ->seeInJson([3 => ['content' => ['This value should not be blank.']]]);
+            ->seeJsonHas('errors', 1)
+            ->seeInJson(['entities' => [
+                0 => ['content' => ['This value should not be blank.']],
+                2 => ['content' => ['This value should not be blank.']],
+            ]]);
     }
 
     /** @test */

@@ -72,7 +72,7 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_a_single_elment_for_a_parent_resource()
+    public function it_returns_a_single_element_for_a_parent_resource()
     {
         $category = $this->factory->create(Category::class, ['name' => 'coding']);
         $this->factory->create(Post::class, [

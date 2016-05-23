@@ -2,7 +2,9 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\Handler;
 
+use BiteCodes\RestApiGeneratorBundle\Form\BatchCreateType;
 use BiteCodes\RestApiGeneratorBundle\Form\DynamicFormType;
+use BiteCodes\RestApiGeneratorBundle\Util\EntitiesHolder;
 use Doctrine\Common\Persistence\ObjectManager;
 use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiProblem;
 use BiteCodes\RestApiGeneratorBundle\Exception\ApiProblemException;
@@ -61,39 +63,42 @@ class FormHandler
     }
 
     /**
-     * @param $objects
+     * @param $entitiesHolder
      * @param array $parameters
      * @param $method
-     * @return array
+     * @return array TODO Use BatchCreateFormType instead of looping through the objects
+     *
+     * TODO Use BatchCreateFormType instead of looping through the objects
      */
-    public function batchProcessForm($objects, array $parameters, $method)
+    public function batchProcessForm($entitiesHolder, array $parameters, $method, $class)
     {
-        $data = [];
-        $errors = [];
+        $entities = $this
+            ->process($parameters, $method, $entitiesHolder, $class)
+            ->getData()
+            ->getEntities();
 
-        foreach ($objects as $object) {
-            try {
-                $entity = $this
-                    ->process($parameters, $method, $object)
-                    ->getData();
-
-                $data[] = $entity;
-                $this->om->persist($entity);
-            } catch (ApiProblemException $e) {
-                $meta = $this->om->getClassMetadata(get_class($object));
-                $id = $meta->getIdentifierValues($object);
-                $errors[array_values($id)[0]] = $e->getApiProblem()->get('errors');
-            }
-
-        }
-
-        if (count($errors) > 0) {
-            throw $this->createValidationErrorException($errors);
+        foreach ($entities as $entity) {
+            $this->om->persist($entity);
         }
 
         $this->om->flush();
 
-        return $data;
+        return $entities;
+    }
+
+    public function batchProcessFormCreate($entitiesHolder, array $parameters, $method, $class)
+    {
+        $entities = $this
+            ->process($parameters, $method, $entitiesHolder, $class)
+            ->getData()
+            ->getEntities();
+
+        foreach ($entities as $entity) {
+            $this->om->persist($entity);
+        }
+        $this->om->flush();
+
+        return $entities;
     }
 
     public function delete($object)
@@ -123,14 +128,15 @@ class FormHandler
      * @param array $parameters
      * @param $method
      * @param $object
+     * @param null $class
      * @return FormInterface
      */
-    protected function process(array $parameters, $method, $object)
+    protected function process(array $parameters, $method, $object, $class = null)
     {
         $form = $this->formFactory->create(
-            $this->formType,
+            $object instanceof EntitiesHolder ? BatchCreateType::class : $this->formType,
             $object,
-            $this->getOptions($object, $method)
+            $this->getOptions($object, $method, $class)
         );
 
         $form->submit($parameters, 'PATCH' !== $method);
@@ -167,16 +173,20 @@ class FormHandler
      * @param $method
      * @return array
      */
-    protected function getOptions($object, $method)
+    protected function getOptions($object, $method, $class)
     {
         $options = [
             'method' => $method,
             'csrf_protection' => false,
         ];
 
-
         if (DynamicFormType::class === $this->formType) {
             $options['object'] = $object;
+        }
+
+        if ($object instanceof EntitiesHolder) {
+            $options['type'] = $this->formType;
+            $options['object'] = $class;
         }
 
         return $options;

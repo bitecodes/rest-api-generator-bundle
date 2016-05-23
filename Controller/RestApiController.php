@@ -87,7 +87,13 @@ class RestApiController extends Controller implements ApiSerialization
      */
     public function createAction(Request $request)
     {
-        return $this->getHandler()->post($request->request->all());
+        if ($request->headers->has('batch') && $request->headers->get('batch')) {
+            $data = $this->getHandler()->batchCreate($request->request->all());
+        } else {
+            $data = $this->getHandler()->create($request->request->all());
+        }
+
+        return $data;
     }
 
     /**
@@ -117,7 +123,12 @@ class RestApiController extends Controller implements ApiSerialization
      */
     public function batch_updateAction(Request $request)
     {
-        $entities = $this->getEntitiesOrThrowException($request->get('id'));
+        $ids = array_reduce($request->request->all(), function ($ids, $data) {
+            $ids[] = $data['id'];
+            return $ids;
+        }, []);
+
+        $entities = $this->getEntitiesOrThrowException($ids);
 
         $this->getHandler()->batchUpdate($entities, $request->request->all(), $request->getMethod());
 

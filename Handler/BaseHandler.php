@@ -3,6 +3,8 @@
 namespace BiteCodes\RestApiGeneratorBundle\Handler;
 
 use BiteCodes\RestApiGeneratorBundle\Filter\FilterDecorator;
+use BiteCodes\RestApiGeneratorBundle\Util\EntitiesHolder;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use BiteCodes\DoctrineFilter\FilterInterface;
@@ -153,12 +155,23 @@ class BaseHandler
      * @param $params
      * @return mixed
      */
-    public function post($params)
+    public function create($params)
     {
         $className = $this->repository->getClassName();
         $params = $this->getParams($this->apiResource, $params, true);
 
         return $this->formHandler->processForm(new $className, $params, 'POST');
+    }
+
+    /**
+     * @param $params
+     * @return mixed
+     */
+    public function batchCreate($params)
+    {
+        $className = $this->repository->getClassName();
+
+        return $this->formHandler->batchProcessFormCreate(new EntitiesHolder(), ['entities' => $params], 'POST', new $className);
     }
 
     /**
@@ -182,7 +195,9 @@ class BaseHandler
      */
     public function batchUpdate($entities, $params, $method)
     {
-        return $this->formHandler->batchProcessForm($entities, $params, $method);
+        $className = $this->repository->getClassName();
+
+        return $this->formHandler->batchProcessForm(new EntitiesHolder($entities), ['entities' => $params], $method, new $className);
     }
 
     /**
