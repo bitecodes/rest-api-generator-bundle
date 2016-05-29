@@ -71,6 +71,7 @@ class RouteLoader extends Loader
 
             if ($action instanceof Index) {
                 $route->setDefault('_indexGetterMethod', $action->getResourceGetterMethod());
+                $route->setDefault('_limit', $action->getDefaultLimit());
             }
 
             $routes->add($action->getRouteName($parentResource), $route);

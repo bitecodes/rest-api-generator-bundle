@@ -27,7 +27,16 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->config = new ApiResource('posts', ['entity' => Post::class,]);
+        $this->config = new ApiResource('posts', [
+            'entity' => Post::class,
+            'filter' => null,
+            'pagination' => [
+                'enabled' => false,
+                'limit' => 10
+            ],
+            'form_type' => DynamicFormType::class,
+            'identifier' => 'id'
+        ]);
         $this->config->setConfigName('posts');
         $this->config->addAction(new Index($router));
         $this->config->addAction(new Create($router));

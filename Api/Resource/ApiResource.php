@@ -44,6 +44,10 @@ class ApiResource
      */
     protected $paginate;
     /**
+     * @var integer
+     */
+    protected $paginationLimit;
+    /**
      * @var string
      */
     protected $identifier;
@@ -56,7 +60,7 @@ class ApiResource
      */
     private $entity;
     /**
-     * @var Action[]
+     * @var Action[]|ActionList
      */
     protected $actions;
     /**
@@ -89,10 +93,11 @@ class ApiResource
         $this->actions = new ActionList();
         $this->name = $resourceName;
         $this->entity = $options['entity'];
-        $this->filterClass = isset($options['filter']) ? $options['filter'] : null;
-        $this->paginate = isset($options['paginate']) ? $options['paginate'] : false;
-        $this->formTypeClass = isset($options['form_type']) ? $options['form_type'] : DynamicFormType::class;
-        $this->identifier = isset($options['identifier']) ? $options['identifier'] : 'id';
+        $this->filterClass = $options['filter'];
+        $this->paginate = $options['pagination']['enabled'];
+        $this->paginationLimit = $options['pagination']['limit'];
+        $this->formTypeClass = $options['form_type'];
+        $this->identifier = $options['identifier'];
     }
 
     /**
@@ -249,6 +254,14 @@ class ApiResource
     public function hasPagination()
     {
         return $this->paginate;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPaginationLimit()
+    {
+        return $this->paginationLimit;
     }
 
     /**

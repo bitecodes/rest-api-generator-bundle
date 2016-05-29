@@ -115,21 +115,6 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     * Node for route settings
-     *
-     * @param $action
-     * @return ArrayNodeDefinition
-     */
-    public function getRouteConfigNode($action)
-    {
-        $node = new ArrayNodeDefinition($action);
-
-
-
-        return $node;
-    }
-
-    /**
      * Node for security settings
      *
      * @return ArrayNodeDefinition
@@ -239,12 +224,19 @@ class Configuration implements ConfigurationInterface
      */
     private function getPaginationNode()
     {
-        $node = new BooleanNodeDefinition('paginate');
+        $node = new ArrayNodeDefinition('pagination');
 
         $node
-            ->defaultValue(false)
-            ->treatNullLike(false)
-            ->defaultFalse();
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->booleanNode('enabled')
+                    ->defaultFalse()
+                    ->treatNullLike(false)
+                ->end()
+                ->scalarNode('limit')
+                    ->defaultValue(10)
+                ->end()
+            ->end();
 
         return $node;
     }

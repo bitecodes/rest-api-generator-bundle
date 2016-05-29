@@ -104,12 +104,8 @@ class BaseHandler
      * @param null $paginator
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function paginate($params, $page, $perPage = 20, &$paginator = null)
+    public function paginate($params, $page, $perPage, &$paginator = null)
     {
-        // TODO make configurable
-        $page = $page ?: 1;
-        $perPage = $perPage ?: 10;
-
         return $this->repository->paginate($this->filter, $params, $page, $perPage, $paginator);
     }
 

@@ -33,4 +33,12 @@ class Index extends Action
 
         return $method;
     }
+
+    /**
+     * @return int
+     */
+    public function getDefaultLimit()
+    {
+        return $this->apiResource->getPaginationLimit();
+    }
 }

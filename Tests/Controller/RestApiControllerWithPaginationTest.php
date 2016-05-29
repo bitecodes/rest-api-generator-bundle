@@ -107,4 +107,35 @@ class RestApiControllerWithPaginationTest extends TestCase
             ->seeInJson(['title' => 'Post 4'])
             ->seeInJson(['title' => 'Post 5']);
     }
+
+    /** @test */
+    public function default_limit_is_used()
+    {
+        $this->factory->times(30)->create(Post::class, ['title' => 'Some post', 'content' => 'some content']);
+
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.index');
+
+        $this
+            ->get($url)
+            ->seeJsonResponse()
+            ->seeStatusCode(200)
+            ->seeJsonHas('data', 20);
+    }
+
+    /** @test */
+    public function limit_can_be_set_dynamically()
+    {
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.index', ['limit' => 2]);
+
+        $this
+            ->get($url)
+            ->seeJsonResponse()
+            ->seeStatusCode(200)
+            ->seeJsonHas('data', 2)
+            ->seeInJson(['title' => 'Post 1'])
+            ->seeInJson(['title' => 'Post 2'])
+            ->seeNotInJson(['title' => 'Post 3'])
+            ->seeNotInJson(['title' => 'Post 4'])
+            ->seeNotInJson(['title' => 'Post 5']);
+    }
 }

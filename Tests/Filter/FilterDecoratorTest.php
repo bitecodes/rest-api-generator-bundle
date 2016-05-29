@@ -6,6 +6,7 @@ use BiteCodes\DoctrineFilter\FilterBuilder;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use BiteCodes\RestApiGeneratorBundle\Filter\FilterDecorator;
+use BiteCodes\RestApiGeneratorBundle\Form\DynamicFormType;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Category;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
@@ -47,9 +48,27 @@ class FilterDecoratorTest extends TestCase
             ->method('getBundlePrefix')
             ->willReturn('some.prefix');
 
-        $categoryResource = new ApiResource('categories', ['entity' => Category::class]);
+        $categoryResource = new ApiResource('categories', [
+            'entity' => Category::class,
+            'filter' => null,
+            'pagination' => [
+                'enabled' => true,
+                'limit' => 10
+            ],
+            'form_type' => DynamicFormType::class,
+            'identifier' => 'id'
+        ]);
         $categoryResource->setManager($manager);
-        $postResource = new ApiResource('posts', ['entity' => Post::class]);
+        $postResource = new ApiResource('posts', [
+            'entity' => Post::class,
+            'filter' => null,
+            'pagination' => [
+                'enabled' => true,
+                'limit' => 10
+            ],
+            'form_type' => DynamicFormType::class,
+            'identifier' => 'id'
+        ]);
         $postResource->setParentResource($categoryResource);
 
         $filter = new FilterDecorator($postResource);

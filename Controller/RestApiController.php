@@ -36,14 +36,15 @@ class RestApiController extends Controller implements ApiSerialization
      *
      * @param Request $request
      * @param $_indexGetterMethod
+     * @param $_limit
      * @return array
      */
-    public function indexAction(Request $request, $_indexGetterMethod)
+    public function indexAction(Request $request, $_indexGetterMethod, $_limit)
     {
         $params = $request->query->all();
 
-        $page = !empty($params['page']) ? $params['page'] : null;
-        $limit = !empty($params['limit']) ? $params['limit'] : null;
+        $page = !empty($params['page']) ? $params['page'] : 1;
+        $limit = !empty($params['limit']) ? $params['limit'] : $_limit;
 
         $paginator = null;
         $result = $this->getHandler()->{$_indexGetterMethod}($params, $page, $limit, $paginator);

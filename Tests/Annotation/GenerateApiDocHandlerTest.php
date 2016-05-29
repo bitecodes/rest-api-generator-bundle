@@ -8,6 +8,7 @@ use BiteCodes\RestApiGeneratorBundle\Api\Actions\Create;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use BiteCodes\RestApiGeneratorBundle\Api\Actions\Index;
+use BiteCodes\RestApiGeneratorBundle\Form\DynamicFormType;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\Filter\PostFilter;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
@@ -41,7 +42,12 @@ class GenerateApiDocHandlerTest extends TestCase
         $resource = new ApiResource('posts', [
             'entity' => Post::class,
             'filter' => PostFilter::class,
-            'paginate' => true,
+            'pagination' => [
+                'enabled' => true,
+                'limit' => 10
+            ],
+            'form_type' => DynamicFormType::class,
+            'identifier' => 'id'
         ]);
 
         $resource->setConfigName('posts');
