@@ -11,13 +11,18 @@ class BatchCreateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $entryOptions = [
+            'data_class' => get_class($options['object'])
+        ];
+
+        if ($options['type'] == DynamicFormType::class) {
+            $entryOptions['object'] = $options['object'];
+        }
+
         $builder
             ->add('entities', CollectionType::class, [
                 'entry_type' => $options['type'],
-                'entry_options' => [
-                    'object' => $options['object'],
-                    'data_class' => get_class($options['object'])
-                ],
+                'entry_options' => $entryOptions,
                 'allow_add' => true,
                 'by_reference' => false
             ]);
