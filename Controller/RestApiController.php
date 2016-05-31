@@ -39,7 +39,7 @@ class RestApiController extends Controller implements ApiSerialization
      * @param $_limit
      * @return array
      */
-    public function indexAction(Request $request, $_indexGetterMethod, $_limit)
+    public function indexAction(Request $request, $_route, $_indexGetterMethod, $_limit)
     {
         $params = $request->query->all();
 
@@ -50,7 +50,7 @@ class RestApiController extends Controller implements ApiSerialization
         $result = $this->getHandler()->{$_indexGetterMethod}($params, $page, $limit, $paginator);
 
         if ($paginator instanceof Pagerfanta) {
-            $this->addLinksToMetadata($paginator, $request->get('_route'), $limit);
+            $this->addLinksToMetadata($paginator, $_route, $limit);
         }
 
         $this
@@ -89,9 +89,9 @@ class RestApiController extends Controller implements ApiSerialization
     public function createAction(Request $request)
     {
         if ($request->headers->has('batch') && $request->headers->get('batch')) {
-            $data = $this->getHandler()->batchCreate($request->request->all());
+            $data = $this->getHandler()->batchCreate($this->getParams($request));
         } else {
-            $data = $this->getHandler()->create($request->request->all());
+            $data = $this->getHandler()->create($this->getParams($request));
         }
 
         return $data;
@@ -109,7 +109,7 @@ class RestApiController extends Controller implements ApiSerialization
      */
     public function updateAction(Request $request, $entity)
     {
-        return $this->getHandler()->update($entity, $request->request->all(), $request->getMethod());
+        return $this->getHandler()->update($entity, $this->getParams($request), $request->getMethod());
     }
 
     /**
@@ -131,7 +131,7 @@ class RestApiController extends Controller implements ApiSerialization
 
         $entities = $this->getEntitiesOrThrowException($ids);
 
-        $this->getHandler()->batchUpdate($entities, $request->request->all(), $request->getMethod());
+        $this->getHandler()->batchUpdate($entities, $this->getParams($request), $request->getMethod());
 
         return $entities;
     }
@@ -238,5 +238,17 @@ class RestApiController extends Controller implements ApiSerialization
     protected function getEventDispatcher()
     {
         return $this->get('event_dispatcher');
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    protected function getParams(Request $request)
+    {
+        return $params = array_merge(
+            $request->request->all(),
+            $request->files->all()
+        );
     }
 }

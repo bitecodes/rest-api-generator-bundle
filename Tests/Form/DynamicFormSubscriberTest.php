@@ -58,13 +58,18 @@ class DynamicFormSubscriberTest extends TestCase
             ->with('content')
             ->willReturnSelf();
 
+        $this->form->expects($this->at(2))
+            ->method('add')
+            ->with('photo')
+            ->willReturnSelf();
+
         $this->subscriber->onPreSubmit($this->event);
     }
 
     /** @test */
     public function it_adds_datetime_to_fields()
     {
-        $this->form->expects($this->at(2))
+        $this->form->expects($this->at(3))
             ->method('add')
             ->with('createdAt', DateTimeType::class, ['widget' => 'single_text'])
             ->willReturnSelf();

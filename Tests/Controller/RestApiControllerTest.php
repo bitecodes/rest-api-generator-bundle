@@ -6,6 +6,8 @@ use Doctrine\ORM\Tools\SchemaTool;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use BiteCodes\TestBundle\Test\TestCase;
+use org\bovigo\vfs\vfsStream;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class RestApiControllerTest extends TestCase
 {
@@ -95,6 +97,38 @@ class RestApiControllerTest extends TestCase
             ->seeInJson(['title' => 'Post 1'])
             ->seeInDatabase(Post::class, ['title' => 'Post 1'])
             ->seeInDatabase(Post::class, ['title' => 'Post 2']);
+    }
+
+    /** @test */
+    public function it_handles_file_uploads()
+    {
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.create');
+
+        $root = vfsStream::setup();
+        $root->addChild(vfsStream::newFile('photo.jpg'));
+        $photoUrl = $root->getChild('photo.jpg')->url();
+
+        $photo = new UploadedFile(
+            $photoUrl,
+            'photo.jpg',
+            'image/jpeg',
+            123
+        );
+
+        $this
+            ->client->request(
+                'POST',
+                $url,
+                ['title' => 'Photo post'],
+                ['photo' => $photo],
+                ['CONTENT_TYPE' => 'application/json'],
+                json_encode(['content' => 'Isn\'t that nice?'])
+            );
+
+        $this
+            ->seeJsonResponse()
+            ->seeStatusCode(200)
+            ->seeInJson(['photo' => $photoUrl]);
     }
 
     /** @test */

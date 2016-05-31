@@ -33,6 +33,9 @@ class JsonContentSubscriber implements EventSubscriberInterface
                 $this->validateJsonContent();
             }
 
+            $params = $request->request->all();
+            $data = array_merge($params, $data);
+
             $request->request->replace(is_array($data) ? $data : []);
         }
     }
