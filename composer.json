@@ -9,7 +9,7 @@
   "require": {
     "doctrine/inflector": "^1.1",
     "bitecodes/doctrine-filter": "0.1.*",
-    "jms/serializer-bundle": "^1.1",
+    "jms/serializer-bundle": "^0.13|^1.0",
     "nelmio/api-doc-bundle": "^2.11",
     "symfony/symfony": "^2.8|^3.0",
     "sensio/framework-extra-bundle": "^2.8|^3.0"
