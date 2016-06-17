@@ -7,7 +7,7 @@
     }
   ],
   "require": {
-    "doctrine/inflector": "^1.1",
+    "doctrine/inflector": "^1.0",
     "bitecodes/doctrine-filter": "0.1.*",
     "jms/serializer-bundle": "^0.13|^1.0",
     "nelmio/api-doc-bundle": "^2.11",
