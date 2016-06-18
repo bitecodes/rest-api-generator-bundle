@@ -11,8 +11,8 @@
     "bitecodes/doctrine-filter": "0.1.*",
     "jms/serializer-bundle": "^0.13|^1.0",
     "nelmio/api-doc-bundle": "^2.7",
-    "symfony/symfony": "^2.7|^3.0",
-    "sensio/framework-extra-bundle": "^2.8|^3.0"
+    "symfony/symfony": "^2.7.11|^3.0",
+    "sensio/framework-extra-bundle": "^3.0"
   },
   "require-dev": {
     "bitecodes/test-bundle": "dev-master",

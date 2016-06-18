@@ -44,4 +44,9 @@ class DynamicFormType extends AbstractType
             'object' => null
         ]);
     }
+
+    public function getName()
+    {
+        return 'dynamic_form_type';
+    }
 }

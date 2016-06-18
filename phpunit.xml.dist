@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="./Tests/bootstrap.php" stderr="">
+<phpunit bootstrap="./Tests/bootstrap.php"
+         stderr=""
+         stopOnError="true"
+         stopOnFailure="true">
+    <php>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
+    </php>
     <testsuites>
         <testsuite name="Rest Api Bundle">
             <directory suffix="Test.php">./Tests</directory>

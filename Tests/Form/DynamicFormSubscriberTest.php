@@ -8,6 +8,7 @@ use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\HttpKernel\Kernel;
 
 class DynamicFormSubscriberTest extends TestCase
 {
@@ -69,9 +70,15 @@ class DynamicFormSubscriberTest extends TestCase
     /** @test */
     public function it_adds_datetime_to_fields()
     {
+        if (Kernel::MAJOR_VERSION == 2 && Kernel::MINOR_VERSION == 7) {
+            $dateTime = 'datetime';
+        } else {
+            $dateTime = DateTimeType::class;
+        }
+
         $this->form->expects($this->at(3))
             ->method('add')
-            ->with('createdAt', DateTimeType::class, ['widget' => 'single_text'])
+            ->with('createdAt', $dateTime, ['widget' => 'single_text'])
             ->willReturnSelf();
 
         $this->subscriber->onPreSubmit($this->event);

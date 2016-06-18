@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\HttpKernel\Kernel;
 
 class EndpointControllerCompilePass implements CompilerPassInterface
 {
@@ -51,7 +52,7 @@ class EndpointControllerCompilePass implements CompilerPassInterface
         $formHandler = new Definition(FormHandler::class);
         $formHandler->addArgument(new Reference('doctrine.orm.entity_manager'));
         $formHandler->addArgument(new Reference('form.factory'));
-        $formHandler->addArgument($apiResource->getFormTypeClass());
+        $formHandler->addArgument($this->getFormType($apiResource));
         $container->setDefinition($formHandlerServiceName, $formHandler);
 
         // Handler
@@ -69,5 +70,23 @@ class EndpointControllerCompilePass implements CompilerPassInterface
         $controller->addMethodCall('setContainer', [new Reference('service_container')]);
         $controller->addMethodCall('setHandler', [new Reference($entityHandlerServiceName)]);
         $container->setDefinition($controllerServiceName, $controller);
+    }
+
+    /**
+     * @param ApiResource $apiResource
+     * @return string
+     */
+    protected function getFormType(ApiResource $apiResource)
+    {
+        if (Kernel::MAJOR_VERSION == 2 && Kernel::MINOR_VERSION == 7 && class_exists($apiResource->getFormTypeClass())) {
+            $formClass = $apiResource->getFormTypeClass();
+            $refl = new \ReflectionClass($formClass);
+            $formInstance = $refl->newInstanceWithoutConstructor();
+            $formType = $formInstance->getName();
+        } else {
+            $formType = $apiResource->getFormTypeClass();
+        }
+
+        return $formType;
     }
 }

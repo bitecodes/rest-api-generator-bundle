@@ -44,7 +44,12 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
         tags:
-            - { name: form.type, alias: BiteCodes\RestApiGeneratorBundle\Form\DynamicFormType }
+            - { name: form.type, alias: dynamic_form_type }
+
+    bite_codes_rest_api_generator.form.batch_create_type:
+            class: BiteCodes\RestApiGeneratorBundle\Form\BatchCreateType
+            tags:
+                - { name: form.type, alias: batch_create_type }
 
     bite_codes_rest_api_generator.annotation.generate_api_doc_handler:
         class: BiteCodes\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler

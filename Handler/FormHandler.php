@@ -11,6 +11,7 @@ use BiteCodes\RestApiGeneratorBundle\Exception\ApiProblemException;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 class FormHandler
 {
@@ -133,8 +134,10 @@ class FormHandler
      */
     protected function process(array $parameters, $method, $object, $class = null)
     {
+        $batchCreateType = (Kernel::MAJOR_VERSION == 2 && Kernel::MINOR_VERSION == 7) ? 'batch_create_type' : BatchCreateType::class;
+
         $form = $this->formFactory->create(
-            $object instanceof EntitiesHolder ? BatchCreateType::class : $this->formType,
+            $object instanceof EntitiesHolder ? $batchCreateType : $this->formType,
             $object,
             $this->getOptions($object, $method, $class)
         );
@@ -180,7 +183,7 @@ class FormHandler
             'csrf_protection' => false,
         ];
 
-        if (DynamicFormType::class === $this->formType) {
+        if (in_array($this->formType, [DynamicFormType::class, 'dynamic_form_type'])) {
             $options['object'] = $object;
         }
 

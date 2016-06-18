@@ -12,6 +12,8 @@ framework:
         save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
     annotations:
         cache: none
+    templating:
+        engines: ['php']
 
 doctrine:
     dbal:

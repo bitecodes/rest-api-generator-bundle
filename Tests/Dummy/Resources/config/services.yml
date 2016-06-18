@@ -1,0 +1,5 @@
+services:
+    bite_codes_rest_api_generator.tests_dummy_form.post_type:
+        class: BiteCodes\RestApiGeneratorBundle\Tests\Dummy\Form\PostType
+        tags:
+            - { name: form.type, alias: post_type }

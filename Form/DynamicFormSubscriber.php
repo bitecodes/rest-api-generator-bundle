@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpKernel\Kernel;
 
 class DynamicFormSubscriber implements EventSubscriberInterface
 {
@@ -54,7 +55,12 @@ class DynamicFormSubscriber implements EventSubscriberInterface
 
         foreach ($this->getFields() as $field) {
             if (isset($mappings[$field]) && in_array($mappings[$field]['type'], array_keys($this->typeDict))) {
-                $typeClass = $this->typeDict[$mappings[$field]['type']];
+                if (Kernel::MAJOR_VERSION == 2 && Kernel::MINOR_VERSION == 7) {
+                    $typeClass = $mappings[$field]['type'];
+                } else {
+                    $typeClass = $this->typeDict[$mappings[$field]['type']];
+                }
+
                 $form->add($field, $typeClass, ['widget' => 'single_text']);
             } else {
                 $form->add($field);
