@@ -59,7 +59,9 @@ class GenerateApiDocHandler implements HandlerInterface
      */
     public function handle(ApiDoc $annotation, array $annotations, Route $route, \ReflectionMethod $method)
     {
-        $resource = $this->getResource($route);
+        if (!$resource = $this->getResource($route)) {
+            return;
+        }
 
         $context = new RequestContext('', $resource->getActions()->getActionForRoute($route)->getMethods()[0]);
         $this->router->setContext($context);
@@ -101,11 +103,13 @@ class GenerateApiDocHandler implements HandlerInterface
 
     /**
      * @param Route $route
-     * @return ApiResource
+     * @return ApiResource|null
      */
     private function getResource(Route $route)
     {
-        $entity = $route->getDefault('_entity');
+        if (!$entity = $route->getDefault('_entity')) {
+            return;
+        }
 
         return $this->manager->getResourceForEntity($entity);
     }
