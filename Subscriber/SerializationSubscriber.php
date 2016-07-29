@@ -2,9 +2,10 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\Subscriber;
 
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiHelper;
+use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiResponse;
 use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiSerialization;
-use BiteCodes\RestApiGeneratorBundle\Controller\RestApiController;
 use BiteCodes\RestApiGeneratorBundle\Services\MetadataStorage\ResponseData;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
@@ -28,6 +29,10 @@ class SerializationSubscriber implements EventSubscriberInterface
      * @var ResponseData
      */
     private $data;
+    /**
+     * @var ApiManager
+     */
+    private $manager;
 
     /**
      * @return array
@@ -45,10 +50,11 @@ class SerializationSubscriber implements EventSubscriberInterface
      * @param Serializer $serializer
      * @param ResponseData $data
      */
-    public function __construct(Serializer $serializer, ResponseData $data)
+    public function __construct(Serializer $serializer, ResponseData $data, ApiManager $manager)
     {
         $this->serializer = $serializer;
         $this->data = $data;
+        $this->manager = $manager;
     }
 
     /**
@@ -65,7 +71,14 @@ class SerializationSubscriber implements EventSubscriberInterface
      */
     public function serializeResponse(GetResponseForControllerResultEvent $event)
     {
+
         if ($this->isRestController) {
+            $apiResourceName = $event->getRequest()->attributes->get('_api_resource');
+            $controllerName = $event->getRequest()->attributes->get('_controller');
+
+            $apiResource = $this->manager->getResource($apiResourceName);
+            $action = $apiResource->getAction(ApiHelper::getActionClassFromControllerName($controllerName));
+
             $data = $event->getControllerResult();
 
             $apiResponse = new ApiResponse(200, $data);
@@ -79,6 +92,7 @@ class SerializationSubscriber implements EventSubscriberInterface
 
             $context = new SerializationContext();
             $context->setSerializeNull(true);
+            $context->setGroups($action->getSerializationGroups());
 
             $json = $this->serializer->serialize($data, 'json', $context);
             $response = new Response($json, 200, [

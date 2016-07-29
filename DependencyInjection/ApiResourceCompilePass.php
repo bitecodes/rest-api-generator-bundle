@@ -38,13 +38,13 @@ class ApiResourceCompilePass implements CompilerPassInterface
         $options = $this->getOptionsForApiResource($apiResource);
         $def = $this->getDefinitionForApiResource($apiResource);
 
-
         foreach ($this->getActionsForApiResource($apiResource) as $actionName) {
             $class = Inflector::classify($actionName);
             $actionClass = "BiteCodes\\RestApiGeneratorBundle\\Api\\Actions\\$class";
             $action = new Definition($actionClass);
             $action->addArgument(new Reference('router'));
             $action->addMethodCall('setSecurityExpression', [$options['routes'][$actionName]['security']]);
+            $action->addMethodCall('setSerializationGroups', [$options['routes'][$actionName]['serialization_groups']]);
             $this->container->set('bite_codes.rest_api_generator.action.' . $apiResource->getName() . '.' . Inflector::tableize($actionName), $action);
             $def->addMethodCall('addAction', [$action]);
         }

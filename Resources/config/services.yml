@@ -4,6 +4,7 @@ services:
         arguments:
             - '@jms_serializer'
             - '@bite_codes_rest_api_generator.services.response_data'
+            - '@bite_codes.rest_api_generator.endpoint_manager'
         tags:
             - { name: kernel.event_subscriber }
 

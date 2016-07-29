@@ -35,6 +35,10 @@ abstract class Action
      * @var string
      */
     protected $securityExpression;
+    /**
+     * @var array
+     */
+    protected $serializationGroups;
 
     /**
      * Action constructor.
@@ -98,6 +102,22 @@ abstract class Action
     public function setSecurityExpression($securityExpression)
     {
         $this->securityExpression = $securityExpression;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSerializationGroups()
+    {
+        return $this->serializationGroups;
+    }
+
+    /**
+     * @param mixed $serializationGroups
+     */
+    public function setSerializationGroups($serializationGroups)
+    {
+        $this->serializationGroups = $serializationGroups;
     }
 
     /**

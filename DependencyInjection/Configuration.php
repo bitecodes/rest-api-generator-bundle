@@ -109,6 +109,10 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('security')
                         ->defaultNull()
                     ->end()
+                    ->arrayNode('serialization_groups')
+                        ->prototype('scalar')->end()
+                        ->defaultValue(['Default'])
+                    ->end()
                 ->end()
             ->end();
 

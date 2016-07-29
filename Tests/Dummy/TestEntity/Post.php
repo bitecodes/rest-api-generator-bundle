@@ -2,14 +2,18 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Post
  *
  * @ORM\Table(name="posts")
  * @ORM\Entity()
+ *
+ * @JMS\ExclusionPolicy("all")
  */
 class Post
 {
@@ -19,6 +23,8 @@ class Post
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @JMS\Expose()
      */
     private $id;
 
@@ -27,6 +33,8 @@ class Post
      *
      * @ORM\Column(name="title", type="string", length=255)
      * @Assert\NotBlank
+     *
+     * @JMS\Expose()
      */
     private $title;
 
@@ -35,6 +43,8 @@ class Post
      *
      * @ORM\Column(name="content", type="text")
      * @Assert\NotBlank
+     *
+     * @JMS\Expose()
      */
     private $content;
 
@@ -42,6 +52,8 @@ class Post
      * @var string
      *
      * @ORM\Column(name="photo", type="string", length=255, nullable=true)
+     *
+     * @JMS\Expose()
      */
     private $photo;
 
@@ -50,6 +62,8 @@ class Post
      *
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="posts")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     *
+     * @JMS\Expose()
      */
     private $category;
 
@@ -57,6 +71,9 @@ class Post
      * @var Comment[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="post")
+     *
+     * @JMS\Expose()
+     * @JMS\Groups({"Detail"})
      */
     private $comments;
 
@@ -64,8 +81,18 @@ class Post
      * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @JMS\Expose()
      */
     private $createdAt;
+
+    /**
+     * Post constructor.
+     */
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
     /**
      * Get id

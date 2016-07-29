@@ -41,25 +41,32 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                         'entity' => Post::class,
                         'routes' => [
                             'index' => [
-                                'security' => null
+                                'security' => null,
+                                'serialization_groups' => ['Default']
                             ],
                             'show' => [
-                                'security' => null
+                                'security' => null,
+                                'serialization_groups' => ['Default']
                             ],
                             'create' => [
-                                'security' => null
+                                'security' => null,
+                                'serialization_groups' => ['Default']
                             ],
                             'update' => [
-                                'security' => null
+                                'security' => null,
+                                'serialization_groups' => ['Default']
                             ],
                             'batch_update' => [
-                                'security' => null
+                                'security' => null,
+                                'serialization_groups' => ['Default']
                             ],
                             'delete' => [
-                                'security' => null
+                                'security' => null,
+                                'serialization_groups' => ['Default']
                             ],
                             'batch_delete' => [
-                                'security' => null
+                                'security' => null,
+                                'serialization_groups' => ['Default']
                             ],
                         ],
                         'identifier' => 'id',

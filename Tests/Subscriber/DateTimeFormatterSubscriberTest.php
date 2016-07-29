@@ -2,10 +2,10 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\Tests\Subscriber;
 
-use Doctrine\ORM\Tools\SchemaTool;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use BiteCodes\TestBundle\Test\TestCase;
+use Doctrine\ORM\Tools\SchemaTool;
 
 class DateTimeFormatterSubscriberTest extends TestCase
 {
