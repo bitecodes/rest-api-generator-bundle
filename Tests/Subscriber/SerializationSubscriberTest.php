@@ -81,6 +81,7 @@ class SerializationSubscriberTest extends TestCase
         $this
             ->get($url)
             ->seeJsonResponse()
-            ->seeStatusCode(200);
+            ->seeStatusCode(200)
+            ->seeInJson(['some' => true]);
     }
 }
