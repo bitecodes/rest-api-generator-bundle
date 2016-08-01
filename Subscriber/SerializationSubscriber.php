@@ -92,6 +92,7 @@ class SerializationSubscriber implements EventSubscriberInterface
 
             $context = new SerializationContext();
             $context->setSerializeNull(true);
+            $context->enableMaxDepthChecks();
             $context->setGroups($action->getSerializationGroups());
 
             $json = $this->serializer->serialize($data, 'json', $context);
