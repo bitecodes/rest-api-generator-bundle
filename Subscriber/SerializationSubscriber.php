@@ -24,7 +24,7 @@ class SerializationSubscriber implements EventSubscriberInterface
     /**
      * @var bool
      */
-    private $isRestController = false;
+    private $doSerialize = false;
     /**
      * @var ResponseData
      */
@@ -63,7 +63,7 @@ class SerializationSubscriber implements EventSubscriberInterface
     public function checkForControllerType(FilterControllerEvent $event)
     {
         $controller = $event->getController()[0];
-        $this->isRestController = $controller instanceof ApiSerialization;
+        $this->doSerialize = $controller instanceof ApiSerialization;
     }
 
     /**
@@ -71,14 +71,7 @@ class SerializationSubscriber implements EventSubscriberInterface
      */
     public function serializeResponse(GetResponseForControllerResultEvent $event)
     {
-
-        if ($this->isRestController) {
-            $apiResourceName = $event->getRequest()->attributes->get('_api_resource');
-            $controllerName = $event->getRequest()->attributes->get('_controller');
-
-            $apiResource = $this->manager->getResource($apiResourceName);
-            $action = $apiResource->getAction(ApiHelper::getActionClassFromControllerName($controllerName));
-
+        if ($this->doSerialize) {
             $data = $event->getControllerResult();
 
             $apiResponse = new ApiResponse(200, $data);
@@ -92,8 +85,13 @@ class SerializationSubscriber implements EventSubscriberInterface
 
             $context = new SerializationContext();
             $context->setSerializeNull(true);
-            $context->enableMaxDepthChecks();
-            $context->setGroups($action->getSerializationGroups());
+            if (method_exists($context, 'enableMaxDepthChecks')) {
+                $context->enableMaxDepthChecks();
+            }
+            
+            if ($action = $this->getAction($event)) {
+                $context->setGroups($action->getSerializationGroups());
+            }
 
             $json = $this->serializer->serialize($data, 'json', $context);
             $response = new Response($json, 200, [
@@ -103,5 +101,21 @@ class SerializationSubscriber implements EventSubscriberInterface
             $event->setResponse($response);
             $event->stopPropagation();
         }
+    }
+
+    /**
+     * @param GetResponseForControllerResultEvent $event
+     * @return \BiteCodes\RestApiGeneratorBundle\Api\Actions\Action|bool
+     */
+    protected function getAction(GetResponseForControllerResultEvent $event)
+    {
+        $apiResourceName = $event->getRequest()->attributes->get('_api_resource');
+        $controllerName = $event->getRequest()->attributes->get('_controller');
+
+        $apiResource = $this->manager->getResource($apiResourceName);
+
+        return $apiResource
+            ? $apiResource->getAction(ApiHelper::getActionClassFromControllerName($controllerName))
+            : false;
     }
 }
