@@ -72,4 +72,15 @@ class SerializationSubscriberTest extends TestCase
             ->seeInJson(['title' => 'My Post 1'])
             ->seeInJson(['body' => 'some comment']);
     }
+
+    /** @test */
+    public function it_handles_custom_controller_with_api_serialization_interface()
+    {
+        $url = $this->generateUrl('test');
+
+        $this
+            ->get($url)
+            ->seeJsonResponse()
+            ->seeStatusCode(200);
+    }
 }

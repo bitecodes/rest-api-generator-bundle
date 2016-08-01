@@ -1,3 +1,7 @@
 app_extra:
     resource: .
     type: api_crud
+
+test:
+    resource: '../../Controller/TestController.php'
+    type: annotation

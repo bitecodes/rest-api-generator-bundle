@@ -21,7 +21,7 @@ class RouteConfigTest extends TestCase
 
         $routes = $router->getRouteCollection()->all();
 
-        $this->assertCount(3, $routes);
+        $this->assertCount(4, $routes);
 
         $routeNames = [];
 
@@ -33,6 +33,7 @@ class RouteConfigTest extends TestCase
             'bite_codes.rest_api_generator.posts.index',
             'bite_codes.rest_api_generator.posts.show',
             'bite_codes.rest_api_generator.posts.create',
+            'test'
         ]);
     }
 }
