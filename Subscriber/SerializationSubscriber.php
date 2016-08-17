@@ -41,7 +41,7 @@ class SerializationSubscriber implements EventSubscriberInterface
     {
         return [
             KernelEvents::CONTROLLER => 'checkForControllerType',
-            KernelEvents::VIEW => 'serializeResponse'
+            KernelEvents::VIEW => ['serializeResponse', 128]
         ];
     }
 
@@ -88,7 +88,7 @@ class SerializationSubscriber implements EventSubscriberInterface
             if (method_exists($context, 'enableMaxDepthChecks')) {
                 $context->enableMaxDepthChecks();
             }
-            
+
             if ($action = $this->getAction($event)) {
                 $context->setGroups($action->getSerializationGroups());
             }
