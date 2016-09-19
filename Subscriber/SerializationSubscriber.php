@@ -6,6 +6,7 @@ use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiHelper;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiResponse;
 use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiSerialization;
+use BiteCodes\RestApiGeneratorBundle\Serialization\FieldsListExclusionStrategy;
 use BiteCodes\RestApiGeneratorBundle\Services\MetadataStorage\ResponseData;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
@@ -71,6 +72,7 @@ class SerializationSubscriber implements EventSubscriberInterface
      */
     public function serializeResponse(GetResponseForControllerResultEvent $event)
     {
+
         if ($this->doSerialize) {
             $data = $event->getControllerResult();
 
@@ -91,6 +93,10 @@ class SerializationSubscriber implements EventSubscriberInterface
 
             if ($action = $this->getAction($event)) {
                 $context->setGroups($action->getSerializationGroups());
+            }
+
+            if ($fields = $event->getRequest()->query->get('fields')) {
+                $context->addExclusionStrategy(new FieldsListExclusionStrategy($fields));
             }
 
             $json = $this->serializer->serialize($data, 'json', $context);

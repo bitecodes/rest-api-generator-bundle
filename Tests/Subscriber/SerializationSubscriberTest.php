@@ -3,6 +3,7 @@
 namespace BiteCodes\RestApiGeneratorBundle\Tests\Subscriber;
 
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\app\AppKernel;
+use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Category;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Comment;
 use BiteCodes\RestApiGeneratorBundle\Tests\Dummy\TestEntity\Post;
 use BiteCodes\TestBundle\Test\TestCase;
@@ -83,5 +84,41 @@ class SerializationSubscriberTest extends TestCase
             ->seeJsonResponse()
             ->seeStatusCode(200)
             ->seeInJson(['some' => true]);
+    }
+
+    /** @test */
+    public function the_fields_to_serialize_can_be_provided()
+    {
+        $this->factory->create(Post::class, [
+            'title' => 'My Post 1',
+            'content' => 'bla',
+            'photo' => 'photo1.jpg',
+            'category' => $this->factory->create(Category::class, [
+                'name' => 'some category'
+            ]),
+            'comments' => $this->factory->create(Comment::class, [
+                'body' => 'some comment'
+            ]),
+            'createdAt' => new \DateTime('2016-02-01 20:00:00')
+        ]);
+
+        $fields = [
+            'title',
+            'content',
+            'category' => ['name'],
+            'comments' => ['id']
+        ];
+
+        $url = $this->generateUrl('bite_codes.rest_api_generator.posts.show', ['id' => 1, 'fields' => $fields]);
+
+        $this
+            ->get($url)
+            ->seeJsonResponse()
+            ->seeStatusCode(200)
+            ->seeInJson(['title' => 'My Post 1'])
+            ->seeInJson(['content' => 'bla'])
+            ->seeNotInJson(['photo' => 'photo1.jpg'])
+            ->seeInJson(['name' => 'some category'])
+            ->seeInJson(['comments' => [['id' => 1]]]);
     }
 }
