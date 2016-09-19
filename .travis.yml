@@ -10,9 +10,9 @@ env:
   - SYMFONY_VERSION=2.8.*
 
 before_install:
-  - composer self-update
+  - wget http://getcomposer.org/composer.phar
   - mkdir -p build/logs
-  - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/symfony:${SYMFONY_VERSION}" --no-update; fi;
+  - if [ "$SYMFONY_VERSION" != "" ]; then php composer.phar require "symfony/symfony:${SYMFONY_VERSION}" --no-update; fi;
 
 matrix:
   include:
@@ -24,7 +24,7 @@ matrix:
     - php: hhvm
 
 install:
-  - composer update --prefer-dist $COMPOSER_FLAGS
+  - php -d memory_limit="-1" composer.phar update --prefer-dist $COMPOSER_FLAGS
 
 after_script:
   - travis_retry php vendor/bin/coveralls -v
