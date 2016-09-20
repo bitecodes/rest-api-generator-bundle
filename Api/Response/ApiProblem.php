@@ -9,6 +9,7 @@ class ApiProblem extends ApiResponse
     const TYPE_VALIDATION_ERROR = 'validation_error';
     const TYPE_INVALID_REQUEST_BODY_FORMAT = 'invalid_body_format';
     const TYPE_ENTITY_NOT_FOUND = 'entity_not_found';
+    const TYPE_UNKNOW_FIELD = 'unknown_field';
 
     /**
      * Problem titles
@@ -19,6 +20,7 @@ class ApiProblem extends ApiResponse
         self::TYPE_VALIDATION_ERROR => 'There was a validation error',
         self::TYPE_INVALID_REQUEST_BODY_FORMAT => 'Invalid JSON format sent',
         self::TYPE_ENTITY_NOT_FOUND => 'The requested entity was not found',
+        self::TYPE_UNKNOW_FIELD => 'The given field is unknown',
     ];
 
     /**

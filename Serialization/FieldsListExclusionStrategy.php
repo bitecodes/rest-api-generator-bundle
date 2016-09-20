@@ -2,6 +2,8 @@
 
 namespace BiteCodes\RestApiGeneratorBundle\Serialization;
 
+use BiteCodes\RestApiGeneratorBundle\Api\Response\ApiProblem;
+use BiteCodes\RestApiGeneratorBundle\Exception\ApiProblemException;
 use Gorka\DotNotationAccess\DotNotationAccessArray;
 use JMS\Serializer\Context;
 use JMS\Serializer\Exclusion\ExclusionStrategyInterface;
@@ -91,6 +93,12 @@ class FieldsListExclusionStrategy implements ExclusionStrategyInterface
      */
     protected function normalizeKeys($fields)
     {
+        if (!is_array($fields)) {
+            $problem = new ApiProblem(400, ApiProblem::TYPE_UNKNOW_FIELD, ['field' => join('.', $this->parentFieldNames)]);
+
+            throw new ApiProblemException($problem);
+        }
+
         return array_map(function ($key, $value) {
             return is_array($value) ? $key : $key;
         }, array_keys($fields), $fields);
