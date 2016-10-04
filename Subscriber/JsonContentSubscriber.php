@@ -16,7 +16,7 @@ class JsonContentSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST => ['setContentToRequest', 20000]
+            KernelEvents::REQUEST => ['setContentToRequest', 20000],
         ];
     }
 
@@ -27,8 +27,9 @@ class JsonContentSubscriber implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
-        if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
+        if (0 === strpos($request->headers->get('Content-Type'), 'application/json') && $request->getContent()) {
             $data = json_decode($request->getContent(), true);
+
             if (!$data) {
                 $this->validateJsonContent();
             }
