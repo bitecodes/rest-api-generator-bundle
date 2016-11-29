@@ -11,10 +11,11 @@ use Doctrine\ORM\Tools\SchemaTool;
 
 class RestApiControllerWithSubResourcesTest extends TestCase
 {
-    protected static function createKernel(array $options = array())
+    protected static function createKernel(array $options = [])
     {
         $kernel = new AppKernel('testRestApiControllerWithSubResources', true);
         $kernel->setConfigFile('config_sub_resources.yml');
+
         return $kernel;
     }
 
@@ -54,13 +55,13 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     {
         $category = $this->factory->create(Category::class, ['name' => 'coding']);
         $this->factory->create(Post::class, [
-            'title' => 'Learn to code',
-            'content' => 'some content',
-            'category' => $category
+            'title'    => 'Learn to code',
+            'content'  => 'some content',
+            'category' => $category,
         ]);
         $this->factory->create(Post::class, [
-            'title' => 'Yoga',
-            'content' => 'yoga content'
+            'title'   => 'Yoga',
+            'content' => 'yoga content',
         ]);
 
         $this
@@ -76,13 +77,13 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     {
         $category = $this->factory->create(Category::class, ['name' => 'coding']);
         $this->factory->create(Post::class, [
-            'title' => 'Learn to code',
-            'content' => 'some content',
-            'category' => $category
+            'title'    => 'Learn to code',
+            'content'  => 'some content',
+            'category' => $category,
         ]);
         $this->factory->create(Post::class, [
-            'title' => 'Yoga',
-            'content' => 'yoga content'
+            'title'   => 'Yoga',
+            'content' => 'yoga content',
         ]);
 
         $this
@@ -98,13 +99,13 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     {
         $category = $this->factory->create(Category::class, ['name' => 'coding']);
         $this->factory->create(Post::class, [
-            'title' => 'Learn to code',
-            'content' => 'some content',
-            'category' => $category
+            'title'    => 'Learn to code',
+            'content'  => 'some content',
+            'category' => $category,
         ]);
         $this->factory->create(Post::class, [
-            'title' => 'Yoga',
-            'content' => 'yoga content'
+            'title'   => 'Yoga',
+            'content' => 'yoga content',
         ]);
 
         $this
@@ -121,8 +122,8 @@ class RestApiControllerWithSubResourcesTest extends TestCase
         $this->factory->create(Category::class, ['name' => 'coding']);
 
         $params = [
-            'title' => 'Learn programming',
-            'content' => 'the text'
+            'title'   => 'Learn programming',
+            'content' => 'the text',
         ];
 
         $this
@@ -138,8 +139,8 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     public function it_returns_422_if_parent_resource_does_not_exist_on_create()
     {
         $params = [
-            'title' => 'Learn programming',
-            'content' => 'the text'
+            'title'   => 'Learn programming',
+            'content' => 'the text',
         ];
 
         $this
@@ -155,9 +156,9 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     {
         $category = $this->factory->create(Category::class, ['name' => 'coding']);
         $this->factory->create(Post::class, [
-            'title' => 'Learn to code',
-            'content' => 'some content',
-            'category' => $category
+            'title'    => 'Learn to code',
+            'content'  => 'some content',
+            'category' => $category,
         ]);
 
         $this
@@ -172,9 +173,9 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     {
         $category = $this->factory->create(Category::class, ['name' => 'coding']);
         $this->factory->create(Post::class, [
-            'title' => 'Learn to code',
-            'content' => 'some content',
-            'category' => $category
+            'title'    => 'Learn to code',
+            'content'  => 'some content',
+            'category' => $category,
         ]);
 
         $this
@@ -189,9 +190,9 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     {
         $category = $this->factory->create(Category::class, ['name' => 'coding']);
         $this->factory->create(Post::class, [
-            'title' => 'Learn to code',
-            'content' => 'some content',
-            'category' => $category
+            'title'    => 'Learn to code',
+            'content'  => 'some content',
+            'category' => $category,
         ]);
 
         $this
@@ -206,9 +207,9 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     {
         $category = $this->factory->create(Category::class, ['name' => 'coding']);
         $this->factory->create(Post::class, [
-            'title' => 'Learn to code',
-            'content' => 'some content',
-            'category' => $category
+            'title'    => 'Learn to code',
+            'content'  => 'some content',
+            'category' => $category,
         ]);
 
         $this
@@ -224,9 +225,9 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     {
         $category = $this->factory->create(Category::class, ['name' => 'coding']);
         $this->factory->create(Post::class, [
-            'title' => 'Learn to code',
-            'content' => 'some content',
-            'category' => $category
+            'title'    => 'Learn to code',
+            'content'  => 'some content',
+            'category' => $category,
         ]);
 
         $this
@@ -242,9 +243,9 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     {
         $category = $this->factory->create(Category::class, ['name' => 'coding']);
         $this->factory->create(Post::class, [
-            'title' => 'Learn to code',
-            'content' => 'some content',
-            'category' => $category
+            'title'    => 'Learn to code',
+            'content'  => 'some content',
+            'category' => $category,
         ]);
 
         $this
@@ -260,13 +261,13 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     {
         $category = $this->factory->create(Category::class, ['name' => 'coding']);
         $post = $this->factory->create(Post::class, [
-            'title' => 'Learn to code',
-            'content' => 'some content',
-            'category' => $category
+            'title'    => 'Learn to code',
+            'content'  => 'some content',
+            'category' => $category,
         ]);
         $this->factory->create(Comment::class, [
             'body' => 'some comment',
-            'post' => $post
+            'post' => $post,
         ]);
 
         $this
@@ -282,22 +283,22 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     {
         $category = $this->factory->create(Category::class, ['name' => 'coding']);
         $codePost = $this->factory->create(Post::class, [
-            'title' => 'Learn to code',
-            'content' => 'some content',
-            'category' => $category
+            'title'    => 'Learn to code',
+            'content'  => 'some content',
+            'category' => $category,
         ]);
         $yogaPost = $this->factory->create(Post::class, [
-            'title' => 'Yoga',
-            'content' => 'yoga content',
-            'category' => $category
+            'title'    => 'Yoga',
+            'content'  => 'yoga content',
+            'category' => $category,
         ]);
         $this->factory->create(Comment::class, [
             'body' => 'code comment',
-            'post' => $codePost
+            'post' => $codePost,
         ]);
         $this->factory->create(Comment::class, [
             'body' => 'yoga comment',
-            'post' => $yogaPost
+            'post' => $yogaPost,
         ]);
 
         $this
@@ -315,22 +316,22 @@ class RestApiControllerWithSubResourcesTest extends TestCase
         $codingCategory = $this->factory->create(Category::class, ['name' => 'coding']);
         $yogaCategory = $this->factory->create(Category::class, ['name' => 'yoga']);
         $codePost = $this->factory->create(Post::class, [
-            'title' => 'Learn to code',
-            'content' => 'some content',
-            'category' => $codingCategory
+            'title'    => 'Learn to code',
+            'content'  => 'some content',
+            'category' => $codingCategory,
         ]);
         $yogaPost = $this->factory->create(Post::class, [
-            'title' => 'Yoga',
-            'content' => 'yoga content',
-            'category' => $yogaCategory
+            'title'    => 'Yoga',
+            'content'  => 'yoga content',
+            'category' => $yogaCategory,
         ]);
         $this->factory->create(Comment::class, [
             'body' => 'code comment',
-            'post' => $codePost
+            'post' => $codePost,
         ]);
         $this->factory->create(Comment::class, [
             'body' => 'yoga comment',
-            'post' => $yogaPost
+            'post' => $yogaPost,
         ]);
 
         $this
@@ -345,17 +346,17 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     {
         $category = $this->factory->create(Category::class, ['name' => 'coding']);
         $post = $this->factory->create(Post::class, [
-            'title' => 'Learn to code',
-            'content' => 'some content',
-            'category' => $category
+            'title'    => 'Learn to code',
+            'content'  => 'some content',
+            'category' => $category,
         ]);
         $this->factory->create(Comment::class, [
             'body' => 'first comment',
-            'post' => $post
+            'post' => $post,
         ]);
         $this->factory->create(Comment::class, [
             'body' => 'second comment',
-            'post' => $post
+            'post' => $post,
         ]);
 
         $this
@@ -371,13 +372,13 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     {
         $category = $this->factory->create(Category::class, ['name' => 'coding']);
         $post = $this->factory->create(Post::class, [
-            'title' => 'Learn to code',
-            'content' => 'some content',
-            'category' => $category
+            'title'    => 'Learn to code',
+            'content'  => 'some content',
+            'category' => $category,
         ]);
         $this->factory->create(Comment::class, [
             'body' => 'first comment',
-            'post' => $post
+            'post' => $post,
         ]);
         $this->factory->create(Comment::class, [
             'body' => 'second comment',
@@ -395,9 +396,9 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     {
         $category = $this->factory->create(Category::class, ['name' => 'coding']);
         $this->factory->create(Post::class, [
-            'title' => 'Learn to code',
-            'content' => 'some content',
-            'category' => $category
+            'title'    => 'Learn to code',
+            'content'  => 'some content',
+            'category' => $category,
         ]);
 
         $params = [
@@ -418,13 +419,13 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     {
         $category = $this->factory->create(Category::class, ['name' => 'coding']);
         $post = $this->factory->create(Post::class, [
-            'title' => 'Learn to code',
-            'content' => 'some content',
-            'category' => $category
+            'title'    => 'Learn to code',
+            'content'  => 'some content',
+            'category' => $category,
         ]);
         $this->factory->create(Comment::class, [
             'body' => 'old comment',
-            'post' => $post
+            'post' => $post,
         ]);
 
         $params = [
@@ -434,7 +435,7 @@ class RestApiControllerWithSubResourcesTest extends TestCase
         $this
             ->seeInDatabase(Comment::class, [
                 'body' => 'old comment',
-                'post' => $post
+                'post' => $post,
             ])
             ->patch('/categories/1/posts/1/comments/1', $params)
             ->seeJsonResponse()
@@ -443,7 +444,7 @@ class RestApiControllerWithSubResourcesTest extends TestCase
             ->seeInJson(['title' => 'Learn to code'])
             ->seeInDatabase(Comment::class, [
                 'body' => 'updated comment',
-                'post' => $post
+                'post' => $post,
             ]);
     }
 }

@@ -18,13 +18,13 @@ use BiteCodes\RestApiGeneratorBundle\Form\DynamicFormType;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Nelmio\ApiDocBundle\Extractor\HandlerInterface;
+use Nelmio\ApiDocBundle\Extractor\AnnotationsProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\Router;
 
-class GenerateApiDocHandler implements HandlerInterface
+class ApiDocProvider implements AnnotationsProviderInterface
 {
     /**
      * @var \BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager
@@ -52,16 +52,36 @@ class GenerateApiDocHandler implements HandlerInterface
     }
 
     /**
-     * @param ApiDoc $annotation
-     * @param array $annotations
-     * @param Route $route
-     * @param \ReflectionMethod $method
+     * @return array|ApiDoc[]
      */
-    public function handle(ApiDoc $annotation, array $annotations, Route $route, \ReflectionMethod $method)
+    public function getAnnotations()
+    {
+        $routes = $this->router->getRouteCollection();
+
+        $annotations = [];
+
+        foreach ($routes as $route) {
+            if ($apiDoc = $this->handle(new ApiDoc([]), $route)) {
+                $annotations[] = $apiDoc;
+            }
+        }
+
+        return $annotations;
+    }
+
+
+    /**
+     * @param ApiDoc $annotation
+     * @param Route $route
+     * @return ApiDoc
+     */
+    public function handle(ApiDoc $annotation, Route $route)
     {
         if (!$resource = $this->getResource($route)) {
             return;
         }
+
+        $annotation->setRoute($route);
 
         $context = new RequestContext('', $resource->getActions()->getActionForRoute($route)->getMethods()[0]);
         $this->router->setContext($context);
@@ -69,36 +89,38 @@ class GenerateApiDocHandler implements HandlerInterface
         $routeName = $this->router->match($route->getPath())['_route'];
         $section = $this->getSection($routeName, $resource);
 
-        foreach ($annotations as $annot) {
-            if ($annot instanceof GenerateApiDoc) {
-                $annotation->setSection($section);
-                if ($this->returnsEntity($route)) {
-                    $this->setOutput($annotation, $resource);
-                }
-                if ($this->expectsInput($route)) {
-                    if ($resource->getFormTypeClass() == DynamicFormType::class) {
-                        $entityClass = $resource->getEntityClass();
-                        $handler = new DynamicFormSubscriber($this->em, new $entityClass);
-                        foreach ($handler->getFields() as $field) {
-                            $annotation->addParameter($field, ['dataType' => 'string', 'required' => false]);
-                        }
-                    } else {
-                        $this->setInput($annotation, $resource);
-                    }
-                }
-                if ($roles = $route->getDefault('_roles')) {
-                    $annotation->setAuthentication(true);
-                    $annotation->setAuthenticationRoles($roles);
-                }
-                $annotation->setDescription($this->getDescription($resource, $route));
-                $annotation->setDocumentation($this->getDescription($resource, $route));
+        foreach ($resource->getApiDoc()['views'] as $view) {
+            $annotation->addView($view);
+        }
 
-                if ($resource->getActions()->getActionForRoute($route) instanceof Index) {
-                    $this->addFilter($annotation, $resource);
-                    $this->addPagination($annotation, $resource);
+        $annotation->setSection($section);
+        if ($this->returnsEntity($route)) {
+            $this->setOutput($annotation, $resource);
+        }
+        if ($this->expectsInput($route)) {
+            if ($resource->getFormTypeClass() == DynamicFormType::class) {
+                $entityClass = $resource->getEntityClass();
+                $handler = new DynamicFormSubscriber($this->em, new $entityClass);
+                foreach ($handler->getFields() as $field) {
+                    $annotation->addParameter($field, ['dataType' => 'string', 'required' => false]);
                 }
+            } else {
+                $this->setInput($annotation, $resource);
             }
         }
+        if ($roles = $route->getDefault('_roles')) {
+            $annotation->setAuthentication(true);
+            $annotation->setAuthenticationRoles($roles);
+        }
+        $annotation->setDescription($this->getDescription($resource, $route));
+        $annotation->setDocumentation($this->getDescription($resource, $route));
+
+        if ($resource->getActions()->getActionForRoute($route) instanceof Index) {
+            $this->addFilter($annotation, $resource);
+            $this->addPagination($annotation, $resource);
+        }
+
+        return $annotation;
     }
 
     /**
@@ -142,7 +164,7 @@ class GenerateApiDocHandler implements HandlerInterface
         $prop->setAccessible(true);
         $prop->setValue($annotation, [
             'class' => $resource->getFormTypeClass(),
-            'name' => ''
+            'name'  => '',
         ]);
         $prop->setAccessible(false);
     }
@@ -267,7 +289,7 @@ class GenerateApiDocHandler implements HandlerInterface
     {
         if ($resource->hasPagination()) {
             $annotation->addFilter('page', [
-                'description' => 'Page'
+                'description' => 'Page',
             ]);
         }
     }
@@ -279,6 +301,10 @@ class GenerateApiDocHandler implements HandlerInterface
      */
     private function getSection($routeName, ApiResource $resource)
     {
+        if ($section = $resource->getApiDoc()['section']) {
+            return $section;
+        }
+
         $prefixPos = strlen($resource->getBundlePrefix() . '.');
         $nextDot = strpos($routeName, '.', $prefixPos);
 

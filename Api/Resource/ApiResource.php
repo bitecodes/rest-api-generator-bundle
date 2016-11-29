@@ -87,6 +87,10 @@ class ApiResource
      * @var string
      */
     protected $assocSubResource;
+    /**
+     * @var array
+     */
+    protected $apiDoc;
 
     public function __construct($resourceName, array $options = [])
     {
@@ -98,6 +102,7 @@ class ApiResource
         $this->paginationLimit = $options['pagination']['limit'];
         $this->formTypeClass = $options['form_type'];
         $this->identifier = $options['identifier'];
+        $this->apiDoc = $options['doc'];
     }
 
     /**
@@ -379,5 +384,21 @@ class ApiResource
     public function setAssocSubResource($assocSubResource)
     {
         $this->assocSubResource = $assocSubResource;
+    }
+
+    /**
+     * @return array
+     */
+    public function getApiDoc()
+    {
+        return $this->apiDoc;
+    }
+
+    /**
+     * @param array $apiDoc
+     */
+    public function setApiDoc($apiDoc)
+    {
+        $this->apiDoc = $apiDoc;
     }
 }

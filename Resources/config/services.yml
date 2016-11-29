@@ -52,15 +52,15 @@ services:
             tags:
                 - { name: form.type, alias: batch_create_type }
 
-    bite_codes_rest_api_generator.annotation.generate_api_doc_handler:
-        class: BiteCodes\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler
-        arguments:
-            - '@bite_codes.rest_api_generator.endpoint_manager'
-            - '@doctrine.orm.entity_manager'
-            - '@router'
-            - '@service_container'
-        tags:
-            - { name: nelmio_api_doc.extractor.handler }
+    bite_codes_rest_api_generator.annotation.api_doc_provider:
+    	class: BiteCodes\RestApiGeneratorBundle\Annotation\ApiDocProvider
+    	arguments:
+    	    - '@bite_codes.rest_api_generator.endpoint_manager'
+    	    - '@doctrine.orm.entity_manager'
+    	    - '@router'
+    	    - '@service_container']
+    	tags:
+    		- { name: nelmio_api_doc.extractor.annotations_provider }
 
     bite_codes_rest_api_generator.services.response_data:
         class: BiteCodes\RestApiGeneratorBundle\Services\MetadataStorage\ResponseData

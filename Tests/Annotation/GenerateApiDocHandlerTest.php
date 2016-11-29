@@ -3,7 +3,7 @@
 namespace BiteCodes\RestApiGeneratorBundle\Tests\Annotation;
 
 use BiteCodes\RestApiGeneratorBundle\Annotation\GenerateApiDoc;
-use BiteCodes\RestApiGeneratorBundle\Annotation\GenerateApiDocHandler;
+use BiteCodes\RestApiGeneratorBundle\Annotation\ApiDocProvider;
 use BiteCodes\RestApiGeneratorBundle\Api\Actions\Create;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
@@ -74,7 +74,7 @@ class GenerateApiDocHandlerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $handler = new GenerateApiDocHandler($this->manager, $this->em, $this->router, $this->client->getContainer());
+        $handler = new ApiDocProvider($this->manager, $this->em, $this->router, $this->client->getContainer());
         $handler->handle($apiDoc, [$generateApiDocAnnotation], $route, $method);
 
         $this->assertNull($apiDoc->getInput());
@@ -98,7 +98,7 @@ class GenerateApiDocHandlerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $handler = new GenerateApiDocHandler($this->manager, $this->em, $this->router, $this->client->getContainer());
+        $handler = new ApiDocProvider($this->manager, $this->em, $this->router, $this->client->getContainer());
         $handler->handle($apiDoc, [$generateApiDocAnnotation], $route, $method);
 
         $this->assertCount(5, $apiDoc->getParameters());

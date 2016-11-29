@@ -4,6 +4,7 @@ namespace BiteCodes\RestApiGeneratorBundle\DependencyInjection;
 
 use BiteCodes\RestApiGeneratorBundle\Api\Actions\Actions;
 use BiteCodes\RestApiGeneratorBundle\Form\DynamicFormType;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\BooleanNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\ScalarNodeDefinition;
@@ -43,6 +44,7 @@ class Configuration implements ConfigurationInterface
                             ->append($this->getPaginationNode())
                             ->append($this->getIsMainResourceNode())
                             ->append($this->getSubResourcesNode())
+                            ->append($this->getApiDocNode())
                         ->end()
                         ->validate()
                             ->ifTrue(function($v) {
@@ -298,6 +300,21 @@ class Configuration implements ConfigurationInterface
                 ->children()
                     ->scalarNode('assoc_parent')->end()
                     ->scalarNode('assoc_sub')->end()
+                ->end()
+            ->end();
+
+        return $node;
+    }
+
+    private function getApiDocNode()
+    {
+        $node = new ArrayNodeDefinition('doc');
+
+        $node
+            ->prototype('array')
+                ->children()
+                    ->arrayNode('views')->defaultValue(ApiDoc::DEFAULT_VIEW)->end()
+                    ->scalarNode('section')->defaultNull()->end()
                 ->end()
             ->end();
 
