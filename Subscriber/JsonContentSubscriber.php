@@ -32,6 +32,7 @@ class JsonContentSubscriber implements EventSubscriberInterface
 
             if (!$data) {
                 $this->validateJsonContent();
+                return;
             }
 
             $params = $request->request->all();
