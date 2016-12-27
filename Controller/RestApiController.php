@@ -19,6 +19,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class RestApiController
+ *
  * @package BiteCodes\RestApiGeneratorBundle\Controller
  */
 class RestApiController extends Controller implements ApiSerialization
@@ -35,8 +36,9 @@ class RestApiController extends Controller implements ApiSerialization
      * @GenerateApiDoc()
      *
      * @param Request $request
-     * @param $_indexGetterMethod
-     * @param $_limit
+     * @param         $_indexGetterMethod
+     * @param         $_limit
+     *
      * @return array
      */
     public function indexAction(Request $request, $_route, $_indexGetterMethod, $_limit)
@@ -57,7 +59,7 @@ class RestApiController extends Controller implements ApiSerialization
             ->getEventDispatcher()
             ->dispatch(
                 ApiEvents::POST_INDEX,
-                new ApiControllerDataEvent($result)
+                new ApiControllerDataEvent($this->getResourceName(), $result)
             );
 
         return $result;
@@ -70,6 +72,7 @@ class RestApiController extends Controller implements ApiSerialization
      * @GenerateApiDoc()
      *
      * @param $entity
+     *
      * @return array
      */
     public function showAction($entity)
@@ -84,6 +87,7 @@ class RestApiController extends Controller implements ApiSerialization
      * @GenerateApiDoc()
      *
      * @param Request $request the request object
+     *
      * @return array
      */
     public function createAction(Request $request)
@@ -93,6 +97,13 @@ class RestApiController extends Controller implements ApiSerialization
         } else {
             $data = $this->getHandler()->create($this->getParams($request));
         }
+
+        $this
+            ->getEventDispatcher()
+            ->dispatch(
+                ApiEvents::POST_CREATE,
+                new ApiControllerDataEvent($this->getResourceName(), $data)
+            );
 
         return $data;
     }
@@ -104,7 +115,8 @@ class RestApiController extends Controller implements ApiSerialization
      * @GenerateApiDoc()
      *
      * @param Request $request the request object
-     * @param $entity
+     * @param         $entity
+     *
      * @return array
      */
     public function updateAction(Request $request, $entity)
@@ -119,6 +131,7 @@ class RestApiController extends Controller implements ApiSerialization
      * @GenerateApiDoc()
      *
      * @param Request $request the request object
+     *
      * @return array
      * @throws EntityNotFoundException
      */
@@ -126,6 +139,7 @@ class RestApiController extends Controller implements ApiSerialization
     {
         $ids = array_reduce($request->request->all(), function ($ids, $data) {
             $ids[] = $data['id'];
+
             return $ids;
         }, []);
 
@@ -143,6 +157,7 @@ class RestApiController extends Controller implements ApiSerialization
      * @GenerateApiDoc()
      *
      * @param $entity
+     *
      * @return array
      */
     public function deleteAction($entity)
@@ -159,6 +174,7 @@ class RestApiController extends Controller implements ApiSerialization
      * @GenerateApiDoc()
      *
      * @param Request $request
+     *
      * @return array
      */
     public function batch_deleteAction(Request $request)
@@ -170,6 +186,7 @@ class RestApiController extends Controller implements ApiSerialization
 
     /**
      * @param $ids
+     *
      * @return array
      * @throws EntityNotFoundException
      */
@@ -206,8 +223,8 @@ class RestApiController extends Controller implements ApiSerialization
 
     /**
      * @param Pagerfanta $paginator
-     * @param $route
-     * @param $limit
+     * @param            $route
+     * @param            $limit
      */
     protected function addLinksToMetadata(Pagerfanta $paginator, $route, $limit)
     {
@@ -216,13 +233,17 @@ class RestApiController extends Controller implements ApiSerialization
 
         $first = $router->generate($route, ['page' => 1, 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL);
         $prev = $paginator->hasPreviousPage()
-            ? $router->generate($route, ['page' => $paginator->getPreviousPage(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL)
+            ? $router->generate($route, ['page' => $paginator->getPreviousPage(), 'limit' => $limit],
+                UrlGeneratorInterface::ABSOLUTE_URL)
             : null;
-        $current = $router->generate($route, ['page' => $paginator->getCurrentPage(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL);
+        $current = $router->generate($route, ['page' => $paginator->getCurrentPage(), 'limit' => $limit],
+            UrlGeneratorInterface::ABSOLUTE_URL);
         $next = $paginator->hasNextPage()
-            ? $router->generate($route, ['page' => $paginator->getNextPage(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL)
+            ? $router->generate($route, ['page' => $paginator->getNextPage(), 'limit' => $limit],
+                UrlGeneratorInterface::ABSOLUTE_URL)
             : null;
-        $last = $router->generate($route, ['page' => $paginator->getNbPages(), 'limit' => $limit], UrlGeneratorInterface::ABSOLUTE_URL);
+        $last = $router->generate($route, ['page' => $paginator->getNbPages(), 'limit' => $limit],
+            UrlGeneratorInterface::ABSOLUTE_URL);
 
         $data->addLink('first', $first);
         $data->addLink('prev', $prev);
@@ -242,6 +263,7 @@ class RestApiController extends Controller implements ApiSerialization
 
     /**
      * @param Request $request
+     *
      * @return array
      */
     protected function getParams(Request $request)
@@ -250,5 +272,13 @@ class RestApiController extends Controller implements ApiSerialization
             $request->request->all(),
             $request->files->all()
         );
+    }
+
+    /**
+     * @return string
+     */
+    protected function getResourceName()
+    {
+        return $this->getHandler()->getApiResource()->getName();
     }
 }
