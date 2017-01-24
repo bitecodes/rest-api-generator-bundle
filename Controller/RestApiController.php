@@ -268,7 +268,7 @@ class RestApiController extends Controller implements ApiSerialization
      */
     protected function getParams(Request $request)
     {
-        return $params = array_merge(
+        return $params = array_merge_recursive(
             $request->request->all(),
             $request->files->all()
         );
