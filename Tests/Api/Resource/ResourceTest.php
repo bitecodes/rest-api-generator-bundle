@@ -30,6 +30,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
         $this->config = new ApiResource('posts', [
             'entity' => Post::class,
             'filter' => null,
+            'prefix' => '/prefix',
             'pagination' => [
                 'enabled' => false,
                 'limit' => 10
@@ -91,7 +92,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_returns_the_base_url_for_this_entity()
     {
-        $this->assertEquals('/posts', $this->config->getResourceCollectionUrl());
+        $this->assertEquals('/prefix/posts', $this->config->getResourceCollectionUrl());
     }
 
     /**
@@ -131,11 +132,11 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
     public function routes()
     {
         return [
-            [Index::class, '/posts', $this->bundlePrefix . '.controller.posts:indexAction'],
-            [Show::class, '/posts/{id}', $this->bundlePrefix . '.controller.posts:showAction'],
-            [Create::class, '/posts', $this->bundlePrefix . '.controller.posts:createAction'],
-            [Update::class, '/posts/{id}', $this->bundlePrefix . '.controller.posts:updateAction'],
-            [Delete::class, '/posts/{id}', $this->bundlePrefix . '.controller.posts:deleteAction'],
+            [Index::class, '/prefix/posts', $this->bundlePrefix . '.controller.posts:indexAction'],
+            [Show::class, '/prefix/posts/{id}', $this->bundlePrefix . '.controller.posts:showAction'],
+            [Create::class, '/prefix/posts', $this->bundlePrefix . '.controller.posts:createAction'],
+            [Update::class, '/prefix/posts/{id}', $this->bundlePrefix . '.controller.posts:updateAction'],
+            [Delete::class, '/prefix/posts/{id}', $this->bundlePrefix . '.controller.posts:deleteAction'],
         ];
     }
 }

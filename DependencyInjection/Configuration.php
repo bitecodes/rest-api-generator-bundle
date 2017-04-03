@@ -36,6 +36,7 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->append($this->getEntityNode())
                             ->append($this->getRoutesNode())
+                            ->append($this->getPrefixNode())
                             ->append($this->getIdentifierNode())
                             ->append($this->getSecureNode())
                             ->append($this->getFilterNode())
@@ -114,6 +115,22 @@ class Configuration implements ConfigurationInterface
                         ->defaultValue(['Default'])
                     ->end()
                 ->end()
+            ->end();
+
+        return $node;
+    }
+
+    /**
+     * Node for routing - only
+     *
+     * @return ArrayNodeDefinition
+     */
+    private function getPrefixNode()
+    {
+        $node = new ScalarNodeDefinition('prefix');
+
+        $node
+            ->defaultValue('')
             ->end();
 
         return $node;

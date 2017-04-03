@@ -51,6 +51,7 @@ class FilterDecoratorTest extends TestCase
         $categoryResource = new ApiResource('categories', [
             'entity' => Category::class,
             'filter' => null,
+            'prefix' => '',
             'pagination' => [
                 'enabled' => true,
                 'limit' => 10
@@ -62,6 +63,7 @@ class FilterDecoratorTest extends TestCase
         $postResource = new ApiResource('posts', [
             'entity' => Post::class,
             'filter' => null,
+            'prefix' => '',
             'pagination' => [
                 'enabled' => true,
                 'limit' => 10

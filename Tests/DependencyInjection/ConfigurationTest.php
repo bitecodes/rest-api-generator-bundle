@@ -69,6 +69,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                                 'serialization_groups' => ['Default']
                             ],
                         ],
+                        'prefix' => '',
                         'identifier' => 'id',
                         'filter' => null,
                         'form_type' => DynamicFormType::class,
