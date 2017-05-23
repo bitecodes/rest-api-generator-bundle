@@ -121,7 +121,16 @@ class RestApiController extends Controller implements ApiSerialization
      */
     public function updateAction(Request $request, $entity)
     {
-        return $this->getHandler()->update($entity, $this->getParams($request), $request->getMethod());
+        $data = $this->getHandler()->update($entity, $this->getParams($request), $request->getMethod());
+
+        $this
+            ->getEventDispatcher()
+            ->dispatch(
+                ApiEvents::POST_UPDATE,
+                new ApiControllerDataEvent($this->getResourceName(), $data)
+            );
+
+        return $data;
     }
 
     /**
