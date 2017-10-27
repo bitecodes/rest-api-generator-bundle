@@ -4,7 +4,7 @@ php:
   - 5.5
   - 5.6
   - 7.0
-  - hhvm
+  - 7.1
 
 env:
   - SYMFONY_VERSION=2.8.*
@@ -17,11 +17,15 @@ before_install:
 matrix:
   include:
     - php: 5.5
-      env: SYMFONY_VERSION=3.0.*@dev
+      env: SYMFONY_VERSION=3.0.*
+    - php: 5.5
+      env: SYMFONY_VERSION=3.1.*
+    - php: 5.5
+      env: SYMFONY_VERSION=3.2.*
+    - php: 5.5
+      env: SYMFONY_VERSION=3.3.*
     - php: 5.5
       env: COMPOSER_FLAGS="--prefer-lowest"
-  allow_failures:
-    - php: hhvm
 
 install:
   - php -d memory_limit=-1 composer.phar update --prefer-dist $COMPOSER_FLAGS
