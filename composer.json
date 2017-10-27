@@ -32,7 +32,8 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/bitecodes/test-bundle"
+      "url": "https://github.com/bitecodes/test-bundle",
+      "no-api": true
     }
   ]
 }
