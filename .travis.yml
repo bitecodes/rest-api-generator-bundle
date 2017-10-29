@@ -16,15 +16,15 @@ before_install:
 
 matrix:
   include:
-    - php: 5.5
+    - php: 7.0
       env: SYMFONY_VERSION=3.0.*
-    - php: 5.5
+    - php: 7.0
       env: SYMFONY_VERSION=3.1.*
-    - php: 5.5
+    - php: 7.0
       env: SYMFONY_VERSION=3.2.*
-    - php: 5.5
+    - php: 7.0
       env: SYMFONY_VERSION=3.3.*
-    - php: 5.5
+    - php: 7.0
       env: COMPOSER_FLAGS="--prefer-lowest"
 
 install:
