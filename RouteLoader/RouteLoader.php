@@ -7,6 +7,7 @@ use BiteCodes\RestApiGeneratorBundle\Api\Actions\Index;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiManager;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\ApiResource;
 use BiteCodes\RestApiGeneratorBundle\Security\CachableSecurity;
+use BiteCodes\RestApiGeneratorBundle\Security\Configurations;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
@@ -48,9 +49,9 @@ class RouteLoader extends Loader
     }
 
     /**
-     * @param ApiResource $apiResource
+     * @param ApiResource     $apiResource
      * @param RouteCollection $routes
-     * @param ApiResource $parentResource
+     * @param ApiResource     $parentResource
      */
     private function addRoute(ApiResource $apiResource, RouteCollection $routes, $parentResource = null)
     {
@@ -83,8 +84,9 @@ class RouteLoader extends Loader
     }
 
     /**
-     * @param Action $action
+     * @param Action      $action
      * @param ApiResource $parentResource
+     *
      * @return mixed
      */
     private function getUrl(Action $action, ApiResource $parentResource = null)
@@ -96,6 +98,7 @@ class RouteLoader extends Loader
 
     /**
      * @param string $expression
+     *
      * @return CachableSecurity|void
      */
     protected function expressionsToSecurity($expression)
@@ -104,6 +107,15 @@ class RouteLoader extends Loader
             return;
         }
 
-        return new CachableSecurity($expression);
+        $cachableSecurity = new CachableSecurity($expression);
+
+        return $this->expectsSecurityArray()
+            ? [$cachableSecurity]
+            : $cachableSecurity;
+    }
+
+    private function expectsSecurityArray()
+    {
+        return class_exists(\Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted::class);
     }
 }
