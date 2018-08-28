@@ -57,7 +57,8 @@ class FilterDecoratorTest extends TestCase
                 'limit' => 10
             ],
             'form_type' => DynamicFormType::class,
-            'identifier' => 'id'
+            'identifier' => 'id',
+            'section' => 'frontend'
         ]);
         $categoryResource->setManager($manager);
         $postResource = new ApiResource('posts', [
@@ -69,7 +70,8 @@ class FilterDecoratorTest extends TestCase
                 'limit' => 10
             ],
             'form_type' => DynamicFormType::class,
-            'identifier' => 'id'
+            'identifier' => 'id',
+            'section' => 'frontend'
         ]);
         $postResource->setParentResource($categoryResource);
 

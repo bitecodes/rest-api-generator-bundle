@@ -36,7 +36,8 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
                 'limit' => 10
             ],
             'form_type' => DynamicFormType::class,
-            'identifier' => 'id'
+            'identifier' => 'id',
+            'section' => 'frontend'
         ]);
         $this->config->setConfigName('posts');
         $this->config->addAction(new Index($router));

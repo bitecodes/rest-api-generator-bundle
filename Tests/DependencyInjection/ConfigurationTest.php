@@ -78,7 +78,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                             'limit' => 10
                         ],
                         'is_main_resource' => true,
-                        'sub_resources' => []
+                        'sub_resources' => [],
+                        'section' => null
                     ]
                 ]
             ], 'resources');

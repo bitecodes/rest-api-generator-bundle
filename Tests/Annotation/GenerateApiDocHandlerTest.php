@@ -48,7 +48,8 @@ class GenerateApiDocHandlerTest extends TestCase
                 'limit' => 10
             ],
             'form_type' => DynamicFormType::class,
-            'identifier' => 'id'
+            'identifier' => 'id',
+            'section' => null
         ]);
 
         $resource->setConfigName('posts');

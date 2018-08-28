@@ -6,7 +6,6 @@ use BiteCodes\RestApiGeneratorBundle\Api\Actions\Action;
 use BiteCodes\RestApiGeneratorBundle\Api\Actions\ActionList;
 use BiteCodes\RestApiGeneratorBundle\DependencyInjection\ConfigurationProcessor;
 use BiteCodes\RestApiGeneratorBundle\Api\Resource\Traits\ServiceNames;
-use BiteCodes\RestApiGeneratorBundle\Form\DynamicFormType;
 
 class ApiResource
 {
@@ -91,6 +90,10 @@ class ApiResource
      * @var string
      */
     protected $prefix;
+    /**
+     * @var string|null
+     */
+    protected $section;
 
     public function __construct($resourceName, array $options = [])
     {
@@ -103,6 +106,7 @@ class ApiResource
         $this->formTypeClass = $options['form_type'];
         $this->identifier = $options['identifier'];
         $this->prefix = $options['prefix'];
+        $this->section = $options['section'];
     }
 
     /**
@@ -392,5 +396,13 @@ class ApiResource
     public function getPrefix()
     {
         return $this->prefix;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSection()
+    {
+        return $this->section;
     }
 }

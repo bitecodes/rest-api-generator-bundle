@@ -279,6 +279,10 @@ class GenerateApiDocHandler implements HandlerInterface
      */
     private function getSection($routeName, ApiResource $resource)
     {
+        if($resource->getSection()) {
+            return $resource->getSection();
+        }
+
         $prefixPos = strlen($resource->getBundlePrefix() . '.');
         $nextDot = strpos($routeName, '.', $prefixPos);
 

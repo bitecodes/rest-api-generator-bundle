@@ -9,7 +9,6 @@ use Symfony\Component\Config\Definition\Builder\BooleanNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\ScalarNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * This is the class that validates and merges configuration from your app/config files.
@@ -37,6 +36,7 @@ class Configuration implements ConfigurationInterface
                             ->append($this->getEntityNode())
                             ->append($this->getRoutesNode())
                             ->append($this->getPrefixNode())
+                            ->append($this->getSectionNode())
                             ->append($this->getIdentifierNode())
                             ->append($this->getSecureNode())
                             ->append($this->getFilterNode())
@@ -123,7 +123,7 @@ class Configuration implements ConfigurationInterface
     /**
      * Node for routing - only
      *
-     * @return ArrayNodeDefinition
+     * @return ScalarNodeDefinition
      */
     private function getPrefixNode()
     {
@@ -131,6 +131,20 @@ class Configuration implements ConfigurationInterface
 
         $node
             ->defaultValue('')
+            ->end();
+
+        return $node;
+    }
+
+    /**
+     * @return ScalarNodeDefinition
+     */
+    private function getSectionNode()
+    {
+        $node = new ScalarNodeDefinition('section');
+
+        $node
+            ->defaultNull()
             ->end();
 
         return $node;
