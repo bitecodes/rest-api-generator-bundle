@@ -42,7 +42,11 @@ class NestedResourceSubscriber implements EventSubscriberInterface
     public function resolveParentResources(FilterControllerEvent $event)
     {
         $request = $event->getRequest();
-        $controller = $event->getController()[0];
+        $controller = $event->getController();
+
+        if(is_array($controller)) {
+            $controller = $controller[0];
+        }
 
         if (!$controller instanceof RestApiController) {
             return;

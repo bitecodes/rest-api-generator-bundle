@@ -29,7 +29,11 @@ class EntityResolverSubscriber implements EventSubscriberInterface
 
     public function resolveEntity(FilterControllerEvent $event)
     {
-        $controller = $event->getController()[0];
+        $controller = $event->getController();
+
+        if(is_array($controller)) {
+            $controller = $controller[0];
+        }
 
         if (!$controller instanceof RestApiController) {
             return;

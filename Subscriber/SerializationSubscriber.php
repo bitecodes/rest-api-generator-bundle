@@ -63,7 +63,12 @@ class SerializationSubscriber implements EventSubscriberInterface
      */
     public function checkForControllerType(FilterControllerEvent $event)
     {
-        $controller = $event->getController()[0];
+        $controller = $event->getController();
+
+        if(is_array($controller)) {
+            $controller = $controller[0];
+        }
+
         $this->doSerialize = $controller instanceof ApiSerialization;
     }
 
