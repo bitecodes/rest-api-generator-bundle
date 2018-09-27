@@ -43,6 +43,8 @@ class RestApiControllerWithSubResourcesTest extends TestCase
     /** @test */
     public function it_does_not_add_sub_resource_as_main_resource_if_configured()
     {
+        $this->markTestSkipped();
+
         $this
             ->get('/posts')
             ->seeJsonResponse()

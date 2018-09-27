@@ -16,6 +16,7 @@ services:
     bite_codes_rest_api_generator.subscriber.api_exception_subscriber:
         class: BiteCodes\RestApiGeneratorBundle\Subscriber\ApiExceptionSubscriber
         arguments:
+            - '@service_container'
             - '%kernel.debug%'
         tags:
             - { name: kernel.event_subscriber }
